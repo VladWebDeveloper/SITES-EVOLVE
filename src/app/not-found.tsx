@@ -1,0 +1,2 @@
+import Link from "next/link";
+export default function NotFound(){return <main id="main" style={{background:"#101511",color:"#e9f2e6",fontFamily:"Arial,sans-serif",minHeight:"100vh",margin:0,display:"grid",placeItems:"center",padding:25}}><div style={{textAlign:"center"}}><h1 style={{fontSize:80,margin:0}}>404</h1><p>Nothing here. Yet.</p><Link style={{color:"#c5f57b"}} href="/en">Back to SITES EVOLVE ↗</Link></div></main>}
