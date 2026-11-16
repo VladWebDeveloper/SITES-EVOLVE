@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+export const dynamic = "force-dynamic";
 import { absoluteUrl, locales, journal, services, works } from "@/lib/site";
 import {publishedPosts} from "@/lib/server/posts";
 export default async function sitemap():Promise<MetadataRoute.Sitemap>{const paths=["","about","founder","services","work","process","journal","pricing","quote","consultation","contact","privacy","terms",...services.en.map(s=>"services/"+s.id),...works.en.map(w=>"work/"+w.id),...journal.map(a=>"journal/"+a.slug)];const added=await Promise.all(locales.map(async locale=>(await publishedPosts(locale)).map(post=>({url:absoluteUrl("/"+locale+"/journal/"+post.slug),lastModified:post.publishedAt?new Date(post.publishedAt):new Date(),changeFrequency:"monthly" as const,priority:0.6}))));return [...locales.flatMap(locale=>paths.map(p=>({url:absoluteUrl("/"+locale+(p?"/"+p:"")),lastModified:new Date("2026-11-16T00:00:00Z"),changeFrequency:p.startsWith("journal")?"monthly" as const:"weekly" as const,priority:p===""?1:0.7}))),...added.flat()];}
