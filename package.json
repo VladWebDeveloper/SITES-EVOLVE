@@ -44,11 +44,17 @@
     "@types/react-dom": "^19.2.0",
     "eslint": "^9.0.0",
     "eslint-config-next": "16.4.6",
+    "railway": "^3.17.0",
     "typescript": "^5.9.3",
     "vitest": "^5.1.0"
   },
   "type": "module",
   "engines": {
     "node": ">=24 <25"
+  },
+  "overrides": {
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "^11.0.8"
+    }
   }
 }

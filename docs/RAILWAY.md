@@ -1,26 +1,28 @@
 # Railway — Deployment and Infrastructure
 
-This is the deployment runbook for the **SITES EVOLVE** Next.js 16 + Prisma 7 application. It is not a record of a completed public deployment.
+This runbook covers the **SITES EVOLVE** Next.js 16 + Prisma 7 application. A test deployment is available at https://sites-evolve-production.up.railway.app/ro, but private modules and external providers must be configured and independently tested before commercial launch.
 
 ## 1. Create an isolated Railway project
 
-Use the GitHub repository [VladWebDeveloper/SITES-EVOLVE](https://github.com/VladWebDeveloper/SITES-EVOLVE). Do **not** connect or redeploy unrelated GitHub projects.
+Use the GitHub repository [VladWebDeveloper/SITES-EVOLVE](https://github.com/VladWebDeveloper/SITES-EVOLVE). Do **not** connect or redeploy unrelated GitHub projects. The first release was uploaded using Railway CLI; GitHub automatic deployment requires granting the Railway GitHub App access to **only** this repository. Until then, deploy by linking the existing project with Railway CLI and running `railway up`.
 
 1. Open [Railway](https://railway.com/dashboard) and create a project named **sites-evolve**.
-2. Select **Deploy from GitHub repo** and choose `VladWebDeveloper/SITES-EVOLVE`.
-3. Select the `main` branch, with the repository root as the build directory.
-4. Railway will detect `railway.json`, use Railpack, run `npm run build`, and start with `npm run start -- -H 0.0.0.0`.
+2. Select **Deploy from GitHub repo** and choose `VladWebDeveloper/SITES-EVOLVE` after authorizing Railway GitHub App for **only this repository**; alternatively use Railway CLI to link/deploy the existing project.
+3. Select the `main` branch, with the repository root as the build directory. Do not create a second Railway project if the existing `sites-evolve` project is already present.
+4. Railway service settings are managed through `.railway/railway.ts` (Railway Infrastructure as Code). The existing app service was configured with `railway config apply`. Review future changes with `railway config plan` before applying. Railpack builds with `npm run build` and starts with `npm run start -- -H 0.0.0.0`.
 5. On the application service, go to **Settings → Networking → Generate Domain** to get a temporary `*.up.railway.app` URL.
 6. Confirm `GET /api/health` returns JSON with `status:"ok"`, then test `/en`, `/ro`, `/ru`, `/en/quote`, `/en/contact`, `/en/consultation` and `/login` at the generated URL.
+
+**Current test URL:** https://sites-evolve-production.up.railway.app/ro. This temporary domain is intended for validation, not the registered brand launch.
 
 **Preview-safe defaults:** Public marketing pages work without third-party credentials. Until the database and authentication are configured, `/console` and `/portal` redirect to `/setup`. Contact and quote requests fall back to composing an email, and the AI assistant replies from its factual knowledge base rather than inventing AI access.
 
 ## 2. PostgreSQL
 
-1. In the **same Railway project**, select **+ New → Database → PostgreSQL**. Provisioning may consume free credits or incur usage fees.
-2. On the Next.js service's **Variables** tab, choose **Add Reference Variable → PostgreSQL → DATABASE_URL**. Never paste the secret into GitHub, chat, build logs or documentation.
-3. After adding this variable, Railway's pre-deploy command runs `npm run db:deploy:optional`. That command applies the committed Prisma migration if `DATABASE_URL` is set; migration failures stop the deployment.
-4. Verify the Postgres service is healthy, the app deploy completed, and `/api/health` works.
+1. A PostgreSQL service named `Postgres` has already been created in the **same Railway project**. Do not create a duplicate. Provisioning consumes trial credit or incurs charges depending on the account plan.
+2. The Next.js service already has a reference variable `DATABASE_URL=${{Postgres.DATABASE_URL}}`. If rebuilding the service, restore this reference instead of copying the secret. Never paste the secret into GitHub, chat, build logs or documentation.
+3. Railway's configured pre-deploy command runs `npm run db:deploy:optional`. That command applies the committed Prisma migration if `DATABASE_URL` is set; migration failures stop the deployment. The first database-linked redeployment succeeded, but production data access must be checked with an authorized account.
+4. Verify the Postgres service is healthy, the app deploy completed, and `/api/health` works. As part of go-live testing, verify migration status and a real authenticated read/write operation with a test client.
 
 This initial release has no demo clients. The CRM database contains no example customers unless you create them in the secure admin dashboard.
 

@@ -2,6 +2,10 @@
 
 Premium web development, software, AI and digital solutions studio based in Chișinău, Moldova. Founded by Vlad Serbușco. Email: [sites.evolve7@gmail.com](mailto:sites.evolve7@gmail.com).
 
+## Live preview
+
+**[SITES EVOLVE — Romanian test website](https://sites-evolve-production.up.railway.app/ro)** is hosted on Railway. This is a test deployment: the public site is available, PostgreSQL has been provisioned and linked, and private modules remain locked until Google OAuth is configured. The temporary domain is not intended for SEO indexing.
+
 ## Version 0.2 — what is implemented
 
 | Area | Delivered |
@@ -19,7 +23,7 @@ Premium web development, software, AI and digital solutions studio based in Chi�
 | SEO | Metadata, hreflang, sitemap, robots, dynamic OpenGraph image, JSON-LD, accessible navigation |
 | Engineering | Next.js 16, React 19, TypeScript, Prisma 7/PostgreSQL, migrations, GitHub Actions, Vitest, Playwright |
 
-**Important:** Repository code can be complete and build successfully before an external service is activated. No database, Google OAuth, R2, Resend, paid payment gateway, calendar slots or AI account are claimed to be live until connected and verified. Private routes fail closed without configuration. The site is not yet a fully live 10,000 € commercial deployment.
+**Important:** Repository code can be complete and build successfully before an external service is activated. No database, Google OAuth, R2, Resend, paid payment gateway, calendar slots or AI account are claimed to be live until connected and verified. Private routes fail closed without configuration. The live test site is not yet a fully operational commercial deployment. See `docs/RAILWAY.md` for service configuration and verification.
 
 ## Requirements
 
