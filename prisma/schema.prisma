@@ -1,0 +1,335 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  OWNER
+  STAFF
+  CLIENT
+}
+enum ClientStatus {
+  ACTIVE
+  ARCHIVED
+}
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  PROPOSAL
+  WON
+  LOST
+}
+enum ProjectStatus {
+  PLANNED
+  IN_PROGRESS
+  REVIEW
+  COMPLETED
+  ON_HOLD
+}
+enum MilestoneStatus {
+  TODO
+  ACTIVE
+  REVIEW
+  DONE
+}
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+enum Priority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+enum InvoiceStatus {
+  DRAFT
+  ISSUED
+  PAID
+  OVERDUE
+  VOID
+}
+enum SubscriptionStatus {
+  TRIAL
+  ACTIVE
+  PAUSED
+  CANCELLED
+}
+enum DocumentVisibility {
+  CLIENT
+  INTERNAL
+}
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+}
+enum RequestStatus {
+  NEW
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String?
+  role          Role     @default(CLIENT)
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  memberships   ClientMember[]
+  ticketMessages TicketMessage[]
+  notifications Notification[]
+  auditEvents   AuditEvent[]
+}
+
+model Client {
+  id          String      @id @default(cuid())
+  name        String
+  email       String?
+  phone       String?
+  industry    String?
+  notes       String?
+  status      ClientStatus @default(ACTIVE)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  memberships ClientMember[]
+  projects    Project[]
+  tickets     Ticket[]
+  invoices    Invoice[]
+  subscriptions Subscription[]
+  sites       ManagedSite[]
+  documents   Document[]
+}
+
+model ClientMember {
+  id         String @id @default(cuid())
+  clientId   String
+  userId     String
+  client     Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  user       User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  @@unique([clientId,userId])
+  @@index([userId])
+}
+
+model Lead {
+  id          String     @id @default(cuid())
+  name        String
+  email       String
+  service     String
+  message     String
+  source      String     @default("website")
+  status      LeadStatus @default(NEW)
+  budgetMin   Int?
+  budgetMax   Int?
+  metadata    Json?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  @@index([status,createdAt])
+}
+
+model Project {
+  id          String @id @default(cuid())
+  clientId    String
+  client      Client @relation(fields: [clientId],references: [id],onDelete: Cascade)
+  title       String
+  description String?
+  status      ProjectStatus @default(PLANNED)
+  budgetMinor Int?
+  currency    String @default("EUR")
+  startAt     DateTime?
+  dueAt       DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  milestones  Milestone[]
+  tickets     Ticket[]
+  invoices    Invoice[]
+  documents   Document[]
+  sites       ManagedSite[]
+  @@index([clientId,status])
+}
+
+model Milestone {
+  id          String @id @default(cuid())
+  projectId   String
+  project     Project @relation(fields:[projectId],references:[id],onDelete: Cascade)
+  title       String
+  description String?
+  sortOrder   Int @default(0)
+  status      MilestoneStatus @default(TODO)
+  dueAt       DateTime?
+  feedback    String?
+  approvedAt  DateTime?
+  createdAt   DateTime @default(now())
+  @@index([projectId,sortOrder])
+}
+
+model Ticket {
+  id          String @id @default(cuid())
+  clientId    String
+  client      Client @relation(fields:[clientId],references:[id],onDelete:Cascade)
+  projectId   String?
+  project     Project? @relation(fields:[projectId],references:[id],onDelete:SetNull)
+  subject     String
+  description String
+  priority    Priority @default(NORMAL)
+  status      TicketStatus @default(OPEN)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  messages    TicketMessage[]
+  @@index([clientId,status])
+}
+
+model TicketMessage {
+  id          String @id @default(cuid())
+  ticketId    String
+  ticket      Ticket @relation(fields:[ticketId],references:[id],onDelete:Cascade)
+  authorId    String
+  author      User @relation(fields:[authorId],references:[id])
+  body        String
+  isInternal  Boolean @default(false)
+  createdAt   DateTime @default(now())
+  @@index([ticketId,createdAt])
+}
+
+model Invoice {
+  id          String @id @default(cuid())
+  clientId    String
+  client      Client @relation(fields:[clientId],references:[id],onDelete:Cascade)
+  projectId   String?
+  project     Project? @relation(fields:[projectId],references:[id],onDelete:SetNull)
+  number      String @unique
+  description String?
+  amountMinor Int
+  currency    String @default("EUR")
+  status      InvoiceStatus @default(DRAFT)
+  issuedAt    DateTime?
+  dueAt       DateTime?
+  paidAt      DateTime?
+  paymentUrl  String?
+  createdAt   DateTime @default(now())
+  @@index([clientId,status])
+}
+
+model Subscription {
+  id          String @id @default(cuid())
+  clientId    String
+  client      Client @relation(fields:[clientId],references:[id],onDelete:Cascade)
+  name        String
+  amountMinor Int
+  currency    String @default("EUR")
+  interval    String @default("monthly")
+  status      SubscriptionStatus @default(TRIAL)
+  nextBillAt  DateTime?
+  createdAt   DateTime @default(now())
+  @@index([clientId])
+}
+
+model ManagedSite {
+  id          String @id @default(cuid())
+  clientId    String
+  client      Client @relation(fields:[clientId],references:[id],onDelete:Cascade)
+  projectId   String?
+  project     Project? @relation(fields:[projectId],references:[id],onDelete:SetNull)
+  name        String
+  url         String
+  status      String @default("NOT_CHECKED")
+  lastCheckedAt DateTime?
+  lastStatus  Int?
+  createdAt   DateTime @default(now())
+  metrics     SiteMetric[]
+  @@index([clientId])
+}
+
+model SiteMetric {
+  id         String @id @default(cuid())
+  siteId     String
+  site       ManagedSite @relation(fields:[siteId],references:[id],onDelete:Cascade)
+  name       String
+  value      Float
+  createdAt  DateTime @default(now())
+  @@index([siteId,name,createdAt])
+}
+
+model Document {
+  id         String @id @default(cuid())
+  clientId   String
+  client     Client @relation(fields:[clientId],references:[id],onDelete:Cascade)
+  projectId  String?
+  project    Project? @relation(fields:[projectId],references:[id],onDelete:SetNull)
+  filename   String
+  objectKey  String @unique
+  mimeType   String
+  sizeBytes  Int
+  visibility DocumentVisibility @default(CLIENT)
+  createdAt  DateTime @default(now())
+  @@index([clientId])
+}
+
+model BlogPost {
+  id          String @id @default(cuid())
+  slug        String
+  locale      String @default("en")
+  title       String
+  excerpt     String
+  body        String
+  category    String @default("INSIGHTS")
+  status      ContentStatus @default(DRAFT)
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@unique([slug,locale])
+  @@index([locale,status,publishedAt])
+}
+
+model BookingRequest {
+  id          String @id @default(cuid())
+  name        String
+  email       String
+  service     String?
+  preferredAt DateTime?
+  notes       String
+  status      RequestStatus @default(NEW)
+  createdAt   DateTime @default(now())
+  @@index([status,createdAt])
+}
+
+model AutomationEvent {
+  id         String @id @default(cuid())
+  event      String
+  status     String @default("PENDING")
+  payload    Json?
+  response   String?
+  createdAt  DateTime @default(now())
+}
+
+model AuditEvent {
+  id         String @id @default(cuid())
+  userId     String?
+  user       User? @relation(fields:[userId],references:[id],onDelete:SetNull)
+  action     String
+  entity     String
+  entityId   String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+  @@index([createdAt])
+}
+
+model Notification {
+  id        String @id @default(cuid())
+  userId    String
+  user      User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  title     String
+  href      String?
+  readAt    DateTime?
+  createdAt DateTime @default(now())
+}

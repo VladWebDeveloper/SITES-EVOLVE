@@ -1,40 +1,59 @@
-# SITES EVOLVE
+# SITES EVOLVE — Digital Agency Platform
 
-**Independent digital studio** — web development, software, AI & digital solutions. Founded by Vlad Serbușco in Chișinău, Moldova.
+Premium web development, software, AI and digital solutions studio based in Chișinău, Moldova. Founded by Vlad Serbușco. Email: [sites.evolve7@gmail.com](mailto:sites.evolve7@gmail.com).
 
-## Current build (v0.1)
-- Multilingual (EN/RO/RU) responsive marketing website
-- Homepage, services and service detail pages, portfolio, process, about, founder, editorial journal
-- Interactive quote estimator with **indicative** ranges and prepared email request
-- Contact form: Resend delivery when configured, otherwise mailto fallback
-- SEO metadata, hreflang, sitemap, robots, security headers, privacy notice, health endpoint
-- GitHub Actions quality checks; Next.js 16 and React 19
+## Version 0.2 — what is implemented
 
-**Not yet launched:** secure CRM, customer accounts/portal, billing, AI chat, central client website management. These require approved integrations, databases, secrets, legal content and security testing. UI will not misrepresent them as live.
+| Area | Delivered |
+|---|---|
+| Public website | Responsive premium interface, CSS 3D hero, service pages, portfolio, pricing, project estimator, founder, blog, process, contacts |
+| Localization | Romanian, English and Russian routes |
+| Content | Original editorial posts + database-backed Markdown publishing |
+| Sales | API-backed enquiries, indicative quote builder, consultation requests, email fallback |
+| Assistant | FAQ knowledge mode; OpenAI responses integration when API key supplied |
+| CRM & operations | Private dashboard for leads, customers, projects/milestones, tickets, content, appointments, invoices, subscriptions, managed sites, automation status |
+| Client workspace | Private projects and milestone approvals, tickets/replies, documents, invoices, subscriptions and site status, scoped by client membership |
+| Security | Google OAuth allowlist, server-side role checks, validated input, spam trap, rate-limit fallback, private file access, security headers |
+| Storage | Cloudflare R2 private document upload/download when credentials supplied |
+| Integrations | Resend email, signed n8n webhook, Google Analytics with consent, uptime-check cron endpoint |
+| SEO | Metadata, hreflang, sitemap, robots, dynamic OpenGraph image, JSON-LD, accessible navigation |
+| Engineering | Next.js 16, React 19, TypeScript, Prisma 7/PostgreSQL, migrations, GitHub Actions, Vitest, Playwright |
 
-## Development
+**Important:** Repository code can be complete and build successfully before an external service is activated. No database, Google OAuth, R2, Resend, paid payment gateway, calendar slots or AI account are claimed to be live until connected and verified. Private routes fail closed without configuration. The site is not yet a fully live 10,000 € commercial deployment.
+
+## Requirements
+
+Node.js 24+, npm 11+, access to a PostgreSQL instance for private modules.
 
 ```bash
 npm ci
+npm run db:validate
+npm run db:deploy # Only after DATABASE_URL points to your intended PostgreSQL database
 npm run dev
-npm run typecheck
-npm run lint
-npm run build
 ```
 
-## Environment
+Local checks:
 
-Copy `.env.example` to `.env.local`. For server-side form delivery, configure `RESEND_API_KEY` and `LEAD_FROM_EMAIL` on a verified sending domain; `LEAD_TO_EMAIL` defaults to `sites.evolve7@gmail.com`. No credentials belong in the repository.
+```bash
+npm run typecheck
+npm run lint
+npm run test
+npm run build
+npm run test:e2e # Requires locally running server on port 3002 and Chrome installed
+```
 
-Set `NEXT_PUBLIC_SITE_URL` to the actual deployment URL for canonical metadata and sitemap. Until then local builds use a safe development URL.
+The public site works without secrets, but CRM and portal routes redirect to `/setup` until authentication/database are configured.
 
-## Safety
+## Environment and production activation
 
-- Do not store client credentials in Git.
-- No fake testimonials, performance metrics, prices or case-study outcomes.
-- All staging and production work is confined to this repository.
-- Before accepting business contracts, confirm branding rights, legal entity details and compliant privacy terms.
+Review [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md) and [docs/OPERATIONS.md](docs/OPERATIONS.md). Copy `.env.example` to `.env.local` for local work, then configure secrets in the deployment platform. The example contains placeholders only.
 
-## Owner
+**Authentication setup:** create Google OAuth credentials with callback `/api/auth/callback/google`; set `AUTH_SECRET`, `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET` and `ADMIN_EMAILS`. Owner emails must exactly match the verified Google email. New client accounts can then be added from the protected admin dashboard.
 
-Contact: [sites.evolve7@gmail.com](mailto:sites.evolve7@gmail.com). GitHub: [VladWebDeveloper](https://github.com/VladWebDeveloper).
+**Legal readiness:** the site must not issue actual invoices, accept payments or claim a registered legal entity until registration, legal review and a compliant payment provider are completed. The invoice system currently tracks drafts and manual statuses; no card charges occur.
+
+**Hosting:** verify that the hosting provider and plan permit commercial work. Vercel Hobby is not a commercial-use plan. Choose an eligible paid plan or equivalent commercial host for production.
+
+## Change safety
+
+Only the `VladWebDeveloper/SITES-EVOLVE` repository is modified. Projects such as AlviTravel and DDent are not changed by this code. Avoid publishing client information or secrets to source control.
