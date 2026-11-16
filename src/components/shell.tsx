@@ -1,25 +1,27 @@
 "use client";
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+import {useState} from "react";
+import {usePathname} from "next/navigation";
 import Link from "next/link";
-import { ArrowUpRight, Menu, X } from "lucide-react";
-import { copy } from "@/lib/copy";
+import {ArrowUpRight,Menu,X} from "lucide-react";
+import {copy} from "@/lib/copy";
+import {contactEmail,pathFor,type Locale} from "@/lib/site";
 import AssistantWidget from "@/components/chat/assistant";
 import {Preferences} from "@/components/ux/preferences";
-import { contactEmail, pathFor, type Locale } from "@/lib/site";
-export default function Shell({locale,children}:{locale:Locale;children:React.ReactNode}) {
- const [open,setOpen] = useState(false);
- const pathname=usePathname(); const t=copy[locale];
- const links=[["services",t.nav.services],["work",t.nav.work],["process",t.nav.process],["pricing",t.nav.pricing],["journal",t.nav.journal],["founder",t.nav.founder]];
- function localeLink(l:Locale){const parts=pathname.split("/").filter(Boolean);return "/"+[l,...parts.slice(1)].join("/");}
- return <div className="site-shell" lang={locale}>
-  <header className="site-header"><div className="nav-wrap container">
-    <Link className="brand" href={pathFor(locale)} aria-label="SITES EVOLVE home"><span className="brand-mark"><span/></span><span>SITES<span className="brand-light">EVOLVE</span><span className="brand-dot">.</span></span></Link>
-    <nav className={`primary-nav ${open?"nav-open":""}`} aria-label="Main navigation">{links.map(([path,label])=><Link key={path} href={pathFor(locale,path)} onClick={()=>setOpen(false)} className={pathname.includes("/"+path)?"active":""}>{label}</Link>)}<Link className="nav-mobile-contact" href={pathFor(locale,"contact")} onClick={()=>setOpen(false)}>{t.nav.contact}</Link></nav>
-    <div className="nav-actions"><Preferences locale={locale}/><div className="language-switch" aria-label="Language">{(["en","ro","ru"] as Locale[]).map(l=><Link key={l} href={localeLink(l)} aria-label={`Switch language to ${l}`} className={l===locale?"selected":""}>{l.toUpperCase()}</Link>)}</div><Link className="nav-cta" href={pathFor(locale,"quote")}>{t.cta}<ArrowUpRight size={15}/></Link><button className="menu-toggle" aria-label={open?"Close menu":"Open menu"} aria-expanded={open} onClick={()=>setOpen(v=>!v)}>{open?<X size={24}/>:<Menu size={24}/>}</button></div>
+
+export default function Shell({locale,children}:{locale:Locale;children:React.ReactNode}){
+ const [open,setOpen]=useState(false);
+ const path=usePathname(),t=copy[locale];
+ const links=[["services",t.nav.services],["work",t.nav.work],["pricing",t.nav.pricing],["contact",t.nav.contact]];
+ function localeLink(l:Locale){const bits=path.split("/").filter(Boolean);return "/"+[l,...bits.slice(1)].join("/");}
+ return <div className="site-shell future-site-shell" lang={locale}>
+  <header className="future-header"><div className="container future-nav">
+   <Link href={pathFor(locale)} aria-label="SITES EVOLVE home" className="future-brand"><span className="future-brand-glyph"><span/></span><span>SITES <strong>EVOLVE</strong><i>.</i></span></Link>
+   <nav aria-label="Main navigation" className={"future-main-nav "+(open?"future-nav-open":"")}>{links.map(([slug,label])=><Link className={path.startsWith("/"+locale+"/"+slug)?"active":""} href={pathFor(locale,slug)} key={slug} onClick={()=>setOpen(false)}>{label}</Link>)}<Link href={pathFor(locale,"quote")} className="future-mobile-cta" onClick={()=>setOpen(false)}>{t.cta}<ArrowUpRight size={17}/></Link></nav>
+   <div className="future-nav-actions"><div className="future-language" aria-label="Language">{(["ro","en","ru"] as Locale[]).map(l=><Link key={l} href={localeLink(l)} aria-label={"Switch language to "+l} className={l===locale?"selected":""}>{l.toUpperCase()}</Link>)}</div><Link href={pathFor(locale,"quote")} className="future-nav-cta">{t.cta}<span><ArrowUpRight size={17}/></span></Link><button className="future-menu-trigger" aria-label={open?"Close menu":"Open menu"} aria-expanded={open} onClick={()=>setOpen(s=>!s)}>{open?<X size={23}/>:<Menu size={23}/>}</button></div>
   </div></header>
   <main id="main">{children}</main>
-  <footer className="footer"><div className="container"><div className="footer-top"><div><div className="footer-brand">SITES EVOLVE<span>.</span></div><p>{t.footerText}</p></div><div className="footer-links"><div><strong>EXPLORE</strong><Link href={pathFor(locale,"services")}>{t.nav.services}</Link><Link href={pathFor(locale,"work")}>{t.nav.work}</Link><Link href={pathFor(locale,"journal")}>{t.nav.journal}</Link><Link href={pathFor(locale,"founder")}>{t.nav.founder}</Link><Link href={pathFor(locale,"consultation")}>Book a consultation</Link></div><div><strong>CONNECT</strong><a href={`mailto:${contactEmail}`}>{contactEmail}</a><a href="https://github.com/VladWebDeveloper" target="_blank" rel="noopener noreferrer">GitHub <ArrowUpRight size={13}/></a><Link href={pathFor(locale,"contact")}>{t.nav.contact}</Link><Link href="/login">Client portal</Link></div></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} SITES EVOLVE. {t.copyright}</span><span>{t.footNote}</span><span><Link href={pathFor(locale,"privacy")}>Privacy</Link> · <button type="button" className="footer-preferences" onClick={()=>window.dispatchEvent(new Event("se:privacy-options"))}>Cookie settings</button> · <Link href={pathFor(locale,"terms")}>Terms</Link></span></div></div></footer>
+  <footer className="future-footer"><div className="container"><div className="future-footer-top"><div className="future-footer-identity"><Link href={pathFor(locale)} className="future-footer-logo">SITES EVOLVE<span>.</span></Link><p>{t.footerText}</p><a className="future-footer-email" href={"mailto:"+contactEmail}>{contactEmail}<ArrowUpRight size={17}/></a></div><div className="future-footer-nav"><div><strong>{locale==="ro"?"EXPLOREAZĂ":locale==="ru"?"НАВИГАЦИЯ":"EXPLORE"}</strong>{links.map(([slug,label])=><Link key={slug} href={pathFor(locale,slug)}>{label}</Link>)}</div><div><strong>{locale==="ro"?"DESCOPERĂ":locale==="ru"?"УЗНАТЬ БОЛЬШЕ":"DISCOVER"}</strong><Link href={pathFor(locale,"founder")}>{t.nav.founder}</Link><Link href={pathFor(locale,"journal")}>{t.nav.journal}</Link><Link href={pathFor(locale,"consultation")}>{locale==="ro"?"Consultație":locale==="ru"?"Консультация":"Consultation"}</Link><Link href="/login">{locale==="ro"?"Portal clienți":locale==="ru"?"Кабинет клиента":"Client portal"}</Link></div></div></div><div className="future-footer-bottom"><span>© {new Date().getFullYear()} SITES EVOLVE. {t.copyright}</span><span>CHIȘINĂU · WORLDWIDE</span><div><Link href={pathFor(locale,"privacy")}>{locale==="ro"?"Confidențialitate":locale==="ru"?"Конфиденциальность":"Privacy"}</Link><button type="button" onClick={()=>window.dispatchEvent(new Event("se:privacy-options"))}>{locale==="ro"?"Cookie-uri":locale==="ru"?"Cookie":"Cookies"}</button><Link href={pathFor(locale,"terms")}>{locale==="ro"?"Termeni":locale==="ru"?"Условия":"Terms"}</Link></div></div></div></footer>
+  <Preferences locale={locale}/>
   <AssistantWidget key={locale} locale={locale}/>
  </div>;
 }

@@ -1,0 +1,81 @@
+/* SITES EVOLVE OS / workspace follows the same obsidian-blue-violet identity */
+.workspace-shell{background:radial-gradient(ellipse 70% 55% at 97% -15%,#24245955,transparent 85%),#090b19;color:#eff1ff}
+.workspace-sidebar{background:linear-gradient(180deg,#12152e,#0c0e1f);border-right:1px solid #3b3e6a}
+.workspace-brand a{font-weight:800;letter-spacing:-.06em}.workspace-brand a span{color:#b6a2ff}
+.sidebar-descriptor{color:#868db4}.sidebar-descriptor span{color:#a59cff}
+.workspace-nav-link{border-radius:14px;color:#a3a9d2;transition:background .2s,color .2s,border .2s}
+.workspace-nav-link:hover{background:#2c2b5b70;color:#f1efff}
+.workspace-nav-link.selected{background:linear-gradient(100deg,#4647947a,#5f4d9c57);border:1px solid #7774e27b;color:#f5efff;box-shadow:0 6px 24px #40369d32}
+.workspace-nav-link.selected svg{color:#b4aaff}
+.sidebar-bottom{border-color:#35365f}.sidebar-status{color:#9a9fc6}.status-pulse,.signal-dot{background:#a298ff;box-shadow:0 0 0 4px #9388ff24,0 0 18px #817dff}
+.sidebar-back{color:#c6c1e6}.sidebar-back:hover,.sidebar-logout:hover{color:#cab5ff}
+.sidebar-logout{color:#b4b9dc}
+.workspace-topbar{background:#10132aee;border-bottom:1px solid #343964;backdrop-filter:blur(20px)}
+.breadcrumbs{color:#969ed0}.breadcrumbs span{color:#9f8eff}
+.workspace-user-text small{color:#a7a0fa}
+.workspace-avatar{background:linear-gradient(125deg,#4469d6,#8450d3);border-color:#9c96fc;color:white}
+.workspace-content{padding-top:50px}
+.console-kicker{color:#aaa2ff}
+.console-heading h1 span{color:#a58fff}
+.console-heading p{color:#a6add5}
+.metric-grid{gap:15px}
+.metric-card{background:linear-gradient(135deg,#191c3a,#13162c);border:1px solid #45497d78;border-radius:23px;box-shadow:0 12px 35px #0002}
+.metric-top{color:#b1b6dc}.metric-top svg{color:#aaa0ff}
+.metric-card>strong{color:#f8f7ff}.metric-card>small{color:#818db9}
+.console-panel{background:linear-gradient(130deg,#171a36,#11152b);border:1px solid #42477b78;border-radius:25px;box-shadow:0 12px 35px #0002}
+.panel-title h2{color:#f3f0ff}.panel-title p{color:#9fa6d4}
+.data-table th{border-color:#4e5388;color:#9ca5d9}
+.data-table td{border-color:#34395f;color:#bfc5e4}
+.data-table td strong{color:#f1edff}.data-table td small{color:#8994c8}
+.status-tag{background:#302d57;border:1px solid #66659b;color:#e1dfff;border-radius:999px}
+.status-new,.status-open,.status-not-configured{background:#3a3148;color:#f7d6af;border-color:#715b71}
+.status-in-progress,.status-qualified,.status-proposal{background:#253a67;color:#bfdaff;border-color:#5278b3}
+.status-completed,.status-done,.status-resolved,.status-paid,.status-active,.status-up,.status-ready,.status-published{background:#263d5c;color:#b9dfff;border-color:#526ca9}
+.status-on-hold,.status-cancelled,.status-void,.status-down,.status-error{background:#493049;color:#f6b8d1;border-color:#855279}
+.status-draft,.status-trial,.status-not-checked{background:#2b2e4d;color:#b9bee2;border-color:#515784}
+.console-empty>strong{color:#f6f2ff}.empty-symbol{color:#a396ff}.console-empty>p{color:#9ca7ce}
+.small-link{color:#bfb4ff}.small-link:hover{color:white}
+.quick-links a{border-color:#333962;color:#c8ccf0}.quick-links a:hover{color:#b8a8ff}
+.quick-note{border-color:#363c66;color:#9da8d5}
+.workspace-create{background:linear-gradient(115deg,#1b1d44,#161a38);border:1px solid #605fa58a;border-radius:22px;overflow:hidden}
+.workspace-create summary{color:#edf0ff}.workspace-create summary span:last-child{color:#b8afff}
+.workspace-form{border-color:#494c80}
+.workspace-field{color:#c8cbed}
+.workspace-field input,.workspace-field textarea,.workspace-field select{background:#11162f;color:#f6f6ff;border:1px solid #565b92;border-radius:13px}
+.workspace-field input:focus,.workspace-field textarea:focus,.workspace-field select:focus{outline:none;border-color:#a49eff;box-shadow:0 0 0 3px #6d71e62d}
+.workspace-field input::placeholder,.workspace-field textarea::placeholder{color:#8b93bd}
+.workspace-submit{background:linear-gradient(110deg,#5089fd,#875de9);border:1px solid #899efb;color:white;border-radius:999px;padding:12px 19px;box-shadow:0 8px 25px #504cd64d}
+.workspace-submit:hover{background:linear-gradient(110deg,#6d9bff,#a179fa)}
+.inline-status-form select,.inline-add-form input,.inline-add-form select{background:#1b2041;color:#dfdef9;border-color:#666aa9;border-radius:9px}
+.inline-status-form button,.inline-add-form button{background:#33336d;color:#e1d6ff;border:1px solid #7576cb;border-radius:9px}
+.entity-card{background:linear-gradient(135deg,#1c2242,#171a31);border:1px solid #5355867d;border-radius:21px}
+.entity-meta{color:#a8aae6}
+.entity-card h3{color:#f5f3ff}
+.entity-card>p{color:#a6aed5}
+.entity-foot,.milestone-details,.milestone-row,.milestone-timeline{border-color:#414671}
+.entity-foot{color:#a3abce}
+.milestone-details>summary{color:#b5a4ff}
+.portal-milestone strong{color:#f1f0ff}.portal-milestone small{color:#a6acda}
+.milestone-indicator{border-color:#827ed8;color:#c2b7ff}
+.ticket-card{background:#1b2140;border:1px solid #55558c;border-radius:19px;overflow:hidden}
+.ticket-card summary small{color:#a7b0db}
+.ticket-content{border-color:#434876;color:#cbd0f0}
+.ticket-reply{border-left:2px solid #968aff;background:#262753;border-radius:0 11px 11px 0}
+.ticket-reply strong{color:#dcd5ff}.ticket-reply small{color:#a7b0d8}
+.ticket-message-form textarea{background:#161b3d;border-color:#5c60a2;color:#f3f0ff;border-radius:12px}
+.settings-list>div{border-color:#383f71}
+.console-muted{color:#b2b7db}
+.workspace-footer{border-color:#353964;color:#7c83b3}
+.auth-screen{background:radial-gradient(ellipse 60% 45% at 80% 10%,#38316a6e,transparent 78%),#090b1c;color:#f8f7ff}
+.auth-card{background:linear-gradient(135deg,#1c1d40,#141731);border:1px solid #6263a0;border-radius:28px;box-shadow:0 40px 110px #030316a8}
+.auth-card .brand{color:white}
+.auth-card .brand-dot,.auth-card h1 em{color:#b69aff}
+.auth-symbol{border:1px solid #7773d8;color:#c6b6ff;border-radius:22px;background:#4740822e}
+.auth-card>p{color:#aeb6df}
+.setup-items>div{border:1px solid #5b6094;border-radius:14px;color:#c9ccf0;background:#ffffff06}
+.setup-items svg{color:#a99dff}
+.setup-warning{background:#252146;border:1px solid #7469b0;color:#d3caef;border-radius:15px}
+.auth-card .text-link{color:#c1b4ff}
+@media(max-width:900px){.workspace-sidebar{box-shadow:20px 0 80px #0009}}
+@media(max-width:620px){.metric-card{border-radius:18px}.console-panel{border-radius:20px}.entity-card{border-radius:17px}.auth-card{border-radius:21px}}
+@media(prefers-reduced-motion:reduce){.workspace-shell *,.auth-screen *{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
