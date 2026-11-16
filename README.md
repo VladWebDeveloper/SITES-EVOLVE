@@ -61,3 +61,12 @@ Review [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md) and [docs/OPERATIONS.md]
 ## Change safety
 
 Only the `VladWebDeveloper/SITES-EVOLVE` repository is modified. Projects such as AlviTravel and DDent are not changed by this code. Avoid publishing client information or secrets to source control.
+
+
+## Founder and private files (v0.3)
+
+The homepage and navigation highlight Vlad Serbușco, with a portrait placeholder. Later add a WebP portrait at public/founder-portrait.webp and set NEXT_PUBLIC_FOUNDER_PHOTO=/founder-portrait.webp before redeploying.
+
+Private files can be stored in the new Railway S3-compatible bucket, configured with S3_ENDPOINT, S3_REGION, S3_BUCKET, S3_ACCESS_KEY_ID and S3_SECRET_ACCESS_KEY. Use only reference variables in Railway, not literal secret values in GitHub. Cloudflare R2 remains supported.
+
+Contact, quote and consultation enquiries are stored in PostgreSQL if available, even when email delivery through Resend is not configured. See docs/GO-LIVE-STATUS.md for the remaining account and legal steps.

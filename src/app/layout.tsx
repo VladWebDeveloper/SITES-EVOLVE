@@ -2,6 +2,7 @@ import "./globals.css";
 import "./platform.css";
 import "./future.css";
 import "./console-future.css";
+import "./founder-premium.css";
 import type { Metadata, Viewport } from "next";
 import { brand, siteUrl } from "@/lib/site";
 export const metadata: Metadata = { title:{default:"SITES EVOLVE — Web Development, AI & Digital Solutions",template:"%s | SITES EVOLVE"}, description:"Independent digital studio in Chișinău, Moldova. Premium websites, software, AI automation and digital solutions for ambitious businesses.", metadataBase:new URL(siteUrl), openGraph:{type:"website",siteName:brand,title:"SITES EVOLVE — Build what's next",description:"Thoughtful websites, software and intelligent digital experiences.",locale:"en_US"},twitter:{card:"summary_large_image"},robots:{index:Boolean(process.env.NEXT_PUBLIC_SITE_URL)&&process.env.VERCEL_ENV!=="preview",follow:true},applicationName:brand };

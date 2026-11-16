@@ -118,6 +118,14 @@ export async function createPost(form:FormData){
  const post=await getDb().blogPost.create({data:{slug,locale,title:requireValue(form,"title",160),excerpt:requireValue(form,"excerpt",400),body:requireValue(form,"body",20000,40),category:optional(form,"category",80)||"INSIGHTS",status:"DRAFT"}});
  await log(actor.id,"CREATE","BlogPost",post.id);refresh();
 }
+export async function updatePost(form:FormData){
+ const actor=await requireStaff(),postId=validId(form,"id");
+ const title=requireValue(form,"title",160),excerpt=requireValue(form,"excerpt",400),body=requireValue(form,"body",20000,40),category=optional(form,"category",80)||"INSIGHTS";
+ await getDb().blogPost.update({where:{id:postId},data:{title,excerpt,body,category}});
+ await log(actor.id,"UPDATE","BlogPost",postId);refresh();
+ for(const locale of ["en","ro","ru"])revalidatePath("/"+locale+"/journal");
+}
+
 export async function setPostStatus(form:FormData){
  const actor=await requireStaff(),postId=validId(form,"id");
  const status=z.enum(["DRAFT","PUBLISHED"]).parse(form.get("status"));
