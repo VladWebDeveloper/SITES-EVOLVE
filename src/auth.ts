@@ -8,7 +8,7 @@ export const {handlers,auth,signIn,signOut}=NextAuth({
   providers:authReady()?[Google({authorization:{params:{prompt:"select_account"}}})]:[],
   session:{strategy:"jwt",maxAge:12*60*60},
   pages:{signIn:"/login"},
-  trustHost:process.env.NODE_ENV==="development",
+  trustHost:process.env.AUTH_TRUST_HOST==="true" || process.env.NODE_ENV==="development",
   callbacks:{
     async signIn({user,profile}){
       const email=user.email?.toLowerCase();
