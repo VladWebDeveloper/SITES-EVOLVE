@@ -16,6 +16,6 @@ export async function POST(request:Request){
   catch{console.error("Lead database write failed");}
  }
  const sent=await sendEmail(process.env.LEAD_TO_EMAIL||"sites.evolve7@gmail.com","SITES EVOLVE — "+form.service+" enquiry","Name: "+form.name+"\nEmail: "+email+"\nService: "+form.service+"\n\n"+form.message,email);
- if(stored||sent){if(stored)void emitWorkflow({type:"lead.created",payload:{service:form.service,name:form.name,email}});return NextResponse.json({ok:true,stored,sent},{headers:{"Cache-Control":"no-store"}});}
+ if(sent){if(stored)void emitWorkflow({type:"lead.created",payload:{service:form.service,name:form.name,email}});return NextResponse.json({ok:true,stored,sent},{headers:{"Cache-Control":"no-store"}});}
  return jsonError("Direct delivery is not configured. Please use your email application.",503);
 }

@@ -16,6 +16,6 @@ export async function POST(req:Request){
   try{await getDb().lead.create({data:{name:data.name,email:data.email.toLowerCase(),service:"Quote / "+data.kind,message:data.brief,source:"estimator",budgetMin:calculated.low*100,budgetMax:calculated.high*100,metadata:{kind:data.kind,extras:data.extras,timeline:data.timeline,pages:data.pages}}});saved=true;}catch{console.error("Quote lead storage failed");}
  }
  const sent=await sendEmail(process.env.LEAD_TO_EMAIL||"sites.evolve7@gmail.com","SITES EVOLVE — Project estimate",message,data.email);
- if(saved||sent){if(saved)void emitWorkflow({type:"quote.requested",payload:{kind:data.kind,name:data.name,email:data.email}});return Response.json({ok:true,stored:saved,sent,estimate:calculated});}
+ if(sent){if(saved)void emitWorkflow({type:"quote.requested",payload:{kind:data.kind,name:data.name,email:data.email}});return Response.json({ok:true,stored:saved,sent,estimate:calculated});}
  return jsonError("The estimator is ready, but direct submission is not configured.",503);
 }

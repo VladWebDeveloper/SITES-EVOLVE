@@ -15,6 +15,6 @@ export async function POST(request:Request){
  if(databaseConfigured()){try{await getDb().bookingRequest.create({data:{name:data.name,email:data.email.toLowerCase(),service:data.service,notes:data.notes,preferredAt:date}});stored=true;}catch{console.error("Booking database write failed");}}
  const content=["Name: "+data.name,"Email: "+data.email,"Service: "+(data.service||"Consultation"),"Preferred time: "+(date?.toISOString()||"Flexible"),"Notes: "+data.notes].join("\n");
  const sent=await sendEmail(process.env.LEAD_TO_EMAIL||"sites.evolve7@gmail.com","SITES EVOLVE — Consultation request",content,data.email);
- if(stored||sent){if(stored)void emitWorkflow({type:"booking.requested",payload:{name:data.name,email:data.email,preferredAt:date?.toISOString()}});return NextResponse.json({ok:true,confirmed:false,stored,sent});}
+ if(sent){if(stored)void emitWorkflow({type:"booking.requested",payload:{name:data.name,email:data.email,preferredAt:date?.toISOString()}});return NextResponse.json({ok:true,confirmed:false,stored,sent});}
  return jsonError("Direct delivery is not configured.",503);
 }
