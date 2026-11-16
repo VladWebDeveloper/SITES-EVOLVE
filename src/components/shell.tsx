@@ -8,7 +8,7 @@ import { contactEmail, pathFor, type Locale } from "@/lib/site";
 export default function Shell({locale,children}:{locale:Locale;children:React.ReactNode}) {
  const [open,setOpen] = useState(false);
  const pathname=usePathname(); const t=copy[locale];
- const links=[["services",t.nav.services],["work",t.nav.work],["process",t.nav.process],["journal",t.nav.journal],["founder",t.nav.founder]];
+ const links=[["services",t.nav.services],["work",t.nav.work],["process",t.nav.process],["pricing",t.nav.pricing],["journal",t.nav.journal],["founder",t.nav.founder]];
  function localeLink(l:Locale){const parts=pathname.split("/").filter(Boolean);return "/"+[l,...parts.slice(1)].join("/");}
  return <div className="site-shell" lang={locale}>
   <header className="site-header"><div className="nav-wrap container">
