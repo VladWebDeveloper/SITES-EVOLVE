@@ -46,6 +46,20 @@ describe("contextual studio assistant",()=>{
   expect(cafe).toContain("meniu");
   expect(cafe).not.toContain("ce domeniu");
  });
+ it("follows up on an online store product count instead of repeating a canned introduction",()=>{
+  const h=[{role:"user" as const,text:"Vreau magazin online."},{role:"assistant" as const,text:"Aproximativ câte produse vei avea?"}];
+  const answer=answerFromKnowledge("aproximativ 70", "ro",h);
+  expect(answer).toContain("70 produse");
+  expect(answer).toContain("plată online");
+  expect(answer).not.toContain("aproximativ câte produse");
+ });
+ it("handles concrete online payment and website scope replies",()=>{
+  const shop=[{role:"user" as const,text:"Magazin online pentru haine"},{role:"assistant" as const,text:"În ce țări vei vinde?"}];
+  expect(answerFromKnowledge("Moldova și România","ro",shop)).toContain("livrare");
+  expect(answerFromKnowledge("cu cardul și curier","ro",shop)).toContain("procesator");
+  const web=[{role:"user" as const,text:"Am nevoie de un site web"},{role:"assistant" as const,text:"Câte pagini dorești?"}];
+  expect(answerFromKnowledge("5 pagini","ro",web)).toContain("5 pagini");
+ });
  it("only echoes budgets explicitly supplied",()=>{
   expect(answerFromKnowledge("Bugetul meu este 2500 EUR pentru site","ro")).toContain("2500 EUR");
   expect(answerFromKnowledge("Cât costă?","ro")).not.toContain("2500");
