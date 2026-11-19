@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<defs>
+ <linearGradient id="neon" x1=".05" y1=".1" x2=".95" y2=".9" gradientUnits="objectBoundingBox"><stop stop-color="#00D8FF"/><stop offset=".43" stop-color="#467FFF"/><stop offset="1" stop-color="#B05EFF"/></linearGradient>
+ <linearGradient id="shine" x1=".08" y1=".05" x2=".95" y2=".95" gradientUnits="objectBoundingBox"><stop stop-color="#E8FBFF" stop-opacity=".77"/><stop offset=".52" stop-color="#FFFFFF" stop-opacity="0"/><stop offset="1" stop-color="#D4AEFF" stop-opacity=".3"/></linearGradient>
+</defs>
+<path d="M365 120C321 91 240 93 181 121C108 156 115 223 188 245L320 282C399 307 412 372 335 407C262 441 179 420 129 394" fill="none" stroke="url(#neon)" stroke-width="82" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M365 120C321 91 240 93 181 121C108 156 115 223 188 245L320 282C399 307 412 372 335 407C262 441 179 420 129 394" fill="none" stroke="url(#shine)" stroke-width="30" stroke-linecap="round" stroke-linejoin="round" opacity=".62" transform="translate(0 -17)"/>
+</svg>

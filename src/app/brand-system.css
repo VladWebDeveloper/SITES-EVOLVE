@@ -1,0 +1,28 @@
+/* Global SITES EVOLVE identity — approved logo kit, used on all public and private routes. */
+.evolve-brand-logo{display:block;object-fit:contain;max-width:100%;height:auto;user-select:none}
+.future-brand{display:flex;align-items:center;justify-content:flex-start;min-width:0;flex-shrink:0;height:60px}
+.future-brand .evolve-brand-header{width:205px;flex-shrink:0}
+.future-footer-logo{display:inline-flex;align-items:center;min-height:75px}
+.future-footer-logo .evolve-brand-footer{width:min(100%,340px)}
+.workspace-brand>a{display:inline-flex;align-items:center;min-width:0;max-width:205px;height:60px}
+.workspace-brand .evolve-brand-workspace{width:205px}
+.workspace-topbar .breadcrumbs{display:inline-flex;align-items:center;gap:8px}
+.workspace-topbar .evolve-brand-mark{width:27px;height:27px;flex:none;border-radius:7px}
+.auth-card .evolve-auth-brand{display:inline-flex;align-items:center;min-height:78px;margin-bottom:29px;max-width:100%}
+.auth-card .evolve-auth-brand .evolve-brand-auth{width:min(100%,295px)}
+.future-orb-core{display:flex;align-items:center;justify-content:center}
+.future-orb-core .evolve-brand-orb{width:min(80%,340px);height:auto;filter:drop-shadow(0 0 32px #9eb7ff88)}
+.evolve-branded-error{min-height:100vh;display:grid;place-items:center;text-align:center;color:#f2f3ff;background:radial-gradient(circle at 80% 0%,#382f785e,transparent 55%),#090b20;padding:24px}
+.evolve-branded-error>div{max-width:620px}
+.evolve-branded-error-logo{display:inline-flex;width:min(100%,320px);margin:0 auto 28px}
+.evolve-branded-error>div>span{display:block;letter-spacing:.2em;font-size:11px;color:#ac9bff;margin-bottom:17px}
+.evolve-branded-error h1{font:700 clamp(38px,7vw,66px)/1.08 var(--display);letter-spacing:-.065em;margin:0}
+.evolve-branded-error p{color:#a4afd6;font-size:15px;line-height:1.8;margin:24px auto}
+.evolve-branded-error-action{display:inline-flex;justify-content:center;align-items:center;background:linear-gradient(110deg,#467fff,#9264ee);border-radius:999px;padding:17px 26px;color:white;font-weight:700;font-size:13px}
+.evolve-loading{position:fixed;inset:0;display:grid;place-items:center;min-height:100vh;background:#090c20}
+.evolve-loading .evolve-brand-mark{width:85px;height:85px;animation:evolve-loading-pulse 1.2s ease-in-out infinite}
+@keyframes evolve-loading-pulse{50%{transform:scale(1.06);opacity:.65}}
+@media(max-width:1120px){.future-brand .evolve-brand-header{width:185px}.workspace-brand .evolve-brand-workspace{width:185px}}
+@media(max-width:700px){.future-brand{height:53px}.future-brand .evolve-brand-header{width:155px}.future-footer-logo .evolve-brand-footer{width:285px}.workspace-topbar .breadcrumbs{gap:5px}.workspace-topbar .workspace-breadcrumb-brand{display:none}}
+@media(max-width:405px){.future-brand .evolve-brand-header{width:132px}.workspace-topbar .evolve-brand-mark{width:24px;height:24px}}
+@media(prefers-reduced-motion:reduce){.evolve-loading .evolve-brand-mark{animation:none}}

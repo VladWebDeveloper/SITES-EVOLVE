@@ -1,2 +1,7 @@
 import Link from "next/link";
-export default function NotFound(){return <main id="main" style={{background:"#101511",color:"#e9f2e6",fontFamily:"Arial,sans-serif",minHeight:"100vh",margin:0,display:"grid",placeItems:"center",padding:25}}><div style={{textAlign:"center"}}><h1 style={{fontSize:80,margin:0}}>404</h1><p>Nothing here. Yet.</p><Link style={{color:"#c5f57b"}} href="/en">Back to SITES EVOLVE ↗</Link></div></main>}
+import {BrandLogo} from "@/components/brand/logo";
+export default function NotFound(){
+ return <main id="main" className="evolve-branded-error">
+  <div><Link href="/ro" aria-label="SITES EVOLVE home" className="evolve-branded-error-logo"><BrandLogo variant="footer" priority/></Link><span>404 / PAGE NOT FOUND</span><h1>Lost in the digital universe?</h1><p>The page you requested is unavailable. Return to the studio.</p><Link href="/ro" className="evolve-branded-error-action">Back to SITES EVOLVE ↗</Link></div>
+ </main>;
+}
