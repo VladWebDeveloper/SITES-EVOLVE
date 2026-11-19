@@ -44,3 +44,35 @@ aws s3api list-objects-v2 --bucket "$S3_BUCKET" --prefix "$PREFIX/" --endpoint-u
    echo "SITES EVOLVE: Expired one old database backup."
  done
 echo "SITES EVOLVE: PostgreSQL backup completed successfully."
+
+# Monitoring runs after the verified archive and never invalidates a good backup.
+HEALTH_URL="https://sitesevolve.com/api/health"
+if curl -fLsS --retry 2 --retry-delay 3 --connect-timeout 5 --max-time 25 "$HEALTH_URL" >/dev/null; then
+ echo "SITES EVOLVE: Public application health check passed."
+else
+ echo "WARNING: The public application health endpoint did not respond successfully."
+ if [[ -n "${RESEND_API_KEY:-}" && -n "${LEAD_FROM_EMAIL:-}" && -n "${LEAD_TO_EMAIL:-}" ]]; then
+   jq -n --arg from "$LEAD_FROM_EMAIL" --arg to "$LEAD_TO_EMAIL" \
+     --arg text "The SITES EVOLVE website health check failed during the daily backup run. Please inspect Railway deployments and https://sitesevolve.com/api/health." \
+     '{from:$from,to:[$to],subject:"SITES EVOLVE — website health alert",text:$text}' |
+   curl -fsS --max-time 15 -X POST https://api.resend.com/emails \
+     -H "Authorization: Bearer $RESEND_API_KEY" -H "Content-Type: application/json" \
+     --data-binary @- >/dev/null || echo "WARNING: Could not deliver the health alert."
+ fi
+fi
+
+if [[ -n "${CRON_SECRET:-}" ]]; then
+ for ROUTE in operations monitor; do
+  HTTP_STATUS="$(curl -sS --connect-timeout 5 --max-time 45 \
+    -H "Authorization: Bearer $CRON_SECRET" \
+    -o "$TMP_DIR/$ROUTE.json" -w '%{http_code}' \
+    "https://sitesevolve.com/api/cron/$ROUTE" || true)"
+  if [[ "$HTTP_STATUS" == "200" ]]; then
+    echo "SITES EVOLVE: Daily $ROUTE checks completed (HTTP 200)."
+  else
+    echo "WARNING: Daily $ROUTE check returned HTTP ${HTTP_STATUS:-NETWORK_ERROR}."
+  fi
+ done
+else
+ echo "SITES EVOLVE: CRM scheduler not configured (CRON_SECRET missing)."
+fi
