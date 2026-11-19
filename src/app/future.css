@@ -480,3 +480,10 @@ html[data-theme="light"] .future-site-shell .services-section,html[data-theme="l
 }
 
 .future-capability{display:inline-flex;align-items:center;gap:25px}.future-capability>i{width:5px;height:5px;border-radius:50%;background:#9179ff;flex:none}@media(max-width:700px){.future-capability{gap:13px}}
+
+/* Concise two-line hero typography */
+.future-hero-copy h1{font-size:clamp(53px,5.7vw,104px);letter-spacing:-.079em;line-height:1.06}
+.future-hero-copy h1 .future-gradient-text{font-size:.91em;letter-spacing:-.084em}
+@media(max-width:900px){.future-hero-copy h1{font-size:clamp(51px,8.1vw,82px)}}
+@media(max-width:600px){.future-hero-copy h1{font-size:clamp(35px,10.4vw,62px);letter-spacing:-.067em;margin:28px 0 21px}.future-hero-copy h1 .future-gradient-text{font-size:.95em;letter-spacing:-.078em}}
+@media(max-width:380px){.future-hero-copy h1{font-size:clamp(32px,10vw,38px)}}

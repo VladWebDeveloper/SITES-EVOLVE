@@ -1,11 +1,12 @@
 import {test,expect} from "@playwright/test";
-test("homepage is concise and founder is prominent",async({page})=>{
+test("homepage has concise brand message and founder only in top navigation",async({page})=>{
  await page.goto("/ro");
- await expect(page.getByRole("heading",{level:1})).toContainText("Digital, dar");
+ await expect(page.getByRole("heading",{level:1})).toContainText("Build today. Evolve tomorrow.");
  await expect(page.locator(".future-main-nav a[href=\"/ro/founder\"]")).toHaveCount(1);
- await expect(page.locator(".evolve-founder-home")).toBeVisible();
- await expect(page.locator(".evolve-founder-home").getByText("Vlad Serbușco")).toBeVisible();
- await expect(page.locator(".evolve-founder-home .evolve-founder-photo-badge")).toContainText("PORTRET ÎN CURÂND");
+ await expect(page.locator(".future-status")).toContainText("WEB DEVELOPMENT & INNOVATION");
+ await expect(page.locator(".evolve-founder-home")).toHaveCount(0);
+ await expect(page.locator(".future-founder-inline")).toHaveCount(0);
+ await expect(page.locator(".future-footer a[href='/ro/founder']")).toHaveCount(0);
 });
 test("founder page explains real professional background and has photo placeholder",async({page})=>{
  await page.goto("/ro/founder");
