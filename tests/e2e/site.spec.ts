@@ -38,8 +38,31 @@ test("assistant offers useful local knowledge without external API",async({page}
  await page.getByRole("button",{name:"Discută cu noi"}).click();
  await page.getByRole("textbox",{name:"Scrie o întrebare..."}).fill("Cât costă un site?");
  await page.getByRole("button",{name:"Send message"}).click();
- await expect(page.locator(".message-bot").last()).toContainText("Fiecare proiect",{timeout:10000});
+ await expect(page.locator(".message-bot").last()).toContainText("nu avem un tarif fix",{timeout:10000});
 });
+test("assistant keeps the project topic across follow-ups and page refresh",async({page})=>{
+ await page.goto("/ro");
+ await page.getByRole("button",{name:"Discută cu noi"}).click();
+ const field=page.getByRole("textbox",{name:"Scrie o întrebare..."});
+ await field.fill("Vreau un magazin online pentru haine");
+ await page.getByRole("button",{name:"Send message"}).click();
+ await expect(page.locator(".message-bot").last()).toContainText("catalog",{timeout:10000});
+ await field.fill("Și cât costă pentru asta?");
+ await page.getByRole("button",{name:"Send message"}).click();
+ const result=page.locator(".message-bot").last();
+ await expect(result).toContainText("Magazine online",{timeout:10000});
+ await expect(result).toContainText("/ro/quote");
+ await page.reload();
+ await page.getByRole("button",{name:"Discută cu noi"}).click();
+ await expect(page.locator(".message-user").last()).toContainText("Și cât costă");
+ await page.getByRole("button",{name:"Conversație nouă"}).click();
+ await expect(page.locator(".message-user")).toHaveCount(0);
+});
+test("assistant API validates bounded conversation history",async({request})=>{
+ const invalid=await request.post("/api/assistant",{data:{message:"Salut",locale:"ro",history:Array.from({length:17},()=>({role:"user",text:"Buna"}))}});
+ expect(invalid.status()).toBe(400);
+});
+
 test("mobile assistant stays accessible while consent banner is visible",async({page},testInfo)=>{
  if(testInfo.project.name!=="chrome-mobile")return;
  await page.goto("/ro");
