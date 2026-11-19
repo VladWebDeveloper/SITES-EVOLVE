@@ -67,6 +67,48 @@ function budgetFrom(text:string){
  const found=text.match(/(?:\b(?:buget\w*|budget|бюджет)\s*(?:(?:meu|este|de|is|of|:)[\s:]*){0,4})(\d[\d .]{1,9})\s*(€|eur|mdl|lei|\$|usd)?/i);
  return found?(found[1].trim()+" "+(found[2]||"")).trim():null;
 }
+/** Human-friendly contextual replies when the external AI provider is unavailable.
+ * Use only information supplied in this conversation; never invent a quote. */
+function contextualContinuation(message:string,locale:Locale,topic:Topic|null,history:ChatTurn[]):string|null{
+ if(!topic||!history.some(turn=>turn.role==="user"))return null;
+ const q=plain(message);
+ const lastAssistant=plain([...history].reverse().find(turn=>turn.role==="assistant")?.text||"");
+ if(topic==="shop"){
+  const explicit=q.match(/\b(\d{1,5})\s*(?:produse|products|items|articole|товаров|товара)\b/);
+  const bare=q.match(/^(?:cam|aproximativ|circa|around|about|около|~)?\s*(\d{1,5})$/);
+  const amount=explicit?.[1]||(bare&&/cate produse|how many products|сколько товаров/.test(lastAssistant)?bare[1]:null);
+  if(amount){
+   return locale==="ro"?"Pentru aproximativ "+amount+" produse, aș structura magazinul cu categorii, filtre, pagini de produs, coș și administrarea comenzilor. Vrei plată online cu cardul, ramburs sau ambele?":
+    locale==="ru"?"Для каталога примерно из "+amount+" товаров я бы предусмотрел категории, фильтры, карточки товаров, корзину и управление заказами. Нужна оплата картой, при получении или оба варианта?":
+    "For roughly "+amount+" products, I'd plan categories, filters, product pages, a cart and order management. Do you need card payments, cash on delivery, or both?";
+  }
+  if(/\b(moldova|romania|romania|românia|moldovei|romaniei|europe|europa|european|молдова|румыния)\b/.test(q)){
+   return locale==="ro"?"Pentru țările menționate, trebuie să stabilim opțiunile de livrare, moneda afișată și procesatorul de plăți disponibil pentru afacerea ta. Ai nevoie de livrare prin curier și plăți cu cardul?":
+    locale==="ru"?"Для этих рынков нужно уточнить доставку, валюту и доступного платёжного провайдера. Нужны курьерская доставка и онлайн-оплата картой?":
+    "For those markets, we should define shipping, currencies and an eligible payment provider. Do you need courier delivery and online card payments?";
+  }
+  if(/\b(card|cardul|ramburs|livrare|curier|checkout|stripe|paypal|delivery|shipping|payment|cash|оплата|доставк|картой)\b/.test(q)){
+   return locale==="ro"?"Putem proiecta checkout-ul cu opțiunile de plată și livrare potrivite; integrarea efectivă depinde de procesatorul eligibil și de contul comerciantului. Vrei și gestiune de stoc sau doar catalog și comenzi?":
+    locale==="ru"?"Можно спроектировать оплату и доставку, но подключение зависит от платёжного провайдера и аккаунта продавца. Нужен также учёт остатков?":
+    "We can design checkout and delivery options, but activation depends on an eligible payment provider and merchant account. Do you also need stock tracking?";
+  }
+  if(/\b(include|contine|functii|functionalitati|features|included|входит|функции)\b/.test(q)){
+   return locale==="ro"?"Pentru un magazin online, nucleul este: catalog, categorii și filtre, coș, finalizare comandă și panou de administrare. Se pot adăuga conturi de client, stocuri, cupoane și integrări. Ce funcție este esențială pentru tine?":
+    locale==="ru"?"Основа интернет-магазина: каталог, категории и фильтры, корзина, оформление заказа и панель управления. Аккаунты, остатки и скидки можно добавить отдельно. Что самое важное?":
+    "A typical shop includes a catalogue, filters, cart, checkout and an admin area. Customer accounts, inventory and discounts can be added. Which feature matters most?";
+  }
+ }
+ if(topic==="web"){
+  const pages=q.match(/\b(\d{1,2})\s*(?:pagini|pages|страниц)\b/);
+  if(pages){
+   return locale==="ro"?"Pentru un site cu "+pages[1]+" pagini, putem defini structura, designul responsive, formularele și optimizarea SEO tehnică. Ai deja textele și fotografiile sau le pregătim în proiect?":
+    locale==="ru"?"Для сайта из "+pages[1]+" страниц можно спланировать структуру, адаптивный дизайн, формы и техническое SEO. Тексты и фотографии уже есть?":
+    "For a "+pages[1]+"-page site, we can scope the page structure, responsive design, forms and technical SEO. Do you already have copy and photos?";
+  }
+ }
+ return null;
+}
+
 const copy={
  ro:{
   hello:"Salut! Te pot ajuta să alegi un site, magazin online, aplicație sau mentenanță. Ce ai în plan?",
@@ -143,6 +185,8 @@ export function answerFromKnowledge(message:string,locale:Locale,history:ChatTur
    locale==="ru"?"Для кафе или ресторана можно сделать сайт с меню, галереей, адресом и формой заявки. Вам важнее онлайн-бронирование, цифровое меню или оба варианта?":
    "For a café or restaurant, we can build a site with a menu, photo gallery, map and reservation enquiries. Do you need online bookings, a digital menu, or both?";
  }
+ const continuation=contextualContinuation(message,locale,topic,history);
+ if(continuation)return continuation;
  if(topic)return t[topic];
  if(match("hello",q))return t.hello;
  return t.unknown;
