@@ -3,6 +3,7 @@ import {z} from "zod";
 import {databaseConfigured,getDb} from "@/lib/server/db";
 import {guardSize,rateLimited,requesterKey,jsonError} from "@/lib/server/security";
 import {sendEmail,emitWorkflow} from "@/lib/server/notify";
+import {notifyStaffAboutEnquiry,acknowledgeEnquiry} from "@/lib/server/engagement";
 const schema=z.object({name:z.string().trim().min(2).max(100),email:z.email().max(180),service:z.string().trim().min(1).max(120),message:z.string().trim().min(10).max(4000),website:z.string().max(200).optional().default("")}).strict();
 export async function POST(request:Request){
  if(guardSize(request,12000))return jsonError("Request too large",413);
@@ -16,6 +17,14 @@ export async function POST(request:Request){
   catch{console.error("Lead database write failed");}
  }
  const sent=await sendEmail(process.env.LEAD_TO_EMAIL||"sites.evolve7@gmail.com","SITES EVOLVE — "+form.service+" enquiry","Name: "+form.name+"\nEmail: "+email+"\nService: "+form.service+"\n\n"+form.message,email);
- if(sent||stored){if(stored)void emitWorkflow({type:"lead.created",payload:{service:form.service,name:form.name,email}});return NextResponse.json({ok:true,stored,sent},{headers:{"Cache-Control":"no-store"}});}
+ if(sent||stored){
+  if(stored){
+   await notifyStaffAboutEnquiry("lead");
+   const lastHour=await getDb().lead.count({where:{email,createdAt:{gte:new Date(Date.now()-3600000)}}});
+   await acknowledgeEnquiry("lead",email,lastHour);
+   await emitWorkflow({type:"lead.created",payload:{service:form.service,name:form.name,email}});
+  }
+  return NextResponse.json({ok:true,stored,sent},{headers:{"Cache-Control":"no-store"}});
+ }
  return jsonError("Direct delivery is not configured. Please use your email application.",503);
 }
