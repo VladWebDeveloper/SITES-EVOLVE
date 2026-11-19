@@ -18,13 +18,13 @@ export async function POST(req:Request){
  }
  const sent=await sendEmail(process.env.LEAD_TO_EMAIL||"sites.evolve7@gmail.com","SITES EVOLVE — Project estimate",message,data.email);
  if(sent||saved){
-  if(saved){
+  if(saved)try{
    await notifyStaffAboutEnquiry("quote");
    const mail=data.email.toLowerCase();
    const lastHour=await getDb().lead.count({where:{email:mail,createdAt:{gte:new Date(Date.now()-3600000)}}});
    await acknowledgeEnquiry("quote",mail,lastHour);
    await emitWorkflow({type:"quote.requested",payload:{kind:data.kind,name:data.name,email:mail}});
-  }
+  }catch{console.error("CRM post-submission automation failed");}
   return Response.json({ok:true,stored:saved,sent,estimate:calculated});
  }
  return jsonError("The estimator is ready, but direct submission is not configured.",503);
