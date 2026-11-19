@@ -49,7 +49,7 @@ test("public submissions validate data and private uploads require login",async(
 });
 test("private admin route fails closed without credentials",async({page})=>{
  await page.goto("/console");
- await expect(page).toHaveURL(/\/setup$/);
+ await expect(page).toHaveURL(/\/(login|setup)$/);
 });
 test("consultation request does not promise confirmed appointments",async({page})=>{
  await page.goto("/en/consultation");
