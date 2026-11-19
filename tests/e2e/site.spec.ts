@@ -54,6 +54,17 @@ test("mobile assistant stays accessible while consent banner is visible",async({
  await expect(consent).toBeVisible();
 });
 
+test("analytics can be revoked without leaving tracking scripts active",async({page})=>{
+ await page.goto("/ro");
+ await expect(page.locator('script[src*="googletagmanager.com/gtag/js"]')).toHaveCount(0);
+ await page.getByRole("button",{name:"Accept analytics"}).click();
+ await expect(page.locator('script[src*="googletagmanager.com/gtag/js"]')).toHaveCount(1);
+ await page.getByRole("button",{name:"Cookie-uri"}).click();
+ await page.getByRole("button",{name:"Doar esențiale"}).click();
+ await expect(page.locator('script[src*="googletagmanager.com/gtag/js"]')).toHaveCount(0);
+ expect(await page.evaluate(()=>localStorage.getItem("se-analytics"))).toBe("no");
+});
+
 test("public submissions validate data and private uploads require login",async({request})=>{
  const lead=await request.post("/api/lead",{data:{name:"X",email:"bad",service:"web",message:"too short"}});
  expect(lead.status()).toBe(400);
