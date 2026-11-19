@@ -58,6 +58,13 @@ test("assistant keeps the project topic across follow-ups and page refresh",asyn
  await page.getByRole("button",{name:"Conversație nouă"}).click();
  await expect(page.locator(".message-user")).toHaveCount(0);
 });
+test("protected daily workflows require authorization",async({request})=>{
+ const ops=await request.get("/api/cron/operations");
+ expect(ops.status()).toBe(403);
+ const monitor=await request.get("/api/cron/monitor");
+ expect(monitor.status()).toBe(403);
+});
+
 test("assistant API validates bounded conversation history",async({request})=>{
  const invalid=await request.post("/api/assistant",{data:{message:"Salut",locale:"ro",history:Array.from({length:17},()=>({role:"user",text:"Buna"}))}});
  expect(invalid.status()).toBe(400);
