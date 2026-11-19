@@ -32,6 +32,12 @@ describe("contextual studio assistant",()=>{
   expect(answerFromKnowledge("Cum intru în portal?","ro")).toContain("/login");
   expect(answerFromKnowledge("Faci SEO?","ro")).toContain("SEO");
  });
+ it("does not parrot the identical price message on repeated questions",()=>{
+  const first=answerFromKnowledge("Cât costă un site?","ro");
+  const second=answerFromKnowledge("Cât costă un site?","ro",[{role:"user",text:"Cât costă un site?"},{role:"assistant",text:first}]);
+  expect(second).not.toBe(first);
+  expect(second).toContain("pagini");
+ });
  it("only echoes budgets explicitly supplied",()=>{
   expect(answerFromKnowledge("Bugetul meu este 2500 EUR pentru site","ro")).toContain("2500 EUR");
   expect(answerFromKnowledge("Cât costă?","ro")).not.toContain("2500");
