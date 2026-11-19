@@ -4,11 +4,11 @@ import Link from "next/link";
 import {usePathname} from "next/navigation";
 import {signOut} from "next-auth/react";
 import {BrandLogo} from "@/components/brand/logo";
-import {LayoutDashboard,Users,BriefcaseBusiness,Inbox,MessagesSquare,BookOpen,Wallet,Globe2,Zap,CalendarDays,Settings,FolderOpen,Receipt,Menu,X,ArrowUpRight,LogOut,ChevronRight,} from "lucide-react";
+import {LayoutDashboard,Users,BriefcaseBusiness,Inbox,MessagesSquare,BookOpen,Wallet,Globe2,Zap,CalendarDays,Settings,FolderOpen,Receipt,ClipboardList,Menu,X,ArrowUpRight,LogOut,ChevronRight,} from "lucide-react";
 const consoleLinks=[
  ["","Overview",LayoutDashboard],["leads","CRM & Leads",Inbox],["clients","Clients",Users],["projects","Projects",BriefcaseBusiness],["tickets","Support",MessagesSquare],["documents","Documents",FolderOpen],["content","Content & Blog",BookOpen],["finance","Finance",Wallet],["websites","Site Management",Globe2],["appointments","Appointments",CalendarDays],["automation","Automation",Zap],["settings","Settings",Settings]
 ] as const;
-const portalLinks=[["","Overview",LayoutDashboard],["projects","My projects",BriefcaseBusiness],["tickets","Support",MessagesSquare],["documents","Files & deliverables",FolderOpen],["billing","Billing",Receipt],["websites","My websites",Globe2]] as const;
+const portalLinks=[["","Overview",LayoutDashboard],["requests","My requests",ClipboardList],["projects","My projects",BriefcaseBusiness],["tickets","Support",MessagesSquare],["documents","Files & deliverables",FolderOpen],["billing","Billing",Receipt],["websites","My websites",Globe2]] as const;
 export function WorkspaceShell({area,actor,children}:{area:"console"|"portal";actor:{name:string;email:string;role:string};children:React.ReactNode}){
  const [menu,setMenu]=useState(false);const pathname=usePathname();const links=area==="console"?consoleLinks:portalLinks;
  return <div className="workspace-shell">

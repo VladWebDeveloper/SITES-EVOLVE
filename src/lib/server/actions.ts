@@ -5,7 +5,7 @@ import {getDb} from "./db";
 import {requireActor,requireStaff,requireClientAccess} from "./actor";
 import {safeText} from "./format";
 import {allowedExternalHttps} from "./security";
-import {sendClientInvitation,informTicketUpdate} from "./engagement";
+import {sendClientInvitation,informTicketUpdate,notifyStaffAboutEnquiry,acknowledgeEnquiry} from "./engagement";
 const id=z.string().min(15).max(50);
 const email=z.email().max(180);
 async function log(userId:string,action:string,entity:string,entityId:string){await getDb().auditEvent.create({data:{userId,action,entity,entityId}});}
@@ -30,6 +30,26 @@ export async function inviteClient(form:FormData){
  await db.clientMember.upsert({where:{clientId_userId:{clientId,userId:user.id}},update:{},create:{clientId,userId:user.id}});
  await log(actor.id,"INVITE","Client",clientId);await sendClientInvitation(e);refresh();
 }
+/** A verified Google client can request a project without another form account.
+ * Their verified login email is always the identity recorded on the enquiry. */
+export async function createClientRequest(form:FormData){
+ const actor=await requireActor();
+ if(actor.role!=="CLIENT")throw new Error("Use the studio CRM for staff requests.");
+ const service=requireValue(form,"service",100,2);
+ const message=requireValue(form,"message",4000,10);
+ const db=getDb();
+ const lead=await db.lead.create({data:{
+   name:actor.name||actor.email,email:actor.email,service,message,
+   source:"client_portal",status:"NEW"
+ }});
+ await log(actor.id,"SUBMIT","Lead",lead.id);
+ await notifyStaffAboutEnquiry("quote");
+ const lastHour=new Date(Date.now()-3600000);
+ const recent=await db.lead.count({where:{email:actor.email,createdAt:{gte:lastHour}}});
+ await acknowledgeEnquiry("quote",actor.email,recent);
+ refresh();revalidatePath("/portal/requests");
+}
+
 export async function createLead(form:FormData){
  const actor=await requireStaff();
  const lead=await getDb().lead.create({data:{name:requireValue(form,"name",100),email:email.parse(requireValue(form,"email",180).toLowerCase()),service:requireValue(form,"service",100),message:requireValue(form,"message",4000),source:"staff"}});

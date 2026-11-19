@@ -1,6 +1,6 @@
 import {getDb} from "@/lib/server/db";
 import {requireActor,clientIdsFor} from "@/lib/server/actor";
-import {createTicket,addTicketMessage,approveMilestone} from "@/lib/server/actions";
+import {createTicket,createClientRequest,addTicketMessage,approveMilestone} from "@/lib/server/actions";
 import {PageTitle,Metric,SectionPanel,DataTable,Empty,Status,SmallLink,money,shortDate} from "./primitives";
 import {CreateForm,Field} from "./forms";
 import {BriefcaseBusiness,MessagesSquare,Receipt,Globe2,CheckCircle2,ExternalLink,ArrowUpRight} from "lucide-react";
@@ -13,8 +13,34 @@ export async function PortalSection({section}:{section:string}){
  if(clients.length===0)return <><PageTitle eyebrow="CLIENT PORTAL / WELCOME" title="Your workspace" description="A private space for projects, updates, files and support."/><SectionPanel title="No client workspace assigned"><Empty title="Your access is ready" description="An administrator has not linked this Google account to a client record yet. Please contact SITES EVOLVE so we can finish the setup." action={<a className="small-link" href="mailto:support@sitesevolve.com">Contact the studio ↗</a>}/></SectionPanel></>;
  switch(section){
  case "overview":{
-  const [projects,tickets,invoices,sites]=await Promise.all([db.project.findMany({where:allowed,orderBy:{updatedAt:"desc"},take:5,include:{client:{select:{name:true}},milestones:true}}),db.ticket.count({where:{...allowed,status:{in:["OPEN","IN_PROGRESS"]}}}),db.invoice.count({where:{...allowed,status:{in:["ISSUED","OVERDUE"]}}}),db.managedSite.count({where:allowed})]);
-  return <><PageTitle eyebrow="YOUR EXPERIENCE / OVERVIEW" title="Welcome back" description={"Your secure digital workspace. Signed in as "+actor.email}/><div className="metric-grid"><Metric label="Projects" value={projects.length} icon={BriefcaseBusiness}/><Metric label="Open requests" value={tickets} icon={MessagesSquare}/><Metric label="Pending invoices" value={invoices} icon={Receipt}/><Metric label="Managed sites" value={sites} icon={Globe2}/></div><SectionPanel title="Your latest projects">{projects.length?<div className="entity-grid">{projects.map(p=><div className="entity-card" key={p.id}><div className="entity-meta"><span>{p.client.name}</span><Status value={p.status}/></div><h3>{p.title}</h3><p>{p.description||"Project details will appear as soon as they are provided."}</p><div className="entity-foot"><span>{p.milestones.filter(m=>m.status==="DONE").length}/{p.milestones.length} milestones done</span><span>Due {shortDate(p.dueAt)}</span></div></div>)}</div>:<Empty title="Your client account is ready" description="Your private portal is active. Submit your first project request and the studio can add the proposal and milestones here." action={<SmallLink href="/ro/quote">Request your first project</SmallLink>}/>}<SmallLink href="/portal/projects">View all projects</SmallLink></SectionPanel></>;
+  const [projects,tickets,invoices,sites,enquiries]=await Promise.all([db.project.findMany({where:allowed,orderBy:{updatedAt:"desc"},take:5,include:{client:{select:{name:true}},milestones:true}}),db.ticket.count({where:{...allowed,status:{in:["OPEN","IN_PROGRESS"]}}}),db.invoice.count({where:{...allowed,status:{in:["ISSUED","OVERDUE"]}}}),db.managedSite.count({where:allowed}),db.lead.count({where:{email:actor.email}})]);
+  return <><PageTitle eyebrow="YOUR EXPERIENCE / OVERVIEW" title="Welcome back" description={"Your secure digital workspace. Signed in as "+actor.email}/><div className="metric-grid"><Metric label="Projects" value={projects.length} icon={BriefcaseBusiness}/><Metric label="Project enquiries" value={enquiries} icon={BriefcaseBusiness}/><Metric label="Support tickets" value={tickets} icon={MessagesSquare}/><Metric label="Pending invoices" value={invoices} icon={Receipt}/><Metric label="Managed sites" value={sites} icon={Globe2}/></div><SectionPanel title="Your latest projects">{projects.length?<div className="entity-grid">{projects.map(p=><div className="entity-card" key={p.id}><div className="entity-meta"><span>{p.client.name}</span><Status value={p.status}/></div><h3>{p.title}</h3><p>{p.description||"Project details will appear as soon as they are provided."}</p><div className="entity-foot"><span>{p.milestones.filter(m=>m.status==="DONE").length}/{p.milestones.length} milestones done</span><span>Due {shortDate(p.dueAt)}</span></div></div>)}</div>:<Empty title="Your client account is ready" description="Your private portal is active. Submit your first project request and the studio can add the proposal and milestones here." action={<SmallLink href="/ro/quote">Request your first project</SmallLink>}/>}<SmallLink href="/portal/requests">Track your requests</SmallLink><SmallLink href="/portal/projects">View all projects</SmallLink></SectionPanel></>;
+ }
+ case "requests":{
+  const [leads,bookings]=await Promise.all([
+   db.lead.findMany({where:{email:actor.email},orderBy:{createdAt:"desc"},take:60,
+    select:{id:true,service:true,message:true,status:true,createdAt:true}}),
+   db.bookingRequest.findMany({where:{email:actor.email},orderBy:{createdAt:"desc"},take:30,
+    select:{id:true,service:true,status:true,preferredAt:true,createdAt:true}})
+  ]);
+  return <><PageTitle eyebrow="CLIENT PORTAL / ENQUIRIES" title="My requests" description="Submit a new project request and track enquiries sent from your verified email address. A request is not a confirmed agreement."/>
+   {actor.role==="CLIENT"&&<CreateForm action={createClientRequest} title="New project request" button="Send project request" description="Your verified Google email address will be used for the reply.">
+    <Field name="service" label="Service" options={[
+     {value:"Website development",label:"Website development"},
+     {value:"Online store",label:"Online store"},
+     {value:"Web application",label:"Web application"},
+     {value:"Website maintenance",label:"Website maintenance"},
+     {value:"Other digital project",label:"Other digital project"}
+    ]}/>
+    <Field name="message" label="Project details" type="textarea" rows={5} placeholder="What would you like to build, and which features matter most?"/>
+   </CreateForm>}
+   <SectionPanel title="Project enquiries">{leads.length?<DataTable headers={["Service","Submitted","Status"]} rows={leads.map(x=>[
+     <strong key={x.id} title={x.message}>{x.service}</strong>,shortDate(x.createdAt),<Status key={x.id} value={x.status}/>
+   ])}/>:<Empty title="No project requests yet" description="Create a new request above, or ask for a tailored quote using the public estimator." action={<SmallLink href="/ro/quote">Explore the quote estimator</SmallLink>}/>}</SectionPanel>
+   <SectionPanel title="Consultation requests">{bookings.length?<DataTable headers={["Service","Preferred date","Status"]} rows={bookings.map(x=>[
+     <strong key={x.id}>{x.service||"Consultation"}</strong>,shortDate(x.preferredAt||x.createdAt),<Status value={x.status} key={x.id}/>
+   ])}/>:<Empty title="No consultations requested" description="You can request a call or meeting to discuss your digital project." action={<SmallLink href="/ro/consultation">Request a consultation</SmallLink>}/>}</SectionPanel>
+  </>;
  }
  case "projects":{
   const projects=await db.project.findMany({where:allowed,orderBy:{updatedAt:"desc"},include:{client:{select:{name:true}},milestones:{orderBy:{sortOrder:"asc"}}}});

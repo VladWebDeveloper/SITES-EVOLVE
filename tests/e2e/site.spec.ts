@@ -23,6 +23,11 @@ test("unregistered users cannot open private client workspaces",async({page})=>{
  await expect(page).toHaveURL(/\/login/,{timeout:15000});
  await expect(page.locator(".workspace-shell")).toHaveCount(0);
 });
+test("private project request history is never public",async({page})=>{
+ await page.goto("/portal/requests");
+ await expect(page).toHaveURL(/\/login/,{timeout:15000});
+ await expect(page.getByText("My requests",{exact:true})).toHaveCount(0);
+});
 test("founder page explains real professional background and has photo placeholder",async({page})=>{
  await page.goto("/ro/founder");
  await expect(page.locator(".evolve-founder-profile")).toBeVisible();
