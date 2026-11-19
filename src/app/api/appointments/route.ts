@@ -17,13 +17,13 @@ export async function POST(request:Request){
  const content=["Name: "+data.name,"Email: "+data.email,"Service: "+(data.service||"Consultation"),"Preferred time: "+(date?.toISOString()||"Flexible"),"Notes: "+data.notes].join("\n");
  const sent=await sendEmail(process.env.LEAD_TO_EMAIL||"sites.evolve7@gmail.com","SITES EVOLVE — Consultation request",content,data.email);
  if(sent||stored){
-  if(stored){
+  if(stored)try{
    await notifyStaffAboutEnquiry("booking");
    const mail=data.email.toLowerCase();
    const lastHour=await getDb().bookingRequest.count({where:{email:mail,createdAt:{gte:new Date(Date.now()-3600000)}}});
    await acknowledgeEnquiry("booking",mail,lastHour);
    await emitWorkflow({type:"booking.requested",payload:{name:data.name,email:mail,preferredAt:date?.toISOString()}});
-  }
+  }catch{console.error("CRM post-submission automation failed");}
   return NextResponse.json({ok:true,confirmed:false,stored,sent});
  }
  return jsonError("Direct delivery is not configured.",503);
