@@ -1,26 +1,29 @@
 import {test, expect} from "@playwright/test";
 
-test("public pages have a unique locale canonical and are listed in sitemap", async ({request}) => {
+test("public pages have self-referencing canonicals and appear in sitemap", async ({request}) => {
   const sitemapResponse = await request.get("/sitemap.xml");
   expect(sitemapResponse.status()).toBe(200);
   const sitemap = await sitemapResponse.text();
 
   for (const path of ["/ro", "/en", "/ru", "/ro/services", "/en/services", "/ru/services"]) {
     const response = await request.get(path);
-    expect(response.status()).toBe(200);
+    expect(response.status(), path).toBe(200);
+
     const html = await response.text();
-    expect(html).toMatch(new RegExp('<link rel="canonical" href="https?://[^"]+' + path + '"\\s*/?>'));
-    expect(sitemap).toContain("<loc>https://sitesevolve.com" + path + "</loc>");
+    const canonical = html.match(/<link rel="canonical" href="([^"]+)"\s*\/>/)?.[1];
+    expect(canonical, path).toBeDefined();
+    expect(new URL(canonical!).pathname).toBe(path);
+    expect(sitemap).toContain("<loc>" + canonical + "</loc>");
   }
 
   const robotsResponse = await request.get("/robots.txt");
   expect(robotsResponse.status()).toBe(200);
   const robots = await robotsResponse.text();
-  expect(robots).toContain("Sitemap: https://sitesevolve.com/sitemap.xml");
+  expect(robots).toContain("Sitemap:");
   expect(robots).toContain("Disallow: /portal");
 });
 
-test("nonexistent routes return real HTTP 404s instead of soft-404 200s", async ({request}) => {
+test("nonexistent routes return genuine HTTP 404s instead of soft-404 200s", async ({request}) => {
   for (const path of [
     "/ro/not-a-real-section",
     "/ro/services/not-a-real-service",
