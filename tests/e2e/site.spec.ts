@@ -8,6 +8,21 @@ test("homepage has concise brand message and founder only in top navigation",asy
  await expect(page.locator(".future-founder-inline")).toHaveCount(0);
  await expect(page.locator(".future-footer a[href='/ro/founder']")).toHaveCount(0);
 });
+test("client signup is visible in header and supports new Google accounts",async({page})=>{
+ await page.goto("/ro");
+ const portal=page.getByRole("link",{name:"Portal clienți"}).first();
+ await expect(portal).toBeVisible();
+ await portal.click();
+ await expect(page).toHaveURL(/\/login\?lang=ro/);
+ await expect(page.getByRole("heading",{name:/Spațiul tău/})).toBeVisible();
+ await expect(page.getByRole("button",{name:"Continuă cu Google"})).toBeVisible();
+ await expect(page.locator(".auth-privacy-note")).toContainText("Google");
+});
+test("unregistered users cannot open private client workspaces",async({page})=>{
+ await page.goto("/portal");
+ await expect(page).toHaveURL(/\/login/,{timeout:15000});
+ await expect(page.locator(".workspace-shell")).toHaveCount(0);
+});
 test("founder page explains real professional background and has photo placeholder",async({page})=>{
  await page.goto("/ro/founder");
  await expect(page.locator(".evolve-founder-profile")).toBeVisible();

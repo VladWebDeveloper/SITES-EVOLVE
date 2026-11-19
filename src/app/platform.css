@@ -48,3 +48,6 @@ html[data-theme="light"] .nav-cta:hover{background:#d8f6bb}
  .future-site-shell:has(.consent-banner) .assistant-container{bottom:230px}
  .future-site-shell:has(.consent-banner) .assistant-window{height:min(590px,calc(100dvh - 330px))}
 }
+
+.auth-privacy-note{display:flex;align-items:flex-start;gap:9px;margin:20px 0 0!important;font-size:12px!important;line-height:1.6!important;color:#c2d6ba!important}
+.auth-privacy-note svg{flex:none;color:#a6f47a;margin-top:2px}

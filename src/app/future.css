@@ -487,3 +487,11 @@ html[data-theme="light"] .future-site-shell .services-section,html[data-theme="l
 @media(max-width:900px){.future-hero-copy h1{font-size:clamp(51px,8.1vw,82px)}}
 @media(max-width:600px){.future-hero-copy h1{font-size:clamp(35px,10.4vw,62px);letter-spacing:-.067em;margin:28px 0 21px}.future-hero-copy h1 .future-gradient-text{font-size:.95em;letter-spacing:-.078em}}
 @media(max-width:380px){.future-hero-copy h1{font-size:clamp(32px,10vw,38px)}}
+
+/* Public client access: visible at all viewport sizes. */
+.future-portal-link{display:inline-flex;align-items:center;gap:7px;color:#dfe5ff;border:1px solid #535c9680;border-radius:999px;padding:10px 13px;font-weight:700;font-size:11px;white-space:nowrap;transition:background .2s,border-color .2s}
+.future-portal-link:hover{background:#788aff24;border-color:#8798f7}
+.future-main-nav .future-mobile-portal{display:none}
+@media(max-width:1200px){.future-portal-link{padding:9px}.future-portal-link span{display:none}}
+@media(max-width:900px){.future-main-nav .future-mobile-portal{display:flex;gap:12px;align-items:center;color:#e5eaff;border:1px solid #4c53844d}}
+@media(max-width:700px){.future-portal-link{padding:8px;border-radius:11px}}
