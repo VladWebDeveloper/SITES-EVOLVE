@@ -125,6 +125,7 @@ const copy={
 };
 export function answerFromKnowledge(message:string,locale:Locale,history:ChatTurn[]=[]):string{
  const q=plain(message),t=copy[locale],topic=resolveTopic(message,history);
+ const initial=(()=>{
  if(match("lead",q)&&/(trimis|trimisa|submitted|sent|отправил|заявк|отправлено)/.test(q))return t.lead;
  if(match("portal",q))return t.portal;
  if(match("portfolio",q))return t.portfolio;
@@ -140,6 +141,22 @@ export function answerFromKnowledge(message:string,locale:Locale,history:ChatTur
  if(topic)return t[topic];
  if(match("hello",q))return t.hello;
  return t.unknown;
+ })();
+ const previous=history.filter(turn=>turn.role==="assistant").map(turn=>turn.text);
+ if(!previous.includes(initial))return initial;
+ // If the visitor repeats or rephrases the same question, provide the next
+ // useful clarification rather than returning an identical canned message.
+ const name=chosenName(locale,topic);
+ const repeatCount=previous.filter(x=>x===initial).length;
+ if(match("prices",q)){
+  return locale==="ro"?(repeatCount%2?"Pentru a aproxima costul pentru "+name+", am nevoie de două detalii: câte pagini dorești și dacă ai nevoie de formulare, rezervări sau plăți?":"Prețul final nu poate fi confirmat fără cerințe. Spune-mi bugetul disponibil și funcția principală; apoi îți explic o variantă realistă sau poți trimite detaliile la /ro/quote."):
+   locale==="ru"?(repeatCount%2?"Чтобы уточнить стоимость "+name+", сколько страниц и какие функции вам нужны?":"Назовите примерный бюджет и главную функцию, чтобы обсудить подходящее решение."):
+   (repeatCount%2?"To narrow down "+name+" pricing, how many pages do you need and will you require bookings, payments or custom features?":"Tell me your budget and most important feature so I can suggest a realistic scope; you can also use /en/quote.");
+ }
+ if(topic){
+  return locale==="ro"?"Hai să concretizăm "+name+": cine va folosi soluția și ce rezultat trebuie să obțină?":locale==="ru"?"Давайте уточним "+name+": кто будет пользоваться и какой главный результат нужен?":"Let's narrow down "+name+": who will use it and what is the most important outcome?";
+ }
+ return locale==="ro"?"Pot detalia partea care te interesează, dar am nevoie de puțin context. Vorbim despre un site, o aplicație sau alt serviciu?":locale==="ru"?"Я могу уточнить ответ. Речь о сайте, приложении или другой услуге?":"I can be more specific. Is your question about a website, an app, or another service?";
 }
 // Expose the publicly verifiable studio context to the external AI provider.
 export function studioFacts(locale:Locale):string{
