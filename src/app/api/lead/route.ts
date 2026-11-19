@@ -18,12 +18,12 @@ export async function POST(request:Request){
  }
  const sent=await sendEmail(process.env.LEAD_TO_EMAIL||"sites.evolve7@gmail.com","SITES EVOLVE — "+form.service+" enquiry","Name: "+form.name+"\nEmail: "+email+"\nService: "+form.service+"\n\n"+form.message,email);
  if(sent||stored){
-  if(stored){
+  if(stored)try{
    await notifyStaffAboutEnquiry("lead");
    const lastHour=await getDb().lead.count({where:{email,createdAt:{gte:new Date(Date.now()-3600000)}}});
    await acknowledgeEnquiry("lead",email,lastHour);
    await emitWorkflow({type:"lead.created",payload:{service:form.service,name:form.name,email}});
-  }
+  }catch{console.error("CRM post-submission automation failed");}
   return NextResponse.json({ok:true,stored,sent},{headers:{"Cache-Control":"no-store"}});
  }
  return jsonError("Direct delivery is not configured. Please use your email application.",503);
