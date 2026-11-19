@@ -42,3 +42,9 @@ html[data-theme="light"] .nav-cta:hover{background:#d8f6bb}
 .uploader-heading{padding:22px 27px;display:flex;align-items:center;gap:11px;font:600 17px var(--display)}.uploader-heading svg{color:var(--lime)}.quote-pages{margin-top:18px;display:flex;align-items:center;gap:18px;color:#bfd3bd;font-size:12px}.quote-pages input{max-width:95px;padding:12px 14px;background:#243628;border:1px solid #6d9760;color:#effceb}.article-body h2,.article-body h3{font-family:var(--display);letter-spacing:-.04em;margin-top:40px}.article-body a{color:var(--lime);text-decoration:underline}.article-body li{margin:8px 0}.article-body code{background:#263527;color:#c7ebaa;padding:2px 5px}.article-body blockquote{border-left:3px solid var(--lime);padding-left:16px;color:#bccebd}
 
 .footer-preferences{font:inherit;background:transparent;border:none;padding:0;color:#738073;cursor:pointer}.footer-preferences:hover{color:var(--lime)}
+
+/* Keep the chat accessible without covering cookie choices on compact screens. */
+@media (max-width:900px){
+ .future-site-shell:has(.consent-banner) .assistant-container{bottom:230px}
+ .future-site-shell:has(.consent-banner) .assistant-window{height:min(590px,calc(100dvh - 330px))}
+}
