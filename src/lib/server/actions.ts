@@ -5,6 +5,7 @@ import {getDb} from "./db";
 import {requireActor,requireStaff,requireClientAccess} from "./actor";
 import {safeText} from "./format";
 import {allowedExternalHttps} from "./security";
+import {sendClientInvitation,informTicketUpdate} from "./engagement";
 const id=z.string().min(15).max(50);
 const email=z.email().max(180);
 async function log(userId:string,action:string,entity:string,entityId:string){await getDb().auditEvent.create({data:{userId,action,entity,entityId}});}
@@ -20,14 +21,14 @@ export async function createClient(form:FormData){
  const db=getDb();
  const client=await db.client.create({data:{name,email:e,phone,industry}});
  if(e){const user=await db.user.upsert({where:{email:e},update:{},create:{email:e,name,role:"CLIENT"}});await db.clientMember.upsert({where:{clientId_userId:{clientId:client.id,userId:user.id}},create:{clientId:client.id,userId:user.id},update:{}});}
- await log(actor.id,"CREATE","Client",client.id);refresh();
+ await log(actor.id,"CREATE","Client",client.id);if(e)await sendClientInvitation(e);refresh();
 }
 export async function inviteClient(form:FormData){
  const actor=await requireStaff(),clientId=validId(form,"clientId"),e=email.parse(requireValue(form,"email",180).toLowerCase());
  const db=getDb();await db.client.findUniqueOrThrow({where:{id:clientId}});
  const user=await db.user.upsert({where:{email:e},update:{},create:{email:e,role:"CLIENT"}});
  await db.clientMember.upsert({where:{clientId_userId:{clientId,userId:user.id}},update:{},create:{clientId,userId:user.id}});
- await log(actor.id,"INVITE","Client",clientId);refresh();
+ await log(actor.id,"INVITE","Client",clientId);await sendClientInvitation(e);refresh();
 }
 export async function createLead(form:FormData){
  const actor=await requireStaff();
@@ -39,6 +40,31 @@ export async function setLeadStatus(form:FormData){
  const status=z.enum(["NEW","CONTACTED","QUALIFIED","PROPOSAL","WON","LOST"]).parse(form.get("status"));
  await getDb().lead.update({where:{id:leadId},data:{status}});await log(actor.id,"STATUS_"+status,"Lead",leadId);refresh();
 }
+
+export async function deleteLead(form:FormData){
+ const actor=await requireStaff();
+ if(actor.role!=="OWNER")throw new Error("Only the owner may permanently delete enquiries.");
+ const leadId=validId(form,"id");
+ const db=getDb();
+ await db.lead.delete({where:{id:leadId}});
+ await log(actor.id,"DELETE","Lead",leadId);refresh();
+}
+
+export async function deleteBookingRequest(form:FormData){
+ const actor=await requireStaff();
+ if(actor.role!=="OWNER")throw new Error("Only the owner may permanently delete consultation requests.");
+ const requestId=validId(form,"id");
+ const db=getDb();
+ await db.bookingRequest.delete({where:{id:requestId}});
+ await log(actor.id,"DELETE","BookingRequest",requestId);refresh();
+}
+
+export async function markNotificationRead(form:FormData){
+ const actor=await requireActor(),notificationId=validId(form,"id");
+ await getDb().notification.updateMany({where:{id:notificationId,userId:actor.id},data:{readAt:new Date()}});
+ refresh();
+}
+
 export async function createProject(form:FormData){
  const actor=await requireStaff(),clientId=validId(form,"clientId");
  const project=await getDb().project.create({data:{clientId,title:requireValue(form,"title",180),description:optional(form,"description",3000),dueAt:form.get("dueAt")?new Date(String(form.get("dueAt"))):null}});
@@ -75,10 +101,10 @@ export async function createTicket(form:FormData){
 }
 export async function addTicketMessage(form:FormData){
  const actor=await requireActor(),ticketId=validId(form,"ticketId");
- const ticket=await getDb().ticket.findUniqueOrThrow({where:{id:ticketId},select:{clientId:true}});
+ const ticket=await getDb().ticket.findUniqueOrThrow({where:{id:ticketId},select:{clientId:true,subject:true}});
  await requireClientAccess(ticket.clientId,actor);
  await getDb().ticketMessage.create({data:{ticketId,authorId:actor.id,body:requireValue(form,"body",4000,2),isInternal:false}});
- await log(actor.id,"REPLY","Ticket",ticketId);refresh();
+ await log(actor.id,"REPLY","Ticket",ticketId);await informTicketUpdate(actor.role,ticket.clientId,ticket.subject);refresh();
 }
 export async function setTicketStatus(form:FormData){
  const actor=await requireStaff(),ticketId=validId(form,"id");
