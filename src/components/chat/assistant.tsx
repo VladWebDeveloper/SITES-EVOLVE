@@ -13,7 +13,7 @@ export default function AssistantWidget({locale}:{locale:Locale}){
  useEffect(()=>{if(open)bottom.current?.scrollIntoView({behavior:"smooth",block:"end"});},[messages,open]);
  async function submit(e:React.FormEvent){e.preventDefault();const value=input.trim().slice(0,900);if(!value||working)return;setInput("");setMessages(m=>[...m,{role:"user",text:value}]);setWorking(true);
  try{const resp=await fetch("/api/assistant",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:value,locale})});const data=await resp.json();if(!resp.ok)throw new Error("temporarily unavailable");setMessages(m=>[...m,{role:"assistant",text:String(data.answer||"")||langs[locale].intro}]);}
- catch{setMessages(m=>[...m,{role:"assistant",text:locale==="ro"?"Asistentul este temporar indisponibil. Scrie la sites.evolve7@gmail.com.":locale==="ru"?"Ассистент временно недоступен. Напишите на sites.evolve7@gmail.com.":"The assistant is unavailable right now. Email sites.evolve7@gmail.com."}]);}
+ catch{setMessages(m=>[...m,{role:"assistant",text:locale==="ro"?"Asistentul este temporar indisponibil. Scrie la contact@sitesevolve.com.":locale==="ru"?"Ассистент временно недоступен. Напишите на contact@sitesevolve.com.":"The assistant is unavailable right now. Email contact@sitesevolve.com."}]);}
  finally{setWorking(false);}
  }
  return <div className="assistant-container">
