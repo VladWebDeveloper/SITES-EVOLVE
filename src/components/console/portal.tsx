@@ -10,7 +10,7 @@ export async function PortalSection({section}:{section:string}){
  const filter=ids?{id:{in:ids}}:{};
  const clients=await db.client.findMany({where:filter,select:{id:true,name:true}});
  const allowed=ids?{clientId:{in:ids}}:{};
- if(clients.length===0)return <><PageTitle eyebrow="CLIENT PORTAL / WELCOME" title="Your workspace" description="A private space for projects, updates, files and support."/><SectionPanel title="No client workspace assigned"><Empty title="Your access is ready" description="An administrator has not linked this Google account to a client record yet. Please contact SITES EVOLVE so we can finish the setup." action={<a className="small-link" href="mailto:sites.evolve7@gmail.com">Contact the studio ↗</a>}/></SectionPanel></>;
+ if(clients.length===0)return <><PageTitle eyebrow="CLIENT PORTAL / WELCOME" title="Your workspace" description="A private space for projects, updates, files and support."/><SectionPanel title="No client workspace assigned"><Empty title="Your access is ready" description="An administrator has not linked this Google account to a client record yet. Please contact SITES EVOLVE so we can finish the setup." action={<a className="small-link" href="mailto:support@sitesevolve.com">Contact the studio ↗</a>}/></SectionPanel></>;
  switch(section){
  case "overview":{
   const [projects,tickets,invoices,sites]=await Promise.all([db.project.findMany({where:allowed,orderBy:{updatedAt:"desc"},take:5,include:{client:{select:{name:true}},milestones:true}}),db.ticket.count({where:{...allowed,status:{in:["OPEN","IN_PROGRESS"]}}}),db.invoice.count({where:{...allowed,status:{in:["ISSUED","OVERDUE"]}}}),db.managedSite.count({where:allowed})]);
