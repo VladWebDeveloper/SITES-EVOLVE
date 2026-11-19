@@ -40,6 +40,20 @@ test("assistant offers useful local knowledge without external API",async({page}
  await page.getByRole("button",{name:"Send message"}).click();
  await expect(page.locator(".message-bot").last()).toContainText("Fiecare proiect",{timeout:10000});
 });
+test("mobile assistant stays accessible while consent banner is visible",async({page},testInfo)=>{
+ if(testInfo.project.name!=="chrome-mobile")return;
+ await page.goto("/ro");
+ const consent=page.getByRole("dialog",{name:"Cookie preferences"});
+ await expect(consent).toBeVisible();
+ const chat=page.getByRole("button",{name:"Discută cu noi"});
+ const bannerTop=await consent.evaluate(el=>el.getBoundingClientRect().top);
+ const fabBottom=await chat.evaluate(el=>el.getBoundingClientRect().bottom);
+ expect(fabBottom).toBeLessThan(bannerTop);
+ await chat.click();
+ await expect(page.getByRole("dialog",{name:"Asistentul studioului"})).toBeVisible();
+ await expect(consent).toBeVisible();
+});
+
 test("public submissions validate data and private uploads require login",async({request})=>{
  const lead=await request.post("/api/lead",{data:{name:"X",email:"bad",service:"web",message:"too short"}});
  expect(lead.status()).toBe(400);
