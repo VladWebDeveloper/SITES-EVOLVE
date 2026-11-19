@@ -25,6 +25,21 @@ ARCHIVE="$TMP_DIR/$STAMP.dump"
 echo "SITES EVOLVE: Starting private PostgreSQL backup $STAMP."
 pg_dump --dbname="$DATABASE_URL" --format=custom --compress=5 --no-owner --no-acl --file="$ARCHIVE"
 pg_restore --list "$ARCHIVE" >/dev/null
+
+# Restore verification uses a fresh, local, Unix-socket-only PostgreSQL cluster.
+# It never connects to or alters the production database.
+RESTORE_DATA="$TMP_DIR/restore-cluster"
+RESTORE_SOCKET="$TMP_DIR/restore-socket"
+mkdir -p "$RESTORE_DATA" "$RESTORE_SOCKET"
+chmod 755 "$TMP_DIR"
+chown -R postgres:postgres "$RESTORE_DATA" "$RESTORE_SOCKET"
+su-exec postgres initdb -D "$RESTORE_DATA" -A trust -U postgres >/dev/null
+su-exec postgres pg_ctl -D "$RESTORE_DATA" -o "-c listen_addresses='' -k $RESTORE_SOCKET -p 55432" -w -l "$RESTORE_DATA/restore.log" start >/dev/null
+PGPASSWORD="" pg_restore --dbname=postgres --host="$RESTORE_SOCKET" --port=55432 --username=postgres --no-owner --no-acl --exit-on-error "$ARCHIVE"
+RESTORED_TABLES="$(psql -X -At --host="$RESTORE_SOCKET" --port=55432 --username=postgres --dbname=postgres -c "SELECT count(*) FROM information_schema.tables WHERE table_schema='public';")"
+[[ "$RESTORED_TABLES" =~ ^[0-9]+$ ]] && (( RESTORED_TABLES >= 10 )) || { echo "ERROR: Isolated restore missing expected schema."; exit 1; }
+su-exec postgres pg_ctl -D "$RESTORE_DATA" -m immediate -w stop >/dev/null
+echo "SITES EVOLVE: Isolated restore drill passed. Tables restored: $RESTORED_TABLES."
 SIZE="$(wc -c < "$ARCHIVE" | tr -d ' ')"
 test "$SIZE" -gt 1000 || { echo "ERROR: Backup file unexpectedly small."; exit 1; }
 CHECKSUM="$(sha256sum "$ARCHIVE" | awk '{print $1}')"
