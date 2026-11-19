@@ -38,6 +38,14 @@ describe("contextual studio assistant",()=>{
   expect(second).not.toBe(first);
   expect(second).toContain("pagini");
  });
+ it("explains self-serve Google portal and remembers café context",()=>{
+  const portal=answerFromKnowledge("Cum intru în portal?","ro");
+  expect(portal).toContain("/portal/requests");
+  expect(portal).not.toContain("invitați");
+  const cafe=answerFromKnowledge("Vreau site pentru cafenea, ce trebuie?","ro");
+  expect(cafe).toContain("meniu");
+  expect(cafe).not.toContain("ce domeniu");
+ });
  it("only echoes budgets explicitly supplied",()=>{
   expect(answerFromKnowledge("Bugetul meu este 2500 EUR pentru site","ro")).toContain("2500 EUR");
   expect(answerFromKnowledge("Cât costă?","ro")).not.toContain("2500");

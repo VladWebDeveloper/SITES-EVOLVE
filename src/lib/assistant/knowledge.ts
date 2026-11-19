@@ -75,7 +75,7 @@ const copy={
   timeline:(name:string)=>"Durata pentru "+name+" depinde de complexitate, conținut și aprobări. Dacă îmi spui câte pagini sau ce funcții dorești, îți pot explica etapele. Termenul ferm se stabilește în ofertă.",
   lead:"Dacă ai trimis formularul, solicitarea ar trebui să ajungă în CRM. Eu nu am acces la dosarul tău și nu pot confirma individual primirea; pentru verificare scrie la contact@sitesevolve.com. Nu retrimite aceeași cerere de mai multe ori.",
   contact:"Ne poți scrie la contact@sitesevolve.com sau completa /ro/contact. Pentru o ofertă detaliată folosește /ro/quote; pentru o discuție inițială, /ro/consultation.",
-  portal:"Client Portal este spațiul privat în care clienții invitați văd proiectele, etapele, documentele și solicitările de suport. Accesul este prin Google, după asocierea contului de către studio. Intrare: /login.",
+  portal:"Oricine poate crea gratuit un cont prin Google la /login?lang=ro și primește automat un portal privat. Din /portal/requests poți trimite și urmări cereri; proiectele, etapele, documentele și suportul apar în contul tău când sunt disponibile.",
   portfolio:"În portofoliu sunt prezentate AlviTravel și DDent. Le poți explora în /ro/work. Vrei un proiect asemănător unuia dintre ele?",
   web:"Putem construi un site de prezentare, un landing page, o platformă corporate sau o aplicație web personalizată. Pentru a-ți recomanda o soluție: ce domeniu are afacerea și ce trebuie să facă site-ul?",
   shop:"Un magazin online poate include catalog, coș, comenzi și integrarea unui procesator de plăți. Pentru a defini soluția: aproximativ câte produse vei avea și în ce țări vei vinde?",
@@ -93,7 +93,7 @@ const copy={
   timeline:(name:string)=>"The timeline for "+name+" depends on scope, content and approvals. Tell me the pages or features involved and I can explain the stages; a firm deadline belongs in a formal proposal.",
   lead:"Submitted forms should enter our CRM, but I cannot inspect your personal record or confirm receipt. Email contact@sitesevolve.com to check; you do not need to submit the same request repeatedly.",
   contact:"Reach the studio at contact@sitesevolve.com or use /en/contact. For a detailed estimate see /en/quote; for a first conversation see /en/consultation.",
-  portal:"The Client Portal lets invited clients see their projects, milestones, shared documents and support requests. Access uses Google sign-in after an administrator links your account. Sign in at /login.",
+  portal:"Anyone can create a free private client account using Google at /login?lang=en. Use /portal/requests to submit and track enquiries; assigned projects, files, milestones and support are visible only to you.",
   portfolio:"Our portfolio features AlviTravel and DDent. Explore /en/work. Is there a project style you like?",
   web:"We create business sites, landing pages, corporate platforms and custom web apps. What kind of business is this for, and what should visitors be able to do?",
   shop:"We can build stores with a catalogue, cart, ordering flow and payment-provider integration. Roughly how many products are you planning, and where will you sell?",
@@ -111,7 +111,7 @@ const copy={
   timeline:(name:string)=>"Срок "+name+" зависит от сложности, материалов и согласований. Расскажите о функциях, чтобы обсудить этапы. Точная дата согласуется в предложении.",
   lead:"Заявка из формы должна поступить в CRM, но я не вижу вашу личную запись и не могу подтвердить получение. Для проверки напишите на contact@sitesevolve.com. Повторно отправлять одно и то же не нужно.",
   contact:"Напишите на contact@sitesevolve.com или откройте /ru/contact. Для оценки — /ru/quote, для первой консультации — /ru/consultation.",
-  portal:"Client Portal — защищённый кабинет с проектами, этапами, документами и обращениями. Вход через Google после привязки аккаунта студией: /login.",
+  portal:"Любой посетитель может бесплатно создать личный кабинет через Google на /login?lang=ru. На /portal/requests можно отправлять и отслеживать заявки, а проекты и документы остаются приватными.",
   portfolio:"В портфолио представлены AlviTravel и DDent. Подробнее: /ru/work. Какой стиль вам ближе?",
   web:"Создаём сайты компаний, лендинги и веб-приложения. Расскажите, чем занимается ваш бизнес и что посетители должны делать на сайте.",
   shop:"Возможны каталог, корзина, оформление заказов и интеграция оплаты. Сколько примерно товаров будет и где вы планируете продавать?",
@@ -138,6 +138,11 @@ export function answerFromKnowledge(message:string,locale:Locale,history:ChatTur
  if(match("timeline",q))return t.timeline(chosenName(locale,topic));
  if(match("process",q))return t.process;
  if(match("contact",q))return t.contact;
+ if(topic==="web" && /cafenea|cafea|coffee|restaurant|bistro|caf[eé]|кофейн|ресторан/.test(q)){
+  return locale==="ro"?"Pentru o cafenea sau un restaurant putem realiza un site cu meniu, galerie, localizare și formular pentru rezervări sau cereri. Preferi rezervări online, meniu digital sau ambele?":
+   locale==="ru"?"Для кафе или ресторана можно сделать сайт с меню, галереей, адресом и формой заявки. Вам важнее онлайн-бронирование, цифровое меню или оба варианта?":
+   "For a café or restaurant, we can build a site with a menu, photo gallery, map and reservation enquiries. Do you need online bookings, a digital menu, or both?";
+ }
  if(topic)return t[topic];
  if(match("hello",q))return t.hello;
  return t.unknown;
@@ -163,6 +168,6 @@ export function studioFacts(locale:Locale):string{
  const items=services[locale].map(s=>s.title+": "+s.detail+" Deliverables: "+s.deliverables.join(", "));
  const projects=works[locale].map(w=>w.title+": "+w.description).join("; ");
  return ["SITES EVOLVE — independent web-development and website-care studio, Chișinău, Moldova.","Verified services:",...items,"Portfolio examples: "+projects,
- "Public routes: /"+locale+"/services, /"+locale+"/work, /"+locale+"/pricing, /"+locale+"/quote, /"+locale+"/contact, /"+locale+"/consultation, /login.",
+ "Public routes: /"+locale+"/services, /"+locale+"/work, /"+locale+"/pricing, /"+locale+"/quote, /"+locale+"/contact, /"+locale+"/consultation, /login. Any visitor can sign up for a free private Client Portal with a verified Google account. Within the authenticated portal, /portal/requests lets customers submit project enquiries and track their status; only studio-assigned projects, files and invoices appear in the private workspace.",
  "Support: contact@sitesevolve.com. No fixed prices, delivery dates, real-time booking access or verified business registration details provided."].join("\n");
 }
