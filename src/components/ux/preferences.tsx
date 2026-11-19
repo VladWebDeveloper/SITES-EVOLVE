@@ -21,7 +21,7 @@ export function Preferences({locale}:{locale:Locale}){
   });
   return ()=>{cancelAnimationFrame(task);window.removeEventListener("se:privacy-options",reopen);};
  },[]);
- function choose(next:"yes"|"no"){localStorage.setItem("se-analytics",next);setConsent(next);}
+ function choose(next:"yes"|"no"){const hadAnalytics=localStorage.getItem("se-analytics")==="yes";localStorage.setItem("se-analytics",next);setConsent(next);if(hadAnalytics&&next==="no")window.location.reload();}
  const configured=Boolean(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID);
  return <>
   {hydrated&&configured&&consent===null&&<div role="dialog" aria-label="Cookie preferences" className="consent-banner"><div><strong>{copy[locale].title}</strong><p>{copy[locale].body}</p></div><div className="consent-buttons"><button type="button" onClick={()=>choose("no")}>{copy[locale].reject}</button><button type="button" className="accept-consent" onClick={()=>choose("yes")}>{copy[locale].accept}</button></div></div>}
