@@ -205,3 +205,5 @@
 .growth-related-services h3{margin:0 0 3px;color:#f3f2ff;font-size:15px}
 .growth-related-services a{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#c4bbff;font-size:13px}
 .growth-related-services a:hover{text-decoration:underline}
+.growth-maintenance-line{margin:12px 0 7px!important;color:#fff!important;font-size:13px!important}
+.growth-maintenance-line b{font-weight:700}

@@ -6,26 +6,26 @@ import {pathFor, type Locale} from "@/lib/site";
 const profile={
  ro:{
   over:"DIN SPATELE SITES EVOLVE",hello:"Salut, sunt Vlad.",headline:"Tehnologie cu viziune.",intro:"Sunt Vlad Serbușco, fondatorul SITES EVOLVE. Studiez Business și Administrare la ASEM și transform idei în experiențe digitale clare, moderne și utile.",
-  focus:"Web development · Design · AI",projects:"Proiecte: AlviTravel și DDent",ph:"Spațiu rezervat pentru fotografia fondatorului",caption:"PORTRET ÎN CURÂND",cta:"Descoperă povestea",position:"FONDATOR / DEZVOLTARE DIGITALĂ",
+  focus:"Web development · Design · AI",projects:"Proiect finalizat: AlviTravel",ph:"Spațiu rezervat pentru fotografia fondatorului",caption:"PORTRET ÎN CURÂND",cta:"Descoperă povestea",position:"FONDATOR / DEZVOLTARE DIGITALĂ",
   story:"Construiesc SITES EVOLVE din convingerea că o identitate digitală memorabilă trebuie să fie și funcțională. Studiez Business și Administrare la ASEM și combin gândirea de business cu tehnologia și un design atent la detalii.",
   approachTitle:"Ce mă motivează",approach:"Produse care arată excelent, funcționează intuitiv și au un scop clar pentru cei care le folosesc.",
-  workTitle:"Proiecte în dezvoltare",work:"AlviTravel și DDent fac parte din portofoliul digital prezentat de SITES EVOLVE.",
+  workTitle:"Proiect finalizat",work:"AlviTravel este proiectul finalizat prezentat în portofoliul SITES EVOLVE.",
   futureTitle:"Viziunea mea",future:"Un studio în care designul premium, software-ul și automatizările inteligente lucrează împreună."
  },
  en:{
   over:"BEHIND SITES EVOLVE",hello:"Hi, I'm Vlad.",headline:"Technology with vision.",intro:"I'm Vlad Serbușco, founder of SITES EVOLVE. I study Business & Administration at ASEM and turn ideas into clear, modern and purposeful digital experiences.",
-  focus:"Web development · Design · AI",projects:"Projects: AlviTravel and DDent",ph:"Reserved for the founder's future portrait",caption:"PORTRAIT COMING SOON",cta:"Meet the founder",position:"FOUNDER / DIGITAL DEVELOPMENT",
+  focus:"Web development · Design · AI",projects:"Completed project: AlviTravel",ph:"Reserved for the founder's future portrait",caption:"PORTRAIT COMING SOON",cta:"Meet the founder",position:"FOUNDER / DIGITAL DEVELOPMENT",
   story:"I started SITES EVOLVE with the belief that a memorable digital presence must also work beautifully. I study Business & Administration at ASEM and combine business thinking, technology and thoughtful design.",
   approachTitle:"What drives me",approach:"Experiences that look exceptional, feel intuitive and solve a real problem for the people using them.",
-  workTitle:"Work in progress",work:"AlviTravel and DDent are among the digital projects showcased by SITES EVOLVE.",
+  workTitle:"Completed work",work:"AlviTravel is the completed project featured in the SITES EVOLVE portfolio.",
   futureTitle:"My vision",future:"A studio where premium design, software and intelligent automation work together."
  },
  ru:{
   over:"КТО СТОИТ ЗА SITES EVOLVE",hello:"Привет, я Влад.",headline:"Технологии с идеей.",intro:"Я Влад Сербушко, основатель SITES EVOLVE. Изучаю бизнес и управление в ASEM и превращаю идеи в современные и удобные цифровые продукты.",
-  focus:"Веб-разработка · Дизайн · ИИ",projects:"Проекты: AlviTravel и DDent",ph:"Место для будущего портрета основателя",caption:"ФОТО СКОРО ПОЯВИТСЯ",cta:"Моя история",position:"ОСНОВАТЕЛЬ / DIGITAL DEVELOPMENT",
+  focus:"Веб-разработка · Дизайн · ИИ",projects:"Завершённый проект: AlviTravel",ph:"Место для будущего портрета основателя",caption:"ФОТО СКОРО ПОЯВИТСЯ",cta:"Моя история",position:"ОСНОВАТЕЛЬ / DIGITAL DEVELOPMENT",
   story:"Я создаю SITES EVOLVE с убеждением, что запоминающийся цифровой образ должен быть не только красивым, но и удобным. Я изучаю бизнес и управление в ASEM, объединяя бизнес-мышление, технологии и дизайн.",
   approachTitle:"Что меня вдохновляет",approach:"Продукты, которые выглядят впечатляюще, работают интуитивно и решают реальные задачи.",
-  workTitle:"Мои проекты",work:"AlviTravel и DDent входят в портфолио цифровых проектов SITES EVOLVE.",
+  workTitle:"Готовый проект",work:"AlviTravel — завершённый проект в портфолио SITES EVOLVE.",
   futureTitle:"Моё видение",future:"Студия, где премиальный дизайн, разработка и умная автоматизация дополняют друг друга."
  }
 } as const;
