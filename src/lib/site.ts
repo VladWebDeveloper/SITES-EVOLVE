@@ -1,5 +1,9 @@
 export const brand = "SITES EVOLVE";
-export const contactEmail = "contact@sitesevolve.com";
+export const contactEmail = "sites.evolve7@gmail.com";
+export const contactPhone = "+37360356515";
+export const contactPhoneDisplay = "+373 603 56 515";
+export const whatsappUrl = "https://wa.me/37360356515";
+export const telegramUrl = "https://t.me/Goa7ik";
 export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || (process.env.VERCEL_URL ? "https://"+process.env.VERCEL_URL : "http://localhost:3000");
 export const locales = ["en","ro","ru"] as const;
 export type Locale = (typeof locales)[number];
