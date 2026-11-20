@@ -79,3 +79,40 @@
 @media(max-width:900px){.workspace-sidebar{box-shadow:20px 0 80px #0009}}
 @media(max-width:620px){.metric-card{border-radius:18px}.console-panel{border-radius:20px}.entity-card{border-radius:17px}.auth-card{border-radius:21px}}
 @media(prefers-reduced-motion:reduce){.workspace-shell *,.auth-screen *{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
+/* SITES EVOLVE OS — CRM pipeline and portal 2.0 */
+.crm-pipeline{display:grid;grid-auto-columns:minmax(205px,1fr);grid-auto-flow:column;gap:13px;overflow-x:auto;padding:12px 3px 18px;scroll-snap-type:x proximity}
+.crm-column{background:#171d39;border:1px solid #424c78;border-radius:17px;padding:14px;min-height:190px;scroll-snap-align:start}
+.crm-column-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;padding-bottom:13px;border-bottom:1px solid #343d65;color:#e9eaff;font-size:12px}
+.crm-column-heading span{display:grid;place-items:center;min-width:27px;height:27px;border-radius:9px;background:#424779;color:#fff;font-variant-numeric:tabular-nums}
+.crm-pipeline-card{border:1px solid #4d527d;background:linear-gradient(125deg,#222a51,#1b2144);border-radius:12px;padding:13px;margin:13px 0 0;display:flex;flex-direction:column;gap:9px}
+.crm-pipeline-card strong{color:#f4f3ff;font-size:13px;word-break:break-word}
+.crm-pipeline-card small{color:#c2c9e8;line-height:1.4;word-break:break-word}
+.crm-pipeline-card span{font-size:10px;color:#9faae1}
+.portal-progress{display:flex;align-items:center;gap:14px;margin:16px 0}
+.portal-progress progress{flex:1;min-width:70px;height:11px;appearance:none;border:0;border-radius:99px;overflow:hidden;background:#3c4672}
+.portal-progress progress::-webkit-progress-bar{background:#3c4672;border-radius:99px}
+.portal-progress progress::-webkit-progress-value{background:linear-gradient(90deg,#648cff,#ab86f6);border-radius:99px}
+.portal-progress progress::-moz-progress-bar{background:#8f84ee;border-radius:99px}
+.portal-progress strong{color:#d3d1ff;font-size:12px;min-width:44px;text-align:right}
+.studio-task-list{display:flex;flex-direction:column;gap:14px}
+.studio-task,.studio-brief,.portal-alert{display:flex;align-items:center;justify-content:space-between;gap:22px;background:linear-gradient(120deg,#1b2145,#171b38);border:1px solid #454c7d;border-radius:17px;padding:18px 22px}
+.studio-task.done{opacity:.63}
+.studio-task>div{display:flex;flex-wrap:wrap;gap:8px;align-items:center;min-width:0}
+.studio-task>div strong,.studio-task>div p{width:100%;margin:0}
+.studio-task>div strong{font-size:14px;color:#f5f5ff}
+.studio-task>div p{font-size:12px;line-height:1.7;color:#bac1dd}
+.studio-brief{display:block}
+.studio-brief h3{font-size:22px;margin:14px 0;color:#eeeaff}
+.studio-brief dl{display:grid;grid-template-columns:minmax(90px,130px) 1fr;gap:11px;font-size:13px;line-height:1.8}
+.studio-brief dt{color:#a4a9dc}.studio-brief dd{margin:0;color:#e7e6ff;white-space:pre-wrap;overflow-wrap:anywhere}
+.portal-alert>div{display:flex;flex-direction:column;gap:9px;min-width:0}
+.portal-alert>div strong{overflow-wrap:anywhere}
+.portal-alert small{font-size:11px;color:#aeb9e0}
+.monitor-history{display:flex;align-items:center;gap:4px;margin:14px 0;flex-wrap:wrap}
+.monitor-history span{width:13px;height:22px;background:#c4667e;border-radius:4px}
+.monitor-history span.up{background:#53d7b1}
+.monitor-history span.down{background:#ef7e8f}
+.monitor-history small{color:#a6aed4;font-size:11px}
+.referral-url{word-break:break-all;font-size:12px;line-height:1.7}
+@media(max-width:650px){.crm-pipeline{grid-auto-columns:minmax(180px,80vw)}.studio-task,.portal-alert{align-items:flex-start;flex-direction:column;gap:12px}.studio-brief dl{grid-template-columns:1fr;gap:4px}.studio-brief dt:not(:first-child){margin-top:10px}}

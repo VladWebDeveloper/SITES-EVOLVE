@@ -1,5 +1,5 @@
 "use client";
-import {useRef} from "react";
+import {useRef,useEffect,useState} from "react";
 import Link from "next/link";
 import {ArrowUpRight,ArrowRight,Code2,BrainCircuit,Blocks,ShoppingBag,ChartNoAxesCombined,ShieldCheck,MoveUpRight,Sparkles,Globe2,Layers3,ScanLine,Check} from "lucide-react";
 import {services,works,pathFor,type Locale,type Service} from "@/lib/site";
@@ -16,8 +16,8 @@ const ui={
 function SectionLead({over,title,em,intro}:{over:string;title:string;em:string;intro?:string}){
  return <div className="future-section-lead"><div><span className="future-eyebrow"><span className="future-eyebrow-dot"/>{over}</span><h2>{title} <em>{em}</em></h2></div>{intro&&<p>{intro}</p>}</div>;
 }
-function FutureButton({href,children,ghost=false}:{href:string;children:React.ReactNode;ghost?:boolean}){
- return <Link href={href} className={"future-button "+(ghost?"future-button-ghost":"future-button-primary")}><span>{children}</span><span className="future-button-icon"><ArrowUpRight size={17}/></span></Link>;
+function FutureButton({href,children,ghost=false,onClick}:{href:string;children:React.ReactNode;ghost?:boolean;onClick?:()=>void}){
+ return <Link href={href} onClick={onClick} className={"future-button "+(ghost?"future-button-ghost":"future-button-primary")}><span>{children}</span><span className="future-button-icon"><ArrowUpRight size={17}/></span></Link>;
 }
 function OrbitalExperience({locale}:{locale:Locale}){
  const el=useRef<HTMLDivElement>(null),t=ui[locale];
@@ -40,13 +40,33 @@ function OrbitalExperience({locale}:{locale:Locale}){
 function ServiceIcon({service}:{service:Service}){const Icon=iconMap[service.icon as keyof typeof iconMap]||Code2;return <Icon size={26} strokeWidth={1.55}/>}
 export default function FutureHome({locale}:{locale:Locale}){
  const t=ui[locale],common=copy[locale];
+ const [variant,setVariant]=useState<"A"|"B">("A"),[analyticsEnabled,setAnalyticsEnabled]=useState(false);
+ useEffect(()=>{
+  try{
+   if(localStorage.getItem("se-analytics")!=="yes")return;
+   const existing=localStorage.getItem("se-ab-home-v1");
+   const assigned=existing==="A"||existing==="B"?existing:(Math.random()<.5?"A":"B");
+   localStorage.setItem("se-ab-home-v1",assigned);
+   window.requestAnimationFrame(()=>{setVariant(assigned);setAnalyticsEnabled(true);});
+   if(!sessionStorage.getItem("se-ab-home-impression")){
+    sessionStorage.setItem("se-ab-home-impression","yes");
+    void fetch("/api/experiments",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({experiment:"homepage_cta_v1",variant:assigned,event:"impression",consent:true}),keepalive:true}).catch(()=>{});
+   }
+  }catch{/* Consent or storage unavailable: show the default experience. */}
+ },[]);
+ function trackCta(){
+  if(!analyticsEnabled)return;
+  const payload=JSON.stringify({experiment:"homepage_cta_v1",variant,event:"click",consent:true});
+  try{navigator.sendBeacon("/api/experiments",new Blob([payload],{type:"application/json"}));}catch{}
+ }
  return <>
   <section className="future-hero"><div className="future-hero-glow future-hero-glow-a"/><div className="future-hero-glow future-hero-glow-b"/><div className="container future-hero-grid">
-   <div className="future-hero-copy"><div className="future-status"><span className="future-live-dot"/> {t.eyebrow}<Sparkles size={12}/></div><h1><span>{t.line1}</span>{" "}<span className="future-gradient-text">{t.line2}</span></h1><p>{t.subtitle}</p><div className="future-hero-cta"><FutureButton href={pathFor(locale,"quote")}>{t.primary}</FutureButton><FutureButton href={pathFor(locale,"work")} ghost>{t.secondary}</FutureButton></div><div className="future-hero-meta"><span><Check size={14}/>{t.mini1}</span><span><Check size={14}/>{t.mini2}</span><span><Check size={14}/>{t.mini3}</span></div></div>
+   <div className="future-hero-copy"><div className="future-status"><span className="future-live-dot"/> {t.eyebrow}<Sparkles size={12}/></div><h1><span>{t.line1}</span>{" "}<span className="future-gradient-text">{t.line2}</span></h1><p>{t.subtitle}</p><div className="future-hero-cta"><FutureButton href={pathFor(locale,"quote")} onClick={trackCta}>{variant==="B"?(locale==="ro"?"Planifică-ți website-ul":locale==="ru"?"Спланируйте сайт":"Plan your website"):t.primary}</FutureButton><FutureButton href={pathFor(locale,"work")} ghost>{t.secondary}</FutureButton></div><div className="future-hero-meta"><span><Check size={14}/>{t.mini1}</span><span><Check size={14}/>{t.mini2}</span><span><Check size={14}/>{t.mini3}</span></div></div>
    <OrbitalExperience locale={locale}/>
   </div><div className="container future-hero-bottom"><span>CREATIVE CODE × DIGITAL STRATEGY</span><span>SCROLL TO EXPLORE <span className="future-scroll-arrow">↓</span></span></div></section>
   <section className="future-capabilities"><div className="container future-capabilities-wrap">{t.capabilities.map((label,i)=><span key={label} className="future-capability"><span>{label}</span>{i<4&&<i/>}</span>)}</div></section>
   <section className="future-section future-services" id="services"><div className="container"><SectionLead over={t.serviceOver} title={t.serviceTitle} em={t.serviceEm} intro={t.serviceIntro}/><div className="future-service-grid">{services[locale].slice(0,4).map((s,i)=><Link href={pathFor(locale,"services/"+s.id)} className="future-service" key={s.id}><div className="future-service-header"><span className="future-service-icon"><ServiceIcon service={s}/></span><span className="future-service-count">0{i+1} / 04</span></div><div className="future-service-content"><h3>{s.title}</h3><p>{s.body}</p></div><div className="future-service-bottom"><span>{t.more}</span><span className="future-service-arrow"><MoveUpRight size={20}/></span></div></Link>)}</div><div className="future-section-cta"><Link href={pathFor(locale,"services")}>{t.serviceCta}<ArrowRight size={18}/></Link></div></div></section>
+  <section className="future-section growth-home-tools" id="tools"><div className="container"><SectionLead over="SITES EVOLVE / FREE TOOLS" title={locale==="ro"?"Instrumente gratuite.":locale==="ru"?"Бесплатные инструменты.":"Free digital tools."} em={locale==="ro"?"Decizii mai bune.":locale==="ru"?"Лучшие решения.":"Better decisions."} intro={locale==="ro"?"Configurează, testează și învață înainte să începi proiectul.":locale==="ru"?"Планируйте, тестируйте и учитесь до начала проекта.":"Plan, experiment and learn before you start."}/><div className="growth-home-tool-grid">{([["builder",locale==="ro"?"Simulator website":locale==="ru"?"Симулятор сайтов":"Website simulator","◈"],["audit",locale==="ro"?"Audit SEO gratuit":locale==="ru"?"Бесплатный аудит":"Free SEO audit","◎"],["demo",locale==="ro"?"Demonstrații interactive":locale==="ru"?"Интерактивное демо":"Interactive demos","✧"],["academy","SITES EVOLVE Academy","✳"]] as const).map(([slug,label,mark])=><Link key={slug} href={pathFor(locale,slug)}><span className="growth-tool-symbol">{mark}</span><strong>{label}</strong><ArrowUpRight size={18}/></Link>)}</div></div></section>
   <section className="future-section future-work" id="projects"><div className="container"><SectionLead over={t.portfolioOver} title={t.portfolioTitle} em={t.portfolioEm} intro={t.portfolioIntro}/><div className="future-work-grid">{works[locale].map((w,i)=><Link href={pathFor(locale,"work/"+w.id)} className={"future-work-card future-work-card-"+w.theme} key={w.id}><div className="future-work-visual"><div className="future-work-halo"/><div className="future-work-browser"><div className="future-work-browserbar"><div className="future-browser-dots"><i/><i/><i/></div><span>{w.id==="ddent"?"ddent.md":"alvitravel.md"}</span><Globe2 size={12}/></div><div className="future-work-browsercontent"><span className="future-work-kicker">{w.eyebrow}</span><strong>{w.title}</strong><span className="future-work-browser-sub">{w.category}</span><span className="future-work-fakebtn">EXPLORE <ArrowUpRight size={12}/></span><div className="future-work-bubble"/></div></div><div className="future-work-decor future-work-decor-a"/><div className="future-work-decor future-work-decor-b"/></div><div className="future-work-caption"><div><span className="future-work-label">0{i+1} / {w.eyebrow}</span><h3>{w.title}</h3><p>{w.category}</p></div><span className="future-work-circle"><ArrowUpRight size={22}/></span></div></Link>)}</div></div></section>
   <section className="future-section future-process" id="process"><div className="container"><SectionLead over={t.flowOver} title={t.flowTitle} em={t.flowEm}/><div className="future-process-list">{common.processSteps.map(([num,title,desc])=><div className="future-process-step" key={num}><span>{num}</span><div><h3>{title}</h3><p>{desc}</p></div><span className="future-process-symbol">✳</span></div>)}</div></div></section>
   <section className="future-last-section"><div className="container"><div className="future-last-card"><div className="future-last-gridlines"/><span className="future-last-planet"/><div className="future-last-copy"><span className="future-eyebrow"><span className="future-eyebrow-dot"/>{t.closingOver}</span><h2>{t.closingTitle}<br/><em>{t.closingEm}</em></h2><p>{t.closingBody}</p><FutureButton href={pathFor(locale,"contact")}>{t.closingButton}</FutureButton></div><div className="future-last-marker" aria-hidden="true">↗</div></div></div></section>

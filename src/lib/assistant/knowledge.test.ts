@@ -21,7 +21,7 @@ describe("contextual studio assistant",()=>{
  it("handles a real request without falsely claiming CRM access",()=>{
   const answer=answerFromKnowledge("Am trimis o cerere. Ați primit-o?","ro");
   expect(answer).toContain("nu am acces");
-  expect(answer).toContain("contact@sitesevolve.com");
+  expect(answer).toContain("sites.evolve7@gmail.com");
  });
  it("recognizes Russian messages rather than treating them as unknown",()=>{
   const answer=answerFromKnowledge("Сколько стоит сайт для кафе?","ru");
@@ -59,6 +59,14 @@ describe("contextual studio assistant",()=>{
   expect(answerFromKnowledge("cu cardul și curier","ro",shop)).toContain("procesator");
   const web=[{role:"user" as const,text:"Am nevoie de un site web"},{role:"assistant" as const,text:"Câte pagini dorești?"}];
   expect(answerFromKnowledge("5 pagini","ro",web)).toContain("5 pagini");
+ });
+ it("explains self-serve tools and direct contacts without a paid AI model",()=>{
+  expect(answerFromKnowledge("Audit website gratuit?","ro")).toContain("/ro/audit");
+  expect(answerFromKnowledge("Aveți simulator de site?","ro")).toContain("/ro/builder");
+  expect(answerFromKnowledge("Pot cere o programare?","ro")).toContain("/ro/consultation");
+  expect(answerFromKnowledge("Telegram","ro")).toContain("t.me/Goa7ik");
+  expect(answerFromKnowledge("WhatsApp","en")).toContain("wa.me/37360356515");
+  expect(answerFromKnowledge("Privacy data","en")).toContain("/portal/privacy");
  });
  it("only echoes budgets explicitly supplied",()=>{
   expect(answerFromKnowledge("Bugetul meu este 2500 EUR pentru site","ro")).toContain("2500 EUR");

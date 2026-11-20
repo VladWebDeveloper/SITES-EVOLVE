@@ -89,6 +89,7 @@ model User {
   ticketMessages TicketMessage[]
   notifications Notification[]
   auditEvents   AuditEvent[]
+  privacyRequests PrivacyRequest[]
 }
 
 model Client {
@@ -108,6 +109,7 @@ model Client {
   subscriptions Subscription[]
   sites       ManagedSite[]
   documents   Document[]
+  briefs      ClientBrief[]
 }
 
 model ClientMember {
@@ -134,7 +136,9 @@ model Lead {
   metadata    Json?
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+  referralCode String?
   @@index([status,createdAt])
+  @@index([referralCode])
 }
 
 model Project {
@@ -332,4 +336,58 @@ model Notification {
   href      String?
   readAt    DateTime?
   createdAt DateTime @default(now())
+}
+
+/// CRM tasks are visible to authenticated staff only.
+model CrmTask {
+  id           String    @id @default(cuid())
+  title        String
+  notes        String?
+  leadId       String?
+  assignedToId String?
+  priority     Priority  @default(NORMAL)
+  dueAt        DateTime?
+  doneAt       DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  @@index([dueAt,doneAt])
+  @@index([leadId])
+}
+/// Client onboarding brief; membership is checked on every read/write.
+model ClientBrief {
+  id            String   @id @default(cuid())
+  clientId      String
+  client        Client   @relation(fields:[clientId],references:[id],onDelete:Cascade)
+  title         String
+  business      String
+  goals         String
+  audience      String?
+  inspiration   String?
+  contentStatus String?
+  notes         String?
+  submittedById String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  @@index([clientId,createdAt])
+}
+/// Erasure requests remain pending until reviewed; never auto-delete records.
+model PrivacyRequest {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields:[userId],references:[id],onDelete:Cascade)
+  kind        String
+  status      String   @default("PENDING")
+  note        String?
+  createdAt   DateTime @default(now())
+  reviewedAt  DateTime?
+  @@index([status,createdAt])
+}
+/// Anonymous A/B events, recorded only after analytics consent.
+model ExperimentMetric {
+  id          String   @id @default(cuid())
+  experiment  String
+  variant     String
+  event       String
+  createdAt   DateTime @default(now())
+  @@index([experiment,variant,event,createdAt])
 }

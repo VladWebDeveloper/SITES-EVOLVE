@@ -8,6 +8,10 @@ import {allowedExternalHttps} from "./security";
 import {sendClientInvitation,informTicketUpdate,notifyStaffAboutEnquiry,acknowledgeEnquiry} from "./engagement";
 const id=z.string().min(15).max(50);
 const email=z.email().max(180);
+async function notifyClient(clientId:string,title:string,href:string){
+ const db=getDb(),rows=await db.clientMember.findMany({where:{clientId},select:{userId:true}});
+ if(rows.length)await db.notification.createMany({data:rows.map(r=>({userId:r.userId,title,href}))});
+}
 async function log(userId:string,action:string,entity:string,entityId:string){await getDb().auditEvent.create({data:{userId,action,entity,entityId}});}
 function refresh(){revalidatePath("/console");revalidatePath("/portal");}
 function requireValue(form:FormData,key:string,max=200,min=1){return z.string().trim().min(min).max(max).parse(form.get(key));}
@@ -93,7 +97,9 @@ export async function createProject(form:FormData){
 export async function setProjectStatus(form:FormData){
  const actor=await requireStaff(),projectId=validId(form,"id");
  const status=z.enum(["PLANNED","IN_PROGRESS","REVIEW","COMPLETED","ON_HOLD"]).parse(form.get("status"));
- await getDb().project.update({where:{id:projectId},data:{status}});await log(actor.id,"STATUS_"+status,"Project",projectId);refresh();
+ const project=await getDb().project.update({where:{id:projectId},data:{status}});
+ await notifyClient(project.clientId,"Project "+project.title+": "+status.replaceAll("_"," ").toLowerCase(),"/portal/projects");
+ await log(actor.id,"STATUS_"+status,"Project",projectId);refresh();
 }
 export async function createMilestone(form:FormData){
  const actor=await requireStaff(),projectId=validId(form,"projectId");
@@ -103,7 +109,9 @@ export async function createMilestone(form:FormData){
 export async function setMilestoneStatus(form:FormData){
  const actor=await requireStaff(),milestoneId=validId(form,"id");
  const status=z.enum(["TODO","ACTIVE","REVIEW","DONE"]).parse(form.get("status"));
- await getDb().milestone.update({where:{id:milestoneId},data:{status}});await log(actor.id,"STATUS_"+status,"Milestone",milestoneId);refresh();
+ const stage=await getDb().milestone.update({where:{id:milestoneId},data:{status},include:{project:{select:{clientId:true}}}});
+ if(status==="REVIEW"||status==="DONE")await notifyClient(stage.project.clientId,"Milestone "+stage.title+": "+status.toLowerCase(),"/portal/projects");
+ await log(actor.id,"STATUS_"+status,"Milestone",milestoneId);refresh();
 }
 export async function approveMilestone(form:FormData){
  const actor=await requireActor(),milestoneId=validId(form,"id");
@@ -111,6 +119,8 @@ export async function approveMilestone(form:FormData){
  await requireClientAccess(milestone.project.clientId,actor);
  if(milestone.status!=="REVIEW")throw new Error("Only milestones awaiting review can be approved.");
  await getDb().milestone.update({where:{id:milestoneId},data:{status:"DONE",approvedAt:new Date()}});
+ const staff=await getDb().user.findMany({where:{role:{in:["OWNER","STAFF"]},active:true},select:{id:true}});
+ if(staff.length)await getDb().notification.createMany({data:staff.map(u=>({userId:u.id,title:"Milestone approved by client",href:"/console/projects"}))});
  await log(actor.id,"APPROVE","Milestone",milestoneId);refresh();
 }
 export async function createTicket(form:FormData){

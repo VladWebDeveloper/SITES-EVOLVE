@@ -4,19 +4,24 @@ import {randomUUID} from "node:crypto";
 import {currentActor} from "@/lib/server/actor";
 import {getDb} from "@/lib/server/db";
 import {getStorage,storageReady} from "@/lib/server/storage";
-import {guardSize,jsonError} from "@/lib/server/security";
+import {guardSize,jsonError,rateLimited} from "@/lib/server/security";
 const types=new Set(["application/pdf","image/jpeg","image/png","image/webp","text/plain"]);
 const MAX=3000000;
 export const runtime="nodejs";
 export async function POST(req:Request){
  const user=await currentActor();
- if(!user||!["OWNER","STAFF"].includes(user.role))return jsonError("Forbidden",403);
+ if(!user)return jsonError("Sign in before uploading files",401);
+ if(rateLimited("file-upload:"+user.id,8,60*60*1000))return jsonError("Too many uploads. Try again later.",429);
  if(!storageReady())return jsonError("Private document storage is not yet configured",503);
  if(guardSize(req,MAX+30000))return jsonError("File too large. Maximum 3 MB.",413);
  let form:FormData;try{form=await req.formData()}catch{return jsonError("Invalid upload",400)}
  const file=form.get("file"),clientId=String(form.get("clientId")||""),projectId=String(form.get("projectId")||"")||undefined;
  if(!(file instanceof File)||file.size>MAX||file.size===0||!types.has(file.type)||!/^[a-z0-9]{15,50}$/.test(clientId))return jsonError("Invalid document or account.",400);
  const account=await getDb().client.findUnique({where:{id:clientId}});if(!account)return jsonError("Client not found",404);
+ if(user.role==="CLIENT"){
+  const membership=await getDb().clientMember.findUnique({where:{clientId_userId:{clientId,userId:user.id}},select:{id:true}});
+  if(!membership)return jsonError("This private client account does not belong to you",403);
+ }
  if(projectId){const project=await getDb().project.findFirst({where:{id:projectId,clientId}});if(!project)return jsonError("Invalid project",400)}
  const filename=file.name.replace(/[^a-zA-Z0-9. _-]/g,"").slice(0,150)||"document";
  const objectKey="clients/"+clientId+"/"+randomUUID();
