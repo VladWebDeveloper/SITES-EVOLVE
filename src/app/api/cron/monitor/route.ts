@@ -33,6 +33,8 @@ export async function GET(request:Request){
    statusCode=response.status;status=response.status>=200&&response.status<400?"UP":"DOWN";
   }catch{status="ERROR";}
   await getDb().managedSite.update({where:{id:site.id},data:{status,lastCheckedAt:new Date(),lastStatus:statusCode}});
+  await getDb().siteMetric.create({data:{siteId:site.id,name:"http_status",value:statusCode||0}});
+  await getDb().siteMetric.deleteMany({where:{siteId:site.id,name:"http_status",createdAt:{lt:new Date(Date.now()-90*86400000)}}});
   results.push({site:site.id,status,code:statusCode});
  }
  return Response.json({checked:results.length,results},{headers:{"Cache-Control":"no-store"}});
