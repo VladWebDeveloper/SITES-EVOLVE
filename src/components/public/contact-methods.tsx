@@ -34,7 +34,7 @@ export default function ContactMethods({locale, variant = "footer"}: ContactMeth
           key={label}
           className="contact-method-link"
           href={href}
-          aria-label={`${label}: ${detail}`}
+          data-contact-method={label}
           {...(external ? {target: "_blank", rel: "noopener noreferrer"} : {})}
         >
           <span className="contact-method-icon" aria-hidden="true"><Icon size={18} strokeWidth={1.8}/></span>
