@@ -495,3 +495,19 @@ html[data-theme="light"] .future-site-shell .services-section,html[data-theme="l
 @media(max-width:1200px){.future-portal-link{padding:9px}.future-portal-link span{display:none}}
 @media(max-width:900px){.future-main-nav .future-mobile-portal{display:flex;gap:12px;align-items:center;color:#e5eaff;border:1px solid #4c53844d}}
 @media(max-width:700px){.future-portal-link{padding:8px;border-radius:11px}}
+
+/* Accessible direct contact links shared by the footer and contact page */
+.future-site-shell .contact-methods{display:grid;gap:10px;width:100%;margin:18px 0 12px}
+.future-site-shell .contact-methods--footer{grid-template-columns:minmax(0,1fr);max-width:360px}
+.future-site-shell .contact-methods--page{grid-template-columns:repeat(2,minmax(0,1fr));margin:29px 0 14px}
+.future-site-shell .contact-method-link{display:flex;align-items:center;gap:13px;min-width:0;min-height:60px;padding:11px 14px;background:linear-gradient(110deg,#171b37,#15172e);border:1px solid #454b7c91;border-radius:15px;color:#eff0ff;text-decoration:none;transition:background .2s,border-color .2s,transform .2s}
+.future-site-shell .contact-method-link:hover{border-color:#aaa0ff;background:linear-gradient(110deg,#202758,#24204a);transform:translateY(-2px)}
+.future-site-shell .contact-method-link:focus-visible{outline:2px solid #b8aeff;outline-offset:3px}
+.future-site-shell .contact-method-icon{width:37px;height:37px;flex:none;display:grid;place-items:center;border-radius:11px;color:#c6b7ff;background:#7668e427}
+.future-site-shell .contact-method-copy{display:flex;flex-direction:column;gap:3px;min-width:0}
+.future-site-shell .contact-method-copy strong{font-size:11px;line-height:1.2;letter-spacing:.04em;color:#f2f1ff}
+.future-site-shell .contact-method-copy>span{font-size:12px;line-height:1.45;color:#b1b7dc;overflow-wrap:anywhere}
+.future-site-shell .contact-info .contact-location{margin-top:34px}
+@media(max-width:1170px){.future-site-shell .contact-methods--page{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:700px){.future-site-shell .contact-methods--footer{max-width:100%}.future-site-shell .contact-method-link{min-height:58px}}
+@media(prefers-reduced-motion:reduce){.future-site-shell .contact-method-link{transition:none}.future-site-shell .contact-method-link:hover{transform:none}}
