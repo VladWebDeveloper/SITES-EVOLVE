@@ -14,9 +14,9 @@ type ContactMethodsProps = {
 };
 
 const labels = {
-  ro: {email: "Email",phone: "Telefon", call: "Sună", whatsapp: "WhatsApp", telegram: "Telegram"},
-  en: {email: "Email",phone: "Phone", call: "Call", whatsapp: "WhatsApp", telegram: "Telegram"},
-  ru: {email: "Email",phone: "Телефон", call: "Позвонить", whatsapp: "WhatsApp", telegram: "Telegram"},
+  ro: {email: "Email",phone: "Telefon", whatsappAction: "Scrie-ne", whatsapp: "WhatsApp", telegram: "Telegram"},
+  en: {email: "Email",phone: "Phone", whatsappAction: "Message us", whatsapp: "WhatsApp", telegram: "Telegram"},
+  ru: {email: "Email",phone: "Телефон", whatsappAction: "Написать", whatsapp: "WhatsApp", telegram: "Telegram"},
 } as const;
 
 export default function ContactMethods({locale, variant = "footer"}: ContactMethodsProps) {
@@ -24,7 +24,7 @@ export default function ContactMethods({locale, variant = "footer"}: ContactMeth
   const methods = [
     {label: t.email, detail: contactEmail, href: `mailto:${contactEmail}`, icon: Mail, external: false},
     {label: t.phone, detail: contactPhoneDisplay, href: `tel:${contactPhone}`, icon: PhoneCall, external: false},
-    {label: t.whatsapp, detail: t.call === "Sună" ? "Scrie-ne" : t.call === "Позвонить" ? "Написать" : "Message us", href: whatsappUrl, icon: MessageCircle, external: true},
+    {label: t.whatsapp, detail: t.whatsappAction, href: whatsappUrl, icon: MessageCircle, external: true},
     {label: t.telegram, detail: "@Goa7ik", href: telegramUrl, icon: Send, external: true},
   ];
   return (
