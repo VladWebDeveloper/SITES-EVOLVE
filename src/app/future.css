@@ -511,3 +511,18 @@ html[data-theme="light"] .future-site-shell .services-section,html[data-theme="l
 @media(max-width:1170px){.future-site-shell .contact-methods--page{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:700px){.future-site-shell .contact-methods--footer{max-width:100%}.future-site-shell .contact-method-link{min-height:58px}}
 @media(prefers-reduced-motion:reduce){.future-site-shell .contact-method-link{transition:none}.future-site-shell .contact-method-link:hover{transform:none}}
+
+/* Verified official portfolio and published six-plan entry pricing */
+.future-work-grid.future-work-grid-single{grid-template-columns:minmax(0,760px);justify-content:center}
+.future-site-shell .project-grid.project-grid-single{grid-template-columns:minmax(0,760px);justify-content:center}
+.future-site-shell .pricing-grid .pricing-card:last-child{grid-column:auto;min-height:555px}
+.future-site-shell .pricing-card h2{font-size:clamp(29px,3vw,42px);line-height:1.13;overflow-wrap:break-word}
+.future-site-shell .pricing-card .pricing-label{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px;margin:20px 0 25px;color:#c6beff}
+.future-site-shell .pricing-card .pricing-label strong{font-size:clamp(29px,3vw,38px);font-weight:800;font-variant-numeric:tabular-nums;color:#fff}
+.future-site-shell .pricing-disclaimer{color:#aab2d7;font-size:13px;line-height:1.8;max-width:960px;margin:30px 0 0}
+.future-site-shell .quote-maintenance-extra{color:#c8c1ff;font-size:13px;line-height:1.65}
+.future-site-shell .quote-maintenance-extra strong{color:#fff}
+@media(max-width:700px){
+ .future-work-grid.future-work-grid-single,.future-site-shell .project-grid.project-grid-single{grid-template-columns:minmax(0,1fr)}
+ .future-site-shell .pricing-card h2{font-size:36px}
+}
