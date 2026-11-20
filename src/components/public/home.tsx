@@ -31,7 +31,7 @@ function OrbitalExperience({locale}:{locale:Locale}){
  return <div className="future-scene" onPointerMove={tilt} onPointerLeave={reset} aria-label="Interactive dimensional digital sculpture"><div className="future-scene-perspective" ref={el}>
   <div className="future-scene-aura"/>
   <div className="future-orbit future-orbit-1"/><div className="future-orbit future-orbit-2"/><div className="future-orbit future-orbit-3"/>
-  <div className="future-orb-body"><div className="future-orb-shine"/><div className="future-orb-contour"/><div className="future-orb-core"><BrandLogo variant="orb" decorative/></div></div>
+  <div className="future-orb-body"><div className="future-orb-shine"/><div className="future-orb-contour"/><div className="future-orb-core"><BrandLogo variant="orb" decorative priority/></div></div>
   <div className="future-node future-node-one"/><div className="future-node future-node-two"/>
   <div className="future-float future-float-top"><div className="future-float-topline"><span className="future-mini-led"/> SITES EVOLVE <ScanLine size={15}/></div><div className="future-float-title">{t.visualB}</div><div className="future-float-graph"><span/><span/><span/><span/><span/><span/><span/><span/><span/></div><div className="future-float-tag">{t.visualA}</div></div>
   <div className="future-float future-float-bottom"><span className="future-float-icon"><Layers3 size={17}/></span><div><strong>{t.visualC}</strong><small>{t.visualBadge}</small></div><div className="future-float-stars">✦</div></div>
