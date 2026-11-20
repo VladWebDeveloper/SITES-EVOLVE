@@ -1,6 +1,6 @@
 import {getDb} from "@/lib/server/db";
 import {requireStaff} from "@/lib/server/actor";
-import {createCrmTask,setCrmTaskDone,reviewPrivacyRequest} from "@/lib/server/feature-actions";
+import {createCrmTask,setCrmTaskDone,reviewPrivacyRequest,createPublicStatusEvent,resolvePublicStatusEvent,updateReferralProgram,setReferralRewardStatus} from "@/lib/server/feature-actions";
 import {PageTitle,Metric,SectionPanel,DataTable,Empty,Status,shortDate} from "./primitives";
 import {CreateForm,Field,StatusForm} from "./forms";
 import {BellRing,CheckCircle2,ClipboardList,Target,TrendingUp} from "lucide-react";
@@ -23,7 +23,7 @@ export function CrmPipeline({leads}:{leads:Lead[]}){
 }
 async function serverTime(){return Date.now();}
 export async function ConsoleExtraSection({section}:{section:string}){
- await requireStaff();const db=getDb();
+ const actor=await requireStaff(),db=getDb();
  switch(section){
  case "tasks":{
   const [tasks,leads]=await Promise.all([db.crmTask.findMany({orderBy:[{doneAt:"asc"},{dueAt:"asc"},{createdAt:"desc"}],take:200}),db.lead.findMany({select:{id:true,name:true,service:true},orderBy:{createdAt:"desc"},take:100})]);
@@ -46,6 +46,42 @@ export async function ConsoleExtraSection({section}:{section:string}){
   const requests=await db.privacyRequest.findMany({orderBy:{createdAt:"desc"},take:100,include:{user:{select:{email:true,name:true}}}});
   return <><PageTitle eyebrow="STUDIO / PRIVACY" title="Personal data requests" description="Review identity and contractual retention requirements before any erasure. Changing status here does not delete personal records."/>
    <SectionPanel title="Erasure requests">{requests.length?<DataTable headers={["Customer","Type","Date","Status","Review"]} rows={requests.map(r=>[<div key={r.id}><strong>{r.user.name||r.user.email}</strong><small>{r.user.email}</small></div>,r.kind,shortDate(r.createdAt),<Status value={r.status} key={r.id}/>,<StatusForm key={"r-"+r.id} action={reviewPrivacyRequest} id={r.id} status={r.status} values={["PENDING","REVIEWING","CLOSED"]}/>])}/>:<Empty title="No privacy requests" description="Requests submitted by account holders appear here."/>}</SectionPanel></>;
+ }
+ case "referrals":{
+  const [program,rewards,referrals]=await Promise.all([
+   db.referralProgram.findUnique({where:{id:"main"}}),
+   db.referralReward.findMany({include:{client:{select:{name:true}}},orderBy:{createdAt:"desc"},take:150}),
+   db.lead.count({where:{referralCode:{not:null}}})
+  ]);
+  return <><PageTitle eyebrow="STUDIO / PARTNERS" title="Referral benefits" description="The owner defines actual referral benefits. Rewards are created once an attributed lead becomes WON, then reviewed and fulfilled manually."/>
+   <div className="metric-grid"><Metric label="Referred enquiries" value={referrals}/><Metric label="Reward records" value={rewards.length}/><Metric label="Program active" value={program?.enabled?"YES":"NO"}/></div>
+   {actor.role==="OWNER"&&<CreateForm action={updateReferralProgram} title="Configure referral benefit" button="Save referral policy" description="Only enable rewards that SITES EVOLVE is prepared to deliver.">
+    <Field name="benefitDescription" label="Exact client benefit and eligibility conditions" type="textarea" rows={3} defaultValue={program?.benefitDescription||""}/>
+    <label className="workspace-field"><span>Accept new rewards</span><input name="enabled" type="checkbox" defaultChecked={program?.enabled||false}/></label>
+   </CreateForm>}
+   <SectionPanel title="Attributed rewards">{rewards.length?<DataTable headers={["Client","Benefit","Status","Manage"]} rows={rewards.map(r=>[
+    r.client.name,<div key={r.id}><strong>{r.benefitDescription}</strong><small>{shortDate(r.createdAt)} · Lead {r.leadId.slice(0,8)}</small></div>,
+    <Status key={r.id} value={r.status}/>,<StatusForm key={"reward-"+r.id} id={r.id} status={r.status} action={setReferralRewardStatus} values={["PENDING","APPROVED","FULFILLED","VOID"]}/>
+   ])}/>:<Empty title="No rewards issued yet" description="Create your policy and mark an attributed lead as WON before a reward is issued."/>}</SectionPanel>
+  </>;
+ }
+ case "status":{
+  const [events,samples]=await Promise.all([
+   db.publicStatusEvent.findMany({orderBy:{occurredAt:"desc"},take:90}),
+   db.platformHeartbeat.findMany({orderBy:{checkedAt:"desc"},take:96})
+  ]);
+  const uptime=samples.length?samples.filter(s=>s.ok).length+"/"+samples.length:"No samples";
+  return <><PageTitle eyebrow="PUBLIC OPERATIONS / TRANSPARENCY" title="System status & release notes" description="Publish verified releases, maintenance announcements and incidents for the public. This panel never fabricates uptime."/>
+   <div className="metric-grid"><Metric label="Recent successful samples" value={uptime}/><Metric label="Published events" value={events.length}/><Metric label="Open incidents" value={events.filter(e=>e.kind==="INCIDENT"&&e.state==="OPEN").length}/></div>
+   <CreateForm action={createPublicStatusEvent} title="Publish status update" button="Publish update">
+    <Field name="kind" label="Event type" options={[{value:"RELEASE",label:"Product release"},{value:"MAINTENANCE",label:"Maintenance"},{value:"INCIDENT",label:"Service incident"}]}/>
+    <Field name="title" label="Verified title"/><Field name="details" label="What actually happened?" type="textarea" rows={4}/>
+   </CreateForm>
+   <SectionPanel title="Public history"><DataTable headers={["Type","Published","Details","State","Action"]} rows={events.map(e=>[
+    e.kind,shortDate(e.occurredAt),<div key={e.id}><strong>{e.title}</strong><p>{e.details}</p></div>,<Status key={e.id} value={e.state}/>,
+    e.kind==="INCIDENT"&&e.state==="OPEN"?<form action={resolvePublicStatusEvent} key={"resolve-"+e.id}><input name="id" value={e.id} type="hidden"/><button type="submit" className="workspace-submit">Mark resolved</button></form>:null
+   ])}/></SectionPanel>
+  </>;
  }
  case "experiments":{
   const data=await db.experimentMetric.groupBy({by:["variant","event"],where:{experiment:"homepage_cta_v1"},_count:{_all:true}});

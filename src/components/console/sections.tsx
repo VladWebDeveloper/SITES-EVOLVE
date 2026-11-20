@@ -2,14 +2,14 @@ import Link from "next/link";
 import {getDb} from "@/lib/server/db";
 import {requireStaff} from "@/lib/server/actor";
 import {money,shortDate} from "@/lib/server/format";
-import {createClient,inviteClient,createLead,setLeadStatus,createProject,setProjectStatus,createMilestone,setMilestoneStatus,setTicketStatus,createInvoice,setInvoiceStatus,createSubscription,createManagedSite,createPost,updatePost,setPostStatus,setAppointmentStatus,addTicketMessage,deleteLead,deleteBookingRequest,markNotificationRead} from "@/lib/server/actions";
+import {createClient,inviteClient,createLead,setLeadStatus,createProject,setProjectStatus,createMilestone,setMilestoneStatus,setTicketStatus,createInvoice,setInvoiceStatus,createSubscription,createManagedSite,createPost,updatePost,setPostStatus,setAppointmentStatus,addTicketMessage,deleteLead,deleteBookingRequest,markNotificationRead,createConsultationBlock,deleteConsultationBlock} from "@/lib/server/actions";
 import {PageTitle,Metric,SectionPanel,DataTable,Empty,Status,SmallLink} from "./primitives";
 import {CreateForm,Field,ClientChoices,StatusForm} from "./forms";
 import FileUploader from "./file-uploader";
 import DeleteRecordButton from "./delete-record";
 import {CrmPipeline} from "./studio-extras";
 import {storageReady} from "@/lib/server/storage";
-import {Users,Inbox,BriefcaseBusiness,MessagesSquare,ArrowUpRight,Wallet,Zap,ShieldCheck,TrendingUp} from "lucide-react";
+import {CalendarDays,Users,Inbox,BriefcaseBusiness,MessagesSquare,ArrowUpRight,Wallet,Zap,ShieldCheck,TrendingUp} from "lucide-react";
 const leadStatuses=["NEW","CONTACTED","QUALIFIED","PROPOSAL","WON","LOST"];
 const projectStatuses=["PLANNED","IN_PROGRESS","REVIEW","COMPLETED","ON_HOLD"];
 const ticketStatuses=["OPEN","IN_PROGRESS","RESOLVED","CLOSED"];
@@ -60,8 +60,24 @@ export async function ConsoleSection({section}:{section:string}){
   return <><PageTitle eyebrow="OPERATIONS / SITE CARE" title="Managed websites" description="Your future SITES EVOLVE OS control center. Monitoring is recorded by a protected scheduled endpoint when configured."/><CreateForm action={createManagedSite} title="Add managed website" button="Register website"><ClientChoices clients={clients}/><Field name="name" label="Website name"/><Field name="url" label="HTTPS URL" type="url" placeholder="https://example.com"/></CreateForm><SectionPanel title="Website fleet" description={sites.length+" managed sites"}>{sites.length?<DataTable headers={["Website","Client","Last check","HTTP","Status"]} rows={sites.map(s=>[<div key={s.id}><strong>{s.name}</strong><small>{s.url}</small></div>,s.client.name,shortDate(s.lastCheckedAt),s.lastStatus||"—",<Status value={s.status} key={s.id}/>])}/>:<Empty title="No websites added" description="Register a client's domain to prepare maintenance status and uptime monitoring."/ >}</SectionPanel></>;
  }
  case "appointments":{
-  const items=await db.bookingRequest.findMany({orderBy:{createdAt:"desc"},take:100});
-  return <><PageTitle eyebrow="SALES / MEETINGS" title="Consultations" description="Requests for a consultation, pending confirmation. Calendar slot synchronization can be enabled with an approved provider."/><SectionPanel title="Booking enquiries">{items.length?<DataTable headers={["Contact","Service","Preferred time","Status","Remove"]} rows={items.map(a=>[<div key={a.id}><strong>{a.name}</strong><small>{a.email}</small></div>,a.service||"Discovery call",shortDate(a.preferredAt),<StatusForm key={a.id} id={a.id} action={setAppointmentStatus} status={a.status} values={appointmentStatuses}/>,actor.role==="OWNER"?<form action={deleteBookingRequest} key={"delete-"+a.id}><input type="hidden" name="id" value={a.id}/><DeleteRecordButton/></form>:null])}/>:<Empty title="No bookings requested" description="Consultation requests will be shown here."/ >}</SectionPanel></>;
+  const [items,blocks,slots]=await Promise.all([
+   db.bookingRequest.findMany({orderBy:{createdAt:"desc"},take:100}),
+   db.consultationBlock.findMany({where:{endsAt:{gte:new Date()}},orderBy:{startsAt:"asc"},take:100}),
+   db.consultationSlot.count({where:{startAt:{gte:new Date()}}})
+  ]);
+  return <><PageTitle eyebrow="SALES / MEETINGS" title="Consultation calendar" description="Live 24/7 booking availability in the Chișinău time zone. Confirmed appointments reserve a unique 30-minute slot, eliminating double bookings. Block dates here when you are unavailable."/>
+   <div className="metric-grid"><Metric label="Upcoming confirmed slots" value={slots} icon={CalendarDays}/><Metric label="Blocked intervals" value={blocks.length}/><Metric label="Pending legacy enquiries" value={items.filter(i=>i.status==="NEW").length}/></div>
+   <CreateForm action={createConsultationBlock} title="Block an unavailable period" button="Block time">
+    <Field name="startsAt" label="Starts (Chișinău time)" type="datetime-local"/>
+    <Field name="endsAt" label="Ends (Chișinău time)" type="datetime-local"/>
+    <Field name="note" label="Reason (optional, internal only)" required={false}/>
+   </CreateForm>
+   <SectionPanel title="Blocked periods">{blocks.length?<DataTable headers={["Starts","Ends","Note","Remove"]} rows={blocks.map(b=>[
+    new Intl.DateTimeFormat("ro-RO",{timeZone:"Europe/Chisinau",dateStyle:"short",timeStyle:"short"}).format(b.startsAt),
+    new Intl.DateTimeFormat("ro-RO",{timeZone:"Europe/Chisinau",dateStyle:"short",timeStyle:"short"}).format(b.endsAt),
+    b.note||"—",
+    <form key={b.id} action={deleteConsultationBlock}><input type="hidden" name="id" value={b.id}/><button className="workspace-submit" type="submit">Unblock</button></form>
+   ])}/>:<Empty title="All times open" description="There are no blocked intervals. New consultations can be booked 24/7, up to 90 days ahead."/ >}</SectionPanel><SectionPanel title="Confirmed bookings & enquiries">{items.length?<DataTable headers={["Contact","Service","Preferred time","Status","Remove"]} rows={items.map(a=>[<div key={a.id}><strong>{a.name}</strong><small>{a.email}</small></div>,a.service||"Discovery call",shortDate(a.preferredAt),<StatusForm key={a.id} id={a.id} action={setAppointmentStatus} status={a.status} values={appointmentStatuses}/>,actor.role==="OWNER"?<form action={deleteBookingRequest} key={"delete-"+a.id}><input type="hidden" name="id" value={a.id}/><DeleteRecordButton/></form>:null])}/>:<Empty title="No bookings requested" description="Consultation requests will be shown here."/ >}</SectionPanel></>;
  }
  case "automation":{
   const rows=await db.automationEvent.findMany({orderBy:{createdAt:"desc"},take:70});
