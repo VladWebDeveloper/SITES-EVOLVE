@@ -75,3 +75,41 @@ export async function markAllNotificationsRead(){
  await getDb().notification.updateMany({where:{userId:actor.id,readAt:null},data:{readAt:new Date()}});
  revalidate();
 }
+export async function createPublicStatusEvent(form:FormData){
+ const actor=await requireStaff();
+ const kind=z.enum(["RELEASE","INCIDENT","MAINTENANCE"]).parse(form.get("kind"));
+ const title=text(form,"title",5,140),details=text(form,"details",15,1200);
+ const state=kind==="INCIDENT"?"OPEN":"RESOLVED";
+ const item=await getDb().publicStatusEvent.create({data:{kind,title,details,state,resolvedAt:state==="RESOLVED"?new Date():null,published:true}});
+ await getDb().auditEvent.create({data:{userId:actor.id,action:"PUBLISH",entity:"PublicStatusEvent",entityId:item.id}});
+ revalidate();revalidatePath("/ro/status");revalidatePath("/en/status");revalidatePath("/ru/status");
+}
+export async function resolvePublicStatusEvent(form:FormData){
+ const actor=await requireStaff(),id=cuid.parse(form.get("id"));
+ const item=await getDb().publicStatusEvent.findUniqueOrThrow({where:{id}});
+ if(item.kind!=="INCIDENT"||item.state==="RESOLVED")throw Error("This incident is already closed or cannot be resolved");
+ await getDb().publicStatusEvent.update({where:{id},data:{state:"RESOLVED",resolvedAt:new Date()}});
+ await getDb().auditEvent.create({data:{userId:actor.id,action:"RESOLVE",entity:"PublicStatusEvent",entityId:id}});
+ revalidate();revalidatePath("/ro/status");revalidatePath("/en/status");revalidatePath("/ru/status");
+}
+
+export async function updateReferralProgram(form:FormData){
+ const actor=await requireStaff();
+ if(actor.role!=="OWNER")throw Error("Only the studio owner defines referral benefits.");
+ const benefitDescription=text(form,"benefitDescription",10,350);
+ const enabled=form.get("enabled")==="on";
+ const rule=await getDb().referralProgram.upsert({where:{id:"main"},
+  create:{id:"main",enabled,benefitDescription},update:{enabled,benefitDescription}});
+ await getDb().auditEvent.create({data:{userId:actor.id,action:"SET_BENEFIT",entity:"ReferralProgram",entityId:rule.id}});
+ revalidate();
+}
+export async function setReferralRewardStatus(form:FormData){
+ const actor=await requireStaff();
+ const id=cuid.parse(form.get("id")),status=z.enum(["PENDING","APPROVED","FULFILLED","VOID"]).parse(form.get("status"));
+ const reward=await getDb().referralReward.update({where:{id},
+  data:{status,fulfilledAt:status==="FULFILLED"?new Date():null}});
+ await getDb().auditEvent.create({data:{userId:actor.id,action:"STATUS_"+status,entity:"ReferralReward",entityId:id}});
+ const members=await getDb().clientMember.findMany({where:{clientId:reward.clientId},select:{userId:true}});
+ if(members.length)await getDb().notification.createMany({data:members.map(m=>({userId:m.userId,title:"Referral benefit status: "+status,href:"/portal/referrals"}))});
+ revalidate();
+}

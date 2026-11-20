@@ -68,7 +68,7 @@ test("status page checks the actual health endpoint",async({page,request})=>{
  expect(health.status()).toBe(200);
  await page.goto("/en/status");
  await expect(page.getByRole("heading",{level:1})).toContainText("Platform status");
- await expect(page.getByText("Service operational")).toBeVisible();
+ await expect(page.getByText("All monitored systems operational")).toBeVisible();
 });
 test("privacy tools remain account gated and requests cannot access other accounts",async({request})=>{
  const exportResponse=await request.get("/api/privacy/export",{maxRedirects:0});

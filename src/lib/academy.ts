@@ -441,5 +441,182 @@ export const academyGuides:Guide[]=[
       ]
     }
   }
+,
+  {
+    "slug": "alegerea-domeniului-si-hostingului",
+    "meta": {
+      "ro": [
+        "Cum alegi domeniul și hostingul pentru un website de afaceri",
+        "Un ghid practic despre domenii .md și .com, DNS, SSL, găzduire și administrarea site-ului.",
+        "Domenii și hosting"
+      ],
+      "en": [
+        "How to choose a domain and hosting for your business website",
+        "Practical guidance on domain extensions, DNS, SSL, hosting and long-term website care.",
+        "Domains & hosting"
+      ],
+      "ru": [
+        "Как выбрать домен и хостинг для сайта компании",
+        "Практическое руководство о доменных зонах, DNS, SSL, хостинге и обслуживании сайта.",
+        "Домены и хостинг"
+      ]
+    },
+    "sections": {
+      "ro": [
+        [
+          "Alege un nume ușor de memorat",
+          "Domeniul este adresa prin care clienții ajung la website. Alege un nume scurt, clar, ușor de scris și de pronunțat. Evită cratimele inutile, cifrele confuze și imitațiile unor mărci cunoscute. Verifică disponibilitatea și eventualele conflicte de marcă înainte de cumpărare."
+        ],
+        [
+          "Comparația .md, .com și alte extensii",
+          "Pentru o afacere orientată spre Republica Moldova, .md poate semnala un context local. Un domeniu .com poate fi potrivit pentru clienți internaționali. Extensia nu înlocuiește un website bine structurat: contează mai mult conținutul relevant, încrederea și experiența utilizatorului."
+        ],
+        [
+          "Cine deține domeniul și accesul DNS?",
+          "Înregistrează domeniul pe numele titularului legitim al afacerii, cu autentificare în doi pași și reînnoire automată când este posibil. Păstrează accesul la registrar și la înregistrările DNS. Nu transfera controlul asupra domeniului unor terți fără un acord explicit."
+        ],
+        [
+          "Hostingul trebuie ales după cerințe",
+          "Pentru un site simplu, găzduirea administrată poate fi suficientă. Un magazin online sau o aplicație are nevoie de baze de date, backupuri, monitorizare și resurse adaptate traficului. Analizează politica de securitate, nivelul de suport, costurile de transfer și posibilitatea de migrare."
+        ],
+        [
+          "SSL, backupuri și lansare",
+          "Configurează HTTPS, verifică certificatul SSL, stabilește o adresă canonică și adaugă redirectări 301 pentru variantele vechi. Testează formularele, emailurile, sitemap-ul, accesul pe mobil și restaurarea backupurilor. Păstrează o evidență a serviciilor și a datelor de expirare."
+        ]
+      ],
+      "en": [
+        [
+          "Choose a memorable name",
+          "A domain is how people find your business. Keep it short, descriptive and easy to spell and pronounce. Avoid confusing digits and unnecessary hyphens. Verify availability and possible trademark conflicts before purchase."
+        ],
+        [
+          "Understand .md, .com and other extensions",
+          "A .md domain can signal a Moldova-focused business, while .com may suit an international audience. Domain extensions do not replace helpful content, user experience and credible contact information."
+        ],
+        [
+          "Keep control of registration and DNS",
+          "Register the domain under the legitimate business owner's account, enable two-factor authentication and consider automatic renewal. Keep access to the registrar and DNS records. Do not transfer ownership to a provider without a clear agreement."
+        ],
+        [
+          "Match hosting to the actual workload",
+          "Managed hosting may be enough for a simple brochure website. Stores and web applications may require databases, reliable backups, monitoring and more resources. Compare support, security, migration options and long-term running costs."
+        ],
+        [
+          "Finish with SSL and operational checks",
+          "Enable HTTPS and verify the SSL certificate. Configure the canonical URL and 301 redirects, test all forms and mobile layouts, submit a valid sitemap and test backup restoration. Record service renewals and ownership details."
+        ]
+      ],
+      "ru": [
+        [
+          "Выберите понятное имя",
+          "Домен должен быть коротким, запоминающимся и простым в написании. Избегайте лишних дефисов и цифр. Перед покупкой проверьте доступность и возможные конфликты с товарными знаками."
+        ],
+        [
+          "Сравните .md и .com",
+          "Домен .md может подчеркнуть связь компании с Молдовой. Зона .com подходит и для международного рынка. Сама по себе доменная зона не заменяет полезный контент, доверие клиентов и удобный сайт."
+        ],
+        [
+          "Контролируйте регистрацию и DNS",
+          "Оформляйте домен на реального владельца бизнеса, включите двухфакторную защиту и автопродление. Сохраняйте доступ к регистратору и настройкам DNS. Не передавайте контроль без понятного договора."
+        ],
+        [
+          "Выбирайте хостинг по задачам",
+          "Для простого сайта может подойти управляемый хостинг. Магазину или приложению могут потребоваться базы данных, резервные копии, мониторинг и дополнительные ресурсы. Оцените поддержку, безопасность и стоимость переноса."
+        ],
+        [
+          "Проверьте SSL и запуск",
+          "Подключите HTTPS, проверьте сертификат, канонический URL и перенаправления 301. Протестируйте формы, мобильную версию, карту сайта и восстановление резервных копий. Запишите сроки продления услуг."
+        ]
+      ]
+    }
+  },
+  {
+    "slug": "seo-local-si-dezvoltare-web-chisinau",
+    "meta": {
+      "ro": [
+        "SEO local și dezvoltare web în Chișinău: ce contează pentru firme",
+        "Cum își pot construi firmele din Chișinău o prezență web clară, credibilă și utilă pentru căutările locale.",
+        "SEO local Moldova"
+      ],
+      "en": [
+        "Local SEO and website development in Chișinău",
+        "How Moldova-based businesses can build a credible website and appear for relevant local searches.",
+        "Moldova local SEO"
+      ],
+      "ru": [
+        "Локальное SEO и разработка сайтов в Кишинёве",
+        "Как компаниям Молдовы создать полезный сайт и повысить видимость в местном поиске.",
+        "Локальное SEO"
+      ]
+    },
+    "sections": {
+      "ro": [
+        [
+          "Clarifică serviciile și aria reală de activitate",
+          "Clienții care caută servicii în Chișinău vor să știe ce oferi, cui te adresezi și cum te pot contacta. Creează pagini de servicii distincte, cu explicații concrete, exemple și un apel la acțiune. Nu lista orașe în care nu lucrezi fizic doar pentru a atrage trafic."
+        ],
+        [
+          "Profil Google Business doar pentru afacerile eligibile",
+          "Un profil de business poate ajuta afacerile care deservesc clienți în persoană. Nu afișa o adresă inventată sau un birou inexistent. Pentru un prestator care vizitează clienții, configurează corect zona de servicii și ascunde adresa când este cazul."
+        ],
+        [
+          "Construiește conținut util, nu pagini repetate",
+          "Explică probleme reale: cât durează lansarea unui site, cum alegi domeniul, ce include mentenanța și ce trebuie pregătit înainte de prima discuție. Leagă articolele de paginile serviciilor relevante. Evită multiplicarea aceleiași pagini pentru fiecare cartier."
+        ],
+        [
+          "Măsoară căutările și cererile",
+          "În Google Search Console urmărește paginile indexate, afișările, clickurile și interogările relevante. Folosește analitice numai cu consimțământul necesar. Compară lunile și observă ce pagini generează solicitări reale, nu doar vizite."
+        ],
+        [
+          "O experiență rapidă și corectă construiește încredere",
+          "Optimizează imaginile, afișarea pe mobil, contrastul, navigarea și timpul de răspuns. Adaugă date de contact autentice. SEO local funcționează mai bine când website-ul rezolvă întrebările unui client din Moldova."
+        ]
+      ],
+      "en": [
+        [
+          "Describe your actual service area",
+          "People searching in Chișinău need to understand what you offer, who you serve and how to get in touch. Use distinct useful service pages. Avoid claiming physical coverage in cities where you do not serve clients."
+        ],
+        [
+          "Use Google Business Profile only if eligible",
+          "Local business profiles are intended for businesses that interact with customers in person. Never invent an office address. Service-area businesses should set their real service region and hide private addresses when appropriate."
+        ],
+        [
+          "Publish useful content, not duplicate location pages",
+          "Answer practical questions about launching websites, choosing hosting, ongoing care and preparing content. Connect guides to relevant services with meaningful links. Avoid mass-producing near-identical pages for every district."
+        ],
+        [
+          "Measure search visibility and real enquiries",
+          "Google Search Console helps review indexed pages, impressions, clicks and relevant queries. Use analytics only under appropriate consent. Track whether visitors actually request a consultation or quotation."
+        ],
+        [
+          "Earn trust through performance and accessibility",
+          "Optimize mobile navigation, image sizes, contrast and server response times. Show truthful contact details and real project examples. Useful pages serve customers in Moldova better than keyword repetition."
+        ]
+      ],
+      "ru": [
+        [
+          "Укажите реальную территорию работы",
+          "Клиентам в Кишинёве важно понимать ваши услуги, аудиторию и способы связи. Создайте полезные страницы для разных услуг. Не заявляйте вымышленные офисы или регионы присутствия ради трафика."
+        ],
+        [
+          "Заполняйте профиль Google по правилам",
+          "Профиль компании подходит организациям, которые взаимодействуют с клиентами лично. Не указывайте несуществующий офис. Если компания выезжает к клиентам, настройте реальную территорию обслуживания."
+        ],
+        [
+          "Публикуйте полезные материалы",
+          "Отвечайте на вопросы о запуске сайта, доменах, хостинге, обслуживании и подготовке контента. Связывайте статьи со страницами услуг. Не создавайте десятки почти одинаковых страниц для районов города."
+        ],
+        [
+          "Анализируйте поиск и заявки",
+          "В Search Console отслеживайте проиндексированные страницы, показы, клики и запросы. Подключайте аналитику только с необходимым согласием. Оценивайте реальные обращения, а не только посещения."
+        ],
+        [
+          "Скорость и доступность помогают доверию",
+          "Улучшайте мобильную навигацию, изображения, контраст и скорость. Публикуйте настоящие контакты и проекты. Полезный сайт важнее повторения ключевых слов."
+        ]
+      ]
+    }
+  }
 ];
 export function getGuide(slug:string){return academyGuides.find(g=>g.slug===slug)}

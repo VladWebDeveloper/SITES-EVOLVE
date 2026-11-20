@@ -116,3 +116,8 @@
 .monitor-history small{color:#a6aed4;font-size:11px}
 .referral-url{word-break:break-all;font-size:12px;line-height:1.7}
 @media(max-width:650px){.crm-pipeline{grid-auto-columns:minmax(180px,80vw)}.studio-task,.portal-alert{align-items:flex-start;flex-direction:column;gap:12px}.studio-brief dl{grid-template-columns:1fr;gap:4px}.studio-brief dt:not(:first-child){margin-top:10px}}
+
+.workspace-language-select{background:#22294f;border:1px solid #5964a0;border-radius:9px;color:#f4f3ff;font-size:12px;font-weight:700;min-width:63px;padding:8px 10px;cursor:pointer}
+.workspace-language-select:focus-visible{outline:2px solid #c5b5ff;outline-offset:2px}
+.workspace-language-label{display:flex;align-items:center;margin-right:13px}
+@media(max-width:500px){.workspace-language-label{margin-right:5px}.workspace-language-select{min-width:52px;padding:7px 6px}}

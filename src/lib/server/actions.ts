@@ -1,10 +1,14 @@
 "use server";
 import {revalidatePath} from "next/cache";
 import {z} from "zod";
+import {fromZonedTime} from "date-fns-tz";
+import {isValidConsultationTime,studioDate,studioTimeZone} from "@/lib/booking-calendar";
 import {getDb} from "./db";
 import {requireActor,requireStaff,requireClientAccess} from "./actor";
 import {safeText} from "./format";
 import {allowedExternalHttps} from "./security";
+import {sendEmail} from "./notify";
+import {parseReferralCode} from "@/lib/server/referrals";
 import {sendClientInvitation,informTicketUpdate,notifyStaffAboutEnquiry,acknowledgeEnquiry} from "./engagement";
 const id=z.string().min(15).max(50);
 const email=z.email().max(180);
@@ -62,7 +66,23 @@ export async function createLead(form:FormData){
 export async function setLeadStatus(form:FormData){
  const actor=await requireStaff(),leadId=validId(form,"id");
  const status=z.enum(["NEW","CONTACTED","QUALIFIED","PROPOSAL","WON","LOST"]).parse(form.get("status"));
- await getDb().lead.update({where:{id:leadId},data:{status}});await log(actor.id,"STATUS_"+status,"Lead",leadId);refresh();
+ const db=getDb();
+ const lead=await db.lead.update({where:{id:leadId},data:{status},select:{referralCode:true,name:true}});
+ if(lead.referralCode){
+  const clientId=parseReferralCode(lead.referralCode);
+  if(clientId&&status==="WON"){
+   const rule=await db.referralProgram.findUnique({where:{id:"main"}});
+   const owner=await db.client.findUnique({where:{id:clientId},select:{id:true}});
+   if(rule?.enabled&&rule.benefitDescription.trim()&&owner){
+    await db.referralReward.upsert({where:{leadId},
+     create:{clientId,leadId,benefitDescription:rule.benefitDescription,status:"PENDING"},update:{}});
+    await notifyClient(clientId,"A referred project became a customer. Your benefit is pending approval.","/portal/referrals");
+   }
+  }else if(status==="LOST"){
+   await db.referralReward.updateMany({where:{leadId,status:"PENDING"},data:{status:"VOID"}});
+  }
+ }
+ await log(actor.id,"STATUS_"+status,"Lead",leadId);refresh();
 }
 
 export async function deleteLead(form:FormData){
@@ -191,6 +211,44 @@ export async function setPostStatus(form:FormData){
 export async function setAppointmentStatus(form:FormData){
  const actor=await requireStaff(),appointmentId=validId(form,"id");
  const status=z.enum(["NEW","CONFIRMED","CANCELLED","COMPLETED"]).parse(form.get("status"));
- await getDb().bookingRequest.update({where:{id:appointmentId},data:{status}});
+ const db=getDb();
+ const original=await db.bookingRequest.findUniqueOrThrow({where:{id:appointmentId},include:{slot:true}});
+ if(status==="CONFIRMED"&&!original.slot){
+  if(!original.preferredAt||!isValidConsultationTime(original.preferredAt))throw Error("Choose a valid future available time before confirming.");
+  const block=await db.consultationBlock.findFirst({where:{startsAt:{lte:original.preferredAt},endsAt:{gt:original.preferredAt}}});
+  if(block)throw Error("This time is blocked.");
+  await db.$transaction(async tx=>{
+   await tx.consultationSlot.create({data:{startAt:original.preferredAt!,bookingId:appointmentId}});
+   await tx.bookingRequest.update({where:{id:appointmentId},data:{status}});
+  });
+ }else if(status==="CANCELLED"||status==="NEW"){
+  await db.$transaction(async tx=>{
+   await tx.consultationSlot.deleteMany({where:{bookingId:appointmentId}});
+   await tx.bookingRequest.update({where:{id:appointmentId},data:{status}});
+  });
+ }else{
+  await db.bookingRequest.update({where:{id:appointmentId},data:{status}});
+ }
+ if(status==="CANCELLED"&&original.status!=="CANCELLED")await sendEmail(original.email,"SITES EVOLVE — Consultation cancelled",
+  "Your consultation scheduled for "+(original.preferredAt?studioDate(original.preferredAt):"a future date")+" has been cancelled. Contact sites.evolve7@gmail.com to reschedule.");
  await log(actor.id,"STATUS_"+status,"BookingRequest",appointmentId);refresh();
 }
+
+export async function createConsultationBlock(form:FormData){
+ const actor=await requireStaff();
+ const startRaw=requireValue(form,"startsAt",35),endRaw=requireValue(form,"endsAt",35);
+ const startsAt=fromZonedTime(startRaw,studioTimeZone),endsAt=fromZonedTime(endRaw,studioTimeZone);
+ if(!Number.isFinite(startsAt.getTime())||!Number.isFinite(endsAt.getTime())||startsAt<new Date()||
+  endsAt<=startsAt||endsAt.getTime()-startsAt.getTime()>7*86400000)throw Error("Invalid time range (max. seven days).");
+ const confirmed=await getDb().consultationSlot.count({where:{startAt:{gte:startsAt,lt:endsAt}}});
+ if(confirmed>0)throw Error("Cannot block a time that has a confirmed appointment.");
+ const block=await getDb().consultationBlock.create({data:{startsAt,endsAt,note:optional(form,"note",180)}});
+ await log(actor.id,"CREATE","ConsultationBlock",block.id);refresh();
+}
+export async function deleteConsultationBlock(form:FormData){
+ const actor=await requireStaff();
+ const blockId=validId(form,"id");
+ await getDb().consultationBlock.delete({where:{id:blockId}});
+ await log(actor.id,"DELETE","ConsultationBlock",blockId);refresh();
+}
+

@@ -51,9 +51,17 @@ export async function PortalExtraSection({section}:{section:string}){
  case "referrals":{
   const available=clients.map(c=>({...c,token:createReferralCode(c.id)})).filter((x):x is typeof x & {token:string}=>Boolean(x.token));
   const counts=await Promise.all(available.map(c=>db.lead.count({where:{referralCode:c.token}})));
+  const [program,rewards]=await Promise.all([
+   db.referralProgram.findUnique({where:{id:"main"},select:{enabled:true,benefitDescription:true}}),
+   db.referralReward.findMany({where:{clientId:{in:clients.map(c=>c.id)}},orderBy:{createdAt:"desc"},take:90,select:{id:true,clientId:true,status:true,benefitDescription:true,createdAt:true}})
+  ]);
   return <><PageTitle eyebrow="CLIENT PORTAL / PARTNERS" title="My referrals" description="Share your own referral link. New quote enquiries submitted through the link are attributed to this client account. No automatic payment, credit or reward is promised."/>
    <div className="metric-grid"><Metric label="Referrals recorded" value={counts.reduce((n,x)=>n+x,0)} icon={Users}/><Metric label="Referral links" value={available.length}/></div>
-   <SectionPanel title="Share a recommendation">{available.length?<div className="entity-grid">{available.map((c,i)=><article key={c.id} className="entity-card"><div className="entity-meta"><span>{c.name}</span><Status value="ACTIVE"/></div><strong>{counts[i]} quote enquiries attributed</strong><p>The recipient can explore the cost estimator before submitting a quote enquiry.</p><a className="small-link referral-url" href={"https://sitesevolve.com/ro/quote?ref="+encodeURIComponent(c.token)} rel="noopener noreferrer" target="_blank">https://sitesevolve.com/ro/quote?ref={c.token}</a></article>)}</div>:<Empty title="Referral links unavailable" description="Sign in with a client account. Private referral tokens require the existing secure authentication secret."/>}</SectionPanel>
+   <SectionPanel title="Referral benefits"><p className="console-muted">{program?.enabled?
+   "Active referral benefit: "+program.benefitDescription:
+   "The studio has not activated a reward offer yet. Referrals are tracked, but benefits are not promised until the owner publishes clear terms."}</p>
+   {rewards.length>0&&<DataTable headers={["Date","Benefit","Status"]} rows={rewards.map(r=>[shortDate(r.createdAt),r.benefitDescription,<Status key={r.id} value={r.status}/>])}/>}
+   </SectionPanel><SectionPanel title="Share a recommendation">{available.length?<div className="entity-grid">{available.map((c,i)=><article key={c.id} className="entity-card"><div className="entity-meta"><span>{c.name}</span><Status value="ACTIVE"/></div><strong>{counts[i]} quote enquiries attributed</strong><p>The recipient can explore the cost estimator before submitting a quote enquiry.</p><a className="small-link referral-url" href={"https://sitesevolve.com/ro/quote?ref="+encodeURIComponent(c.token)} rel="noopener noreferrer" target="_blank">https://sitesevolve.com/ro/quote?ref={c.token}</a></article>)}</div>:<Empty title="Referral links unavailable" description="Sign in with a client account. Private referral tokens require the existing secure authentication secret."/>}</SectionPanel>
   </>;
  }
  default:return null;

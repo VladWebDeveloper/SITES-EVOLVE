@@ -110,6 +110,7 @@ model Client {
   sites       ManagedSite[]
   documents   Document[]
   briefs      ClientBrief[]
+  rewards     ReferralReward[]
 }
 
 model ClientMember {
@@ -304,6 +305,7 @@ model BookingRequest {
   notes       String
   status      RequestStatus @default(NEW)
   createdAt   DateTime @default(now())
+  slot        ConsultationSlot?
   @@index([status,createdAt])
 }
 
@@ -390,4 +392,72 @@ model ExperimentMetric {
   event       String
   createdAt   DateTime @default(now())
   @@index([experiment,variant,event,createdAt])
+}
+
+/// One reserved 30-minute consultation slot, assigned atomically to one request.
+model ConsultationSlot {
+  id        String @id @default(cuid())
+  startAt   DateTime @unique
+  bookingId String @unique
+  booking   BookingRequest @relation(fields:[bookingId],references:[id],onDelete:Cascade)
+  createdAt DateTime @default(now())
+}
+
+/// Owner-blocked ranges for travel, private meetings and holidays.
+model ConsultationBlock {
+  id String @id @default(cuid())
+  startsAt DateTime
+  endsAt DateTime
+  note String?
+  createdAt DateTime @default(now())
+  @@index([startsAt,endsAt])
+}
+
+/// Samples from the running platform, not a claim about unsampled uptime.
+model PlatformHeartbeat {
+  id String @id @default(cuid())
+  checkedAt DateTime @default(now())
+  ok Boolean
+  responseMs Int
+  statusCode Int
+  @@index([checkedAt])
+}
+/// Publicly verifiable releases, maintenance and incidents; manually reviewed by staff.
+model PublicStatusEvent {
+  id String @id @default(cuid())
+  kind String
+  state String @default("RESOLVED")
+  title String
+  details String
+  occurredAt DateTime @default(now())
+  resolvedAt DateTime?
+  published Boolean @default(true)
+  createdAt DateTime @default(now())
+  @@index([published,occurredAt])
+}
+/// Atomic per-task scheduling lease prevents duplicate jobs across replicas.
+model ScheduleState {
+  key String @id
+  nextRunAt DateTime
+  updatedAt DateTime @updatedAt
+}
+
+/// Owner-defined benefit and eligibility policy. Disabled until explicitly configured.
+model ReferralProgram {
+  id String @id
+  enabled Boolean @default(false)
+  benefitDescription String
+  updatedAt DateTime @updatedAt
+}
+/// Auditable benefit claim for a referral that became a WON lead.
+model ReferralReward {
+  id String @id @default(cuid())
+  clientId String
+  client Client @relation(fields:[clientId],references:[id],onDelete:Cascade)
+  leadId String @unique
+  benefitDescription String
+  status String @default("PENDING")
+  createdAt DateTime @default(now())
+  fulfilledAt DateTime?
+  @@index([clientId,status])
 }
