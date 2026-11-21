@@ -37,7 +37,7 @@ export const services: Record<Locale,Service[]> = {
  {id:"care",icon:"shield",title:"Поддержка сайтов",body:"Запуск — это только начало.",detail:"Обновления, мониторинг, резервные копии и постоянные улучшения.",deliverables:["Обновления и поддержка","Мониторинг доступности","Проверки безопасности","Приоритетная помощь"]}
  ]
 };
-export type Work = {id:string; eyebrow:string; title:string; category:string; description:string; url?:string; theme:string};
+export type Work = {id:string; eyebrow:string; title:string; category:string; description:string; url?:string; theme:string; coverImage?:string; features?:{title:string;description:string}[]; technologies?:string[]; challenge?:string; solution?:string};
 export const works: Record<Locale,Work[]> = {
  en:[{id:"alvitravel",eyebrow:"TRAVEL • WEB PLATFORM",title:"AlviTravel",category:"Travel & discovery",description:"A travel-oriented digital experience bringing destinations and enquiries together in a streamlined interface.",url:"https://alvitravel.md",theme:"sea"}],
  ro:[{id:"alvitravel",eyebrow:"TURISM • PLATFORMĂ WEB",title:"AlviTravel",category:"Turism și descoperire",description:"Experiență digitală dedicată călătoriilor, care reunește destinațiile și solicitările de ofertă într-o interfață simplă.",url:"https://alvitravel.md",theme:"sea"}],
