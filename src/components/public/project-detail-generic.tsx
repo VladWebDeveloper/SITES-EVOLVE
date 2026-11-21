@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import {ArrowLeft,ArrowUpRight,ArrowRight,Layers3,MonitorSmartphone,Globe2,CheckCircle2} from "lucide-react";
+import {ArrowLeft,ArrowUpRight,ArrowRight,Layers3,MonitorSmartphone,CheckCircle2} from "lucide-react";
 import {pathFor,type Locale,type Work} from "@/lib/site";
 
 const i18n={
@@ -12,7 +12,7 @@ const i18n={
 // Shared case-study template: new entries in works[locale] automatically get their own detail page.
 export default function GenericWorkDetail({locale,project}:{locale:Locale;project:Work}){
  const t=i18n[locale];
- return <main className="work-generic">
+ return <div className="work-generic">
   <section className="work-generic-hero"><div className="container">
    <Link href={pathFor(locale,"work")} className="work-generic-back"><ArrowLeft size={17}/>{t.back}</Link>
    <span className="future-eyebrow"><span className="future-eyebrow-dot"/>{project.eyebrow}</span>
@@ -30,5 +30,5 @@ export default function GenericWorkDetail({locale,project}:{locale:Locale;projec
    {project.technologies&&project.technologies.length>0&&<div className="work-generic-technologies"><span><MonitorSmartphone size={18}/>{t.technology}</span><div>{project.technologies.map(v=><small key={v}>{v}</small>)}</div></div>}
   </div></section>
   <section className="work-generic-end"><div className="container"><div className="work-generic-end-panel"><h2>{t.next}</h2><Link href={pathFor(locale,"quote")}>{t.nextButton}<ArrowRight size={20}/></Link></div></div></section>
- </main>;
+ </div>;
 }
