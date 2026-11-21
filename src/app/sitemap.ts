@@ -12,9 +12,9 @@ const founderImages=[
  absoluteUrl("/vlad-serbusco-emirates-fashion-week-dubai.jpg")
 ];
 const runwayImages=[
+ absoluteUrl("/vlad-serbusco-founder.webp"),
  absoluteUrl("/vlad-serbusco-city-fashion-week-cluj-romania.jpg"),
- absoluteUrl("/vlad-serbusco-emirates-fashion-week-dubai.jpg"),
- absoluteUrl("/vlad-serbusco-founder.webp")
+ absoluteUrl("/vlad-serbusco-emirates-fashion-week-dubai.jpg")
 ];
 export default async function sitemap():Promise<MetadataRoute.Sitemap>{
  const paths=["","about","founder","fashion-model","services","work","process","journal","pricing","quote","consultation","contact","privacy","terms","builder","demo","academy","audit","status","privacy-center","referrals",
