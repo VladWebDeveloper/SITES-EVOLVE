@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {ArrowLeft,ArrowRight,ArrowUpRight,Compass,ExternalLink,Globe2,Layers3,MessageCircleMore,MonitorSmartphone,Plane,Sparkles,MapPinned} from "lucide-react";
 import {pathFor,works,type Locale,type Work} from "@/lib/site";
+import GenericWorkDetail from "@/components/public/project-detail-generic";
 
 const i18n={
  en:{
@@ -12,6 +13,32 @@ const i18n={
  ru:{
   kicker:"ПОРТФОЛИО / SITES EVOLVE",hero1:"Цифровой опыт.",hero2:"Реальные истории.",intro:"Продуманный дизайн и практическая польза. Изучите детали наших проектов.",featured:"ИЗБРАННЫЙ ПРОЕКТ",category:"ТУРИЗМ / ВЕБ-ПРОЕКТ",view:"Подробнее о проекте",live:"Открыть сайт",back:"Все проекты",detailKicker:"ПРОЕКТ / ALVITRAVEL",detail1:"Путешествия по-новому.",detail2:"Просто и удобно.",detailIntro:"Удобный цифровой опыт, объединяющий направления, вдохновение и заявки.",eyebrow:"В ДЕТАЛЯХ",featureTitle:"Создано для путешествий.",featureIntro:"Не только первое впечатление — удобство на каждом шагу.",about:"AlviTravel объединяет идеи для отдыха и запросы на предложения в одном понятном цифровом пространстве.",feature1:"Откройте направления",feature1Text:"Идеи для поездок и предложения для отдыха.",feature2:"Отправьте запрос",feature2Text:"Простой доступ к контактам и индивидуальным предложениям.",feature3:"Пользуйтесь где угодно",feature3Text:"Удобно на компьютере и смартфоне.",process:"ЗА КАДРОМ",processTitle:"Каждая деталь важна.",step1:"Чёткая концепция",step1Text:"Сделать поиск направлений простым и интересным.",step2:"Дизайн для людей",step2Text:"Яркие изображения, понятная структура и навигация.",step3:"От интереса к действию",step3Text:"Помочь посетителям перейти от просмотра к запросу предложения.",next:"ВАША ИДЕЯ МОЖЕТ БЫТЬ СЛЕДУЮЩЕЙ",nextTitle:"Создадим то, что запомнится.",nextText:"Новый сайт или цифровой продукт начинается с разговора.",nextButton:"Начать проект",illustration:"Стилизованное превью сайта AlviTravel",visualTitle:"Ваше путешествие начинается здесь.",visualButton:"Смотреть направления",visualCaption:"НАПРАВЛЕНИЯ · ВПЕЧАТЛЕНИЯ · ОТКРЫТИЯ"
  }
+} as const;
+const implementation={
+ en:{label:"WHAT WE IMPLEMENTED",title:"Features built for real travellers.",intro:"A closer look at the practical parts of the AlviTravel experience, verified against the live website.",stack:"TECHNICAL APPROACH",tech:"HTML, CSS & JavaScript · Responsive layout · Search-friendly content",items:[
+  ["Destination discovery","Clear sections for holiday destinations and excursion routes."],
+  ["Holiday offers","Featured trips with useful details and transparent indicative prices."],
+  ["Personalized enquiries","A structured request form to describe dates, travellers and preferences."],
+  ["Multiple contact options","Visitors can continue their enquiry through WhatsApp, phone or email."],
+  ["Excursions & group travel","Dedicated sections for organized trips, school groups and businesses."],
+  ["Mobile-first experience","Flexible navigation and readable layouts across phones and desktops."]
+ ]},
+ ro:{label:"FUNCȚIONALITĂȚI IMPLEMENTATE",title:"Soluții utile pentru călători.",intro:"Funcționalități practice ale AlviTravel, verificate pe website-ul public.",stack:"ABORDARE TEHNICĂ",tech:"HTML, CSS și JavaScript · Design responsive · Conținut structurat pentru căutare",items:[
+  ["Descoperirea destinațiilor","Secțiuni clare pentru vacanțe și trasee de excursie."],
+  ["Oferte turistice","Sejururi și excursii prezentate cu informații și prețuri orientative."],
+  ["Solicitare de ofertă","Formular pentru date de călătorie, numărul de persoane și preferințe."],
+  ["Contact simplificat","Continuarea cererii prin WhatsApp, apel telefonic sau email."],
+  ["Excursii și grupuri","Secțiuni pentru excursii organizate, grupuri școlare și companii."],
+  ["Adaptare mobilă","Interfață ușor de parcurs atât pe telefon, cât și pe calculator."]
+ ]},
+ ru:{label:"РЕАЛИЗОВАННЫЕ ФУНКЦИИ",title:"Удобные решения для путешествий.",intro:"Практические функции сайта AlviTravel, проверенные на открытом сайте.",stack:"ТЕХНИЧЕСКИЙ ПОДХОД",tech:"HTML, CSS и JavaScript · Адаптивная верстка · Структурированный контент",items:[
+  ["Поиск направлений","Удобные разделы с направлениями и экскурсионными маршрутами."],
+  ["Туристические предложения","Поездки с полезными подробностями и ориентировочными ценами."],
+  ["Форма заявки","Запрос поездки с датами, составом группы и пожеланиями."],
+  ["Удобная связь","Связь через WhatsApp, телефон или электронную почту."],
+  ["Экскурсии и группы","Разделы для организованных поездок, школ и компаний."],
+  ["Мобильная версия","Удобный интерфейс для телефона и компьютера."]
+ ]}
 } as const;
 function Eyebrow({children}:{children:React.ReactNode}){return <span className="showcase-eyebrow"><i/>{children}</span>}
 function TravelPreview({locale}:{locale:Locale}){
@@ -30,6 +57,8 @@ function TravelPreview({locale}:{locale:Locale}){
 }
 export default function PortfolioShowcase({locale,work}:{locale:Locale;work?:Work}){
  const t=i18n[locale],w=work||works[locale][0],isDetail=Boolean(work);
+ if(w.id!=="alvitravel")return <GenericWorkDetail locale={locale} project={w}/>;
+ const implemented=implementation[locale];
  const features=[[t.feature1,t.feature1Text,Compass],[t.feature2,t.feature2Text,MessageCircleMore],[t.feature3,t.feature3Text,MonitorSmartphone]] as const;
  const steps=[[t.step1,t.step1Text],[t.step2,t.step2Text],[t.step3,t.step3Text]] as const;
  return <div className="showcase-page">
@@ -48,6 +77,14 @@ export default function PortfolioShowcase({locale,work}:{locale:Locale;work?:Wor
   <section className="showcase-features"><div className="container">
    <header><Eyebrow>{t.eyebrow}</Eyebrow><h2>{t.featureTitle}</h2><p>{t.featureIntro}</p></header>
    <div className="showcase-feature-grid">{features.map(([title,body,Icon],i)=><article key={title} className="showcase-feature-card"><div className="showcase-feature-card-top"><span><Icon size={28} strokeWidth={1.6}/></span><small>0{i+1}</small></div><div><h3>{title}</h3><p>{body}</p></div></article>)}</div>
+  </div></section>
+  <section className="showcase-implementation"><div className="container">
+   <header><Eyebrow>{implemented.label}</Eyebrow><h2>{implemented.title}</h2><p>{implemented.intro}</p></header>
+   <div className="showcase-implementation-grid">{implemented.items.map(([title,description],i)=><article key={title}>
+    <div className="showcase-implementation-head"><span>{String(i+1).padStart(2,"0")}</span><ArrowUpRight size={20} aria-hidden="true"/></div>
+    <h3>{title}</h3><p>{description}</p>
+   </article>)}</div>
+   <div className="showcase-tech-bar"><span><Layers3 size={19}/>{implemented.stack}</span><p>{implemented.tech}</p></div>
   </div></section>
   <section className="showcase-story"><div className="container showcase-story-grid"><div><Eyebrow>{t.process}</Eyebrow><h2>{t.processTitle}</h2><span className="showcase-story-icon"><MapPinned size={95} strokeWidth={.85}/></span></div><div>{steps.map(([title,body],i)=><article key={title}><span>0{i+1}</span><div><h3>{title}</h3><p>{body}</p></div><ArrowUpRight size={20}/></article>)}</div></div></section>
   <section className="showcase-next"><div className="container"><div className="showcase-next-box"><div className="showcase-next-orb" aria-hidden="true"><Sparkles size={110} strokeWidth={.8}/></div><div><Eyebrow>{t.next}</Eyebrow><h2>{t.nextTitle}</h2><p>{t.nextText}</p><Link className="showcase-button-primary" href={pathFor(locale,"quote")}>{t.nextButton}<ArrowUpRight size={18}/></Link></div></div></div></section>
