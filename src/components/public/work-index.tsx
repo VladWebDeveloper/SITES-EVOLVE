@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {ArrowUpRight,ArrowRight,Globe2,Plane,Layers3} from "lucide-react";
 import {works,pathFor,type Locale,type Work} from "@/lib/site";
+import SeoEditorial from "@/components/public/seo-editorial";
 
 const labels={
  en:{eyebrow:"OUR WORK / SITES EVOLVE",heading:"A collection of",accent:"ideas brought to life.",intro:"Explore real websites and digital experiences we've built. Select any project to discover its design, features and implementation.",count:"Projects in our portfolio",view:"Explore project",live:"Live website",ctaOver:"YOUR PROJECT COULD BE NEXT",cta:"Let's build your next big idea.",ctaText:"Every new collaboration becomes another story worth sharing.",ctaButton:"Start a project",preview:"Stylized preview",status:"LIVE PROJECT"},
@@ -51,6 +52,7 @@ export default function WorkIndex({locale}:{locale:Locale}){
     </article>;
    })}</div>
   </div></section>
+  <SeoEditorial locale={locale} kind="work"/>
   <section className="work-index-bottom"><div className="container"><div className="work-index-bottom-panel">
    <div><span className="future-eyebrow"><span className="future-eyebrow-dot"/>{t.ctaOver}</span><h2>{t.cta}</h2><p>{t.ctaText}</p></div>
    <Link href={pathFor(locale,"quote")} className="work-index-bottom-button">{t.ctaButton}<ArrowUpRight size={21}/></Link>
