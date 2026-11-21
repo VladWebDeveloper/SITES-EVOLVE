@@ -121,3 +121,13 @@
 @media(max-width:760px){.fashion-gallery-dialog{border-radius:23px;padding:24px}.fashion-gallery-grid{grid-template-columns:1fr;gap:26px}.fashion-gallery-city{aspect-ratio:1.57}.fashion-gallery-dubai{aspect-ratio:.77;max-width:470px}.fashion-gallery-heading{margin-bottom:25px}.fashion-gallery-heading h2{font-size:clamp(39px,8vw,58px)}}
 @media(max-width:520px){.fashion-gallery-overlay{padding:8px;align-items:flex-start}.fashion-gallery-dialog{max-height:calc(100dvh - 16px);border-radius:20px;padding:20px}.fashion-gallery-close{width:39px;height:39px}.fashion-gallery-heading{padding-right:33px}.fashion-gallery-heading h2{font-size:clamp(36px,10vw,50px)}.fashion-gallery-heading p{font-size:13px}.fashion-gallery-city{border-radius:14px}.fashion-gallery-dubai{border-radius:14px}.fashion-gallery-photo figcaption{padding:13px 0 0}.fashion-gallery-photo figcaption strong{font-size:23px}}
 @media(prefers-reduced-motion:reduce){.fashion-gallery-overlay{animation:none}.fashion-gallery-photo-image,.fashion-gallery-close,.evolve-founder-role-fashion .fashion-role-cta{transition:none}}
+
+/* Internal links expose founder fashion portfolio to users and search crawlers. */
+.evolve-founder-runway-link{display:inline-flex;align-items:center;gap:12px;margin-top:27px;border:1px solid #9790e67a;border-radius:999px;padding:14px 20px;background:linear-gradient(120deg,#27274d,#191c3f);color:#d7cdff;font-size:13px;font-weight:750;max-width:100%;transition:transform .3s,border-color .3s}
+.evolve-founder-runway-link:hover{transform:translateY(-3px);border-color:#c7bbff;color:white}
+.evolve-founder-runway-link span{line-height:1.5}
+.evolve-founder-runway-link svg{flex:none}
+.fashion-gallery-full-link{margin-top:25px;display:inline-flex;align-items:center;justify-content:space-between;gap:20px;padding:15px 21px;border-radius:999px;background:linear-gradient(115deg,#6489ff,#9672ee);color:white;font-size:12px;font-weight:800;transition:transform .25s}
+.fashion-gallery-full-link:hover{transform:translateY(-3px)}
+@media(max-width:520px){.evolve-founder-runway-link{border-radius:22px;padding:12px 14px;font-size:12px}.fashion-gallery-full-link{width:100%;font-size:11px}}
+@media(prefers-reduced-motion:reduce){.evolve-founder-runway-link,.fashion-gallery-full-link{transition:none}}
