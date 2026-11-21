@@ -2,8 +2,9 @@
 import {useEffect,useRef,useState} from "react";
 import {createPortal} from "react-dom";
 import Image from "next/image";
+import Link from "next/link";
 import {ArrowUpRight,Camera,MapPin,X} from "lucide-react";
-import type {Locale} from "@/lib/site";
+import {pathFor,type Locale} from "@/lib/site";
 
 const labels={
  ro:{
@@ -16,7 +17,7 @@ const labels={
   dubai:"Dubai, Emiratele Arabe Unite",
   imageCity:"Prezentare de modă la City Fashion Week, Cluj, România",
   imageDubai:"Prezentare de modă la Emirates Fashion Week, Dubai",
-  alt:"Deschide galeria Fashion Model"
+  alt:"Deschide galeria Fashion Model",full:"Vezi portofoliul internațional"
  },
  en:{
   explore:"View runway moments",
@@ -28,7 +29,7 @@ const labels={
   dubai:"Dubai, United Arab Emirates",
   imageCity:"Runway appearance at City Fashion Week, Cluj, Romania",
   imageDubai:"Runway appearance at Emirates Fashion Week, Dubai",
-  alt:"Open Fashion Model gallery"
+  alt:"Open Fashion Model gallery",full:"Explore the international runway portfolio"
  },
  ru:{
   explore:"Посмотреть показы",
@@ -40,7 +41,7 @@ const labels={
   dubai:"Дубай, ОАЭ",
   imageCity:"Показ City Fashion Week в Клуже, Румыния",
   imageDubai:"Показ Emirates Fashion Week в Дубае",
-  alt:"Открыть галерею Fashion Model"
+  alt:"Открыть галерею Fashion Model",full:"Посмотреть международное портфолио"
  }
 } as const;
 
@@ -60,8 +61,8 @@ export default function FashionModelGallery({locale,company,role,description,ind
   return ()=>{document.removeEventListener("keydown",handleKey);document.body.style.overflow=previous;triggerRef.current?.focus();};
  },[open]);
  const images=[
-  {src:"/adi-academy-fashion-week.jpg",title:"City Fashion Week",place:t.city,alt:t.imageCity,cls:"fashion-gallery-city"},
-  {src:"/adi-academy-runway.jpg",title:"Emirates Fashion Week",place:t.dubai,alt:t.imageDubai,cls:"fashion-gallery-dubai"}
+  {src:"/vlad-serbusco-city-fashion-week-cluj-romania.jpg",title:"City Fashion Week",place:t.city,alt:t.imageCity,cls:"fashion-gallery-city"},
+  {src:"/vlad-serbusco-emirates-fashion-week-dubai.jpg",title:"Emirates Fashion Week",place:t.dubai,alt:t.imageDubai,cls:"fashion-gallery-dubai"}
  ];
  return <>
   <button ref={triggerRef} type="button" className="evolve-founder-role evolve-founder-role-fashion" aria-label={t.alt} aria-haspopup="dialog" aria-expanded={open} onClick={()=>setOpen(true)}>
@@ -86,6 +87,7 @@ export default function FashionModelGallery({locale,company,role,description,ind
       </div>
       <figcaption><strong>{photo.title}</strong><span><MapPin size={15} aria-hidden="true"/>{photo.place}</span></figcaption>
      </figure>)}</div>
+     <Link className="fashion-gallery-full-link" href={pathFor(locale,"fashion-model")} onClick={()=>setOpen(false)}>{t.full}<ArrowUpRight size={17}/></Link>
     </section>
    </div>,document.body)}
  </>;
