@@ -7,22 +7,22 @@ const image=absoluteUrl("/vlad-serbusco-founder.webp");
 const cityPhoto=absoluteUrl("/vlad-serbusco-city-fashion-week-cluj-romania.jpg");
 const dubaiPhoto=absoluteUrl("/vlad-serbusco-emirates-fashion-week-dubai.jpg");
 const about={
- en:"Vlad Serbușco is Founder & CEO of SITES EVOLVE, IT Manager at AlviTravel, and an international fashion model at ADI Academy. His runway appearances include City Fashion Week in Cluj, Romania and Emirates Fashion Week in Dubai, UAE.",
- ro:"Vlad Serbușco este fondator și CEO al SITES EVOLVE, IT Manager la AlviTravel și model internațional la ADI Academy, cu apariții la City Fashion Week în Cluj și Emirates Fashion Week în Dubai.",
- ru:"Влад Сербушко — основатель и CEO SITES EVOLVE, IT-менеджер AlviTravel и международный fashion model в ADI Academy. Участвовал в City Fashion Week в Клуже и Emirates Fashion Week в Дубае."
+ en:"Vlad Serbușco is the Founder & CEO of SITES EVOLVE and a fashion model at ADI Academy. Combining entrepreneurship, digital innovation and fashion, he has appeared on runways in Cluj, Romania and Dubai, UAE.",
+ ro:"Vlad Serbușco este fondatorul și CEO-ul SITES EVOLVE și fashion model la ADI Academy. Activează în antreprenoriat, inovație digitală și modeling, cu apariții pe podium în Cluj și Dubai.",
+ ru:"Влад Сербушко — основатель и CEO SITES EVOLVE, а также fashion model в ADI Academy. Его деятельность объединяет предпринимательство, цифровые технологии и моделинг, включая показы в Клуже и Дубае."
 } as const;
-const fashionTitle={en:"Vlad Serbușco — International Fashion Model | Cluj & Dubai",ro:"Vlad Serbușco — Model internațional | Cluj și Dubai",ru:"Влад Сербушко — Международная модель | Клуж и Дубай"} as const;
+const fashionTitle={en:"Vlad Serbușco — Fashion Model at ADI Academy",ro:"Vlad Serbușco — Fashion Model la ADI Academy",ru:"Влад Сербушко — Fashion Model в ADI Academy"} as const;
 
 export function personSchema(locale:Locale){
  return {
   "@type":"Person","@id":personId,name,alternateName:["Vlad Serbusco","Влад Сербушко"],
   url:absoluteUrl(pathFor("en","founder")),
   image,description:about[locale],
-  jobTitle:["Founder & CEO of SITES EVOLVE","IT Manager at AlviTravel","International Fashion Model"],
-  worksFor:[{"@id":orgId},{"@type":"Organization",name:"AlviTravel",url:"https://alvitravel.md"}],
+  jobTitle:["Founder & CEO of SITES EVOLVE","Fashion Model at ADI Academy"],
+  worksFor:[{"@id":orgId}],
   memberOf:{"@type":"Organization",name:"ADI Academy"},
   knowsAbout:["Web development","IT management","Business administration","Fashion modeling"],
-  sameAs:["https://www.instagram.com/vlad_1402/"]
+  sameAs:["https://www.instagram.com/vlad_14.02/"]
  };
 }
 export function founderSchema(locale:Locale){
@@ -44,7 +44,7 @@ export function fashionSchema(locale:Locale){
   personSchema(locale),
   {"@type":"CollectionPage","@id":url+"#fashion",url,name:fashionTitle[locale],inLanguage:locale,
    description:about[locale],about:{"@id":personId},
-   primaryImageOfPage:{"@id":url+"#cluj-photo"},image:[cityPhoto,dubaiPhoto],hasPart:photos}
+   primaryImageOfPage:{"@type":"ImageObject",url:image,contentUrl:image,caption:"Vlad Serbușco — Founder & CEO of SITES EVOLVE, Fashion Model at ADI Academy"},image:[image,cityPhoto,dubaiPhoto],hasPart:photos}
  ]};
 }
 export function safeJsonLd(value:unknown){return JSON.stringify(value).replace(/</g,"\\u003c");}
