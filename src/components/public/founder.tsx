@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import {ArrowUpRight, Camera, Sparkles, GraduationCap, Code2, Users, Instagram} from "lucide-react";
+import {ArrowUpRight, Camera, Sparkles, GraduationCap, Code2, Users} from "lucide-react";
 import {pathFor, type Locale} from "@/lib/site";
 import FashionModelGallery from "@/components/public/fashion-gallery";
 
@@ -77,7 +77,7 @@ export function FounderProfile({locale}:{locale:Locale}){
     <div className="evolve-founder-education"><GraduationCap size={20} aria-hidden="true"/>{d.education}</div>
     <div className="evolve-founder-skills">{["Web Development","IT Management","Business Strategy","Leadership","Creative Thinking"].map(s=><span key={s}>{s}</span>)}</div>
     <Link href={pathFor(locale,"work")} className="evolve-founder-link">{d.work}<ArrowUpRight size={17}/></Link>
-    <a href="https://www.instagram.com/vlad_14.02/" target="_blank" rel="noopener noreferrer" className="evolve-founder-instagram"><Instagram size={18} aria-hidden="true"/> @vlad_14.02 <ArrowUpRight size={16} aria-hidden="true"/></a>
+    <a href="https://www.instagram.com/vlad_14.02/" target="_blank" rel="noopener noreferrer" className="evolve-founder-instagram"><Camera size={18} aria-hidden="true"/> @vlad_14.02 <ArrowUpRight size={16} aria-hidden="true"/></a>
    </div>
   </div>
   <div className="evolve-founder-roles-section">
