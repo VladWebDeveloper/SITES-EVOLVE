@@ -3,7 +3,7 @@ import {ArrowUpRight,CheckCircle2} from "lucide-react";
 import {pathFor,type Locale} from "@/lib/site";
 
 type Kind="home"|"services"|"about"|"process"|"pricing"|"contact"|"work"|"founder";
-type Editorial={over:string;title:string;intro:string;points:readonly (readonly [string,string])[];faqTitle:string;faq:readonly (readonly [string,string])[];action:string;actionPath:string};
+type Editorial={over:string;title:string;intro:string;points:readonly (readonly [string,string])[];context?:string;faqTitle:string;faq:readonly (readonly [string,string])[];action:string;actionPath:string};
 const content:Record<Locale,Record<Kind,Editorial>>={
  en:{
   home:{
@@ -28,6 +28,7 @@ const content:Record<Locale,Record<Kind,Editorial>>={
     ["Online sales and custom functionality","Stores need organized product information and a straightforward order journey. Custom web applications may require accounts, permissions, dashboards or integrations. These requirements are defined during planning, not assumed for every project."],
     ["Visibility, performance and support","Technical SEO starts with crawlable pages, meaningful titles, logical headings and mobile usability. Performance, analytics and maintenance help you understand and improve how the site works after launch."]
    ],
+   context:"If you are unsure which service fits, start with the result you want rather than a technical feature list. For example, a restaurant may need an easy-to-read menu and enquiry form, while a travel business may need destination pages and a way to request an offer. We can discuss your current website, languages, brand materials and future needs before selecting the approach. Some projects combine web development with SEO or maintenance; others need only one focused improvement. A clear scope makes it easier to compare options, set priorities and avoid unnecessary complexity.",
    faqTitle:"Questions about our services",
    faq:[
     ["What information should I prepare?","A short explanation of your business, intended audience, required pages, existing brand materials and examples of sites you like is enough to begin a useful conversation."],
@@ -41,7 +42,8 @@ const content:Record<Locale,Record<Kind,Editorial>>={
     ["Understand the business first","Before choosing a layout or a technology, we discuss the target audience, the information customers look for and the action that matters most: a request, a purchase, an appointment or another clear outcome."],
     ["Design with a clear purpose","A strong visual identity helps people recognize a brand, but usability makes it useful. We prioritize readable content, a consistent interface, accessible interaction and a sensible experience across screen sizes."],
     ["Build a foundation that can evolve","Digital needs change. We consider future content, possible integrations, basic search visibility and maintainability when deciding how a project should be built. The result should remain practical for the people who use and manage it."]
-   ],faqTitle:"Working with SITES EVOLVE",
+   ],context:"We believe collaboration works best when both sides understand the objective and the decisions ahead. That can mean beginning with a short conversation, organizing the essential content, clarifying the main user journey and reviewing how the design will work on a phone. A project's visual style should reflect the business rather than imitate every passing trend. We also explain which features are included and which may require additional planning. As a growing studio, SITES EVOLVE shares actual work and aims to improve its process with each project instead of presenting invented client results or success statistics.",
+   faqTitle:"Working with SITES EVOLVE",
    faq:[
     ["Where is SITES EVOLVE based?","The studio is based in Chișinău, Moldova. Initial conversations, planning and many stages of development can also take place remotely."],
     ["Who is behind the studio?","Vlad Serbușco is the Founder & CEO of SITES EVOLVE. His work combines interests in business, web technology and creative design."]
@@ -54,7 +56,8 @@ const content:Record<Locale,Record<Kind,Editorial>>={
     ["Discovery and scope","We discuss the audience, pages, desired features, content, integrations and available materials. This helps separate essential functionality from ideas that can be considered later."],
     ["Design and implementation","The site structure and visual direction are developed around the approved scope. During development, navigation, forms and responsive layouts need testing, not just attractive screenshots."],
     ["Review, launch and improvement","Before publishing, we review important pages, links and contact paths. After launch, the business may want to monitor traffic, update content, refine SEO and plan maintenance."]
-   ],faqTitle:"Planning and collaboration",
+   ],context:"A helpful brief does not need technical jargon. You can start with your website's purpose, the type of customer you want to reach, examples of pages you need, any languages you support and a preferred timeframe. Existing logos, photographs and text are valuable because they influence the structure and design. During development, important questions might include how a visitor submits a form, what happens after an enquiry and who will update content. Testing and reviewing these practical details is essential to releasing a site that is not merely attractive but also useful in daily operation.",
+   faqTitle:"Planning and collaboration",
    faq:[
     ["How long does a website take?","Timing depends on the number of pages, content readiness, integrations and revision rounds. A realistic schedule can be discussed after the initial brief."],
     ["Can the project change during development?","Yes, but substantial changes can affect scope, timing and cost. Discussing changes openly helps keep priorities clear for everyone involved."]
@@ -80,7 +83,8 @@ const content:Record<Locale,Record<Kind,Editorial>>={
     ["Describe the business","Tell us what your company does, where your customers are and whether you already have a website. A link to an existing site is useful when you want an audit or redesign."],
     ["Explain the main goal","For example, you may want visitors to request offers, book a service, browse a catalogue or understand your brand better. It helps to mention any essential forms, languages or integrations."],
     ["Share priorities and constraints","If you have a target date, approximate budget or prepared branding and content, include that information. We can then discuss a realistic scope and identify the next practical step."]
-   ],faqTitle:"Before you get in touch",
+   ],context:"For a redesign, it is especially helpful to mention what frustrates you about the current website: outdated information, difficult mobile navigation, slow pages or too many steps to contact you. For a new project, tell us which services or products should be prominent and whether customers need Romanian, English or Russian. You can also explain what you do not need yet, so the initial scope remains manageable. An enquiry is the beginning of a discussion, not an obligation to order. We will need to understand the requirements before proposing a realistic solution or price.",
+   faqTitle:"Before you get in touch",
    faq:[
     ["Can I contact you without a finished brief?","Yes. You can describe your idea in everyday language. Technical requirements can be clarified during the conversation."],
     ["Do you work with businesses outside Moldova?","Yes. SITES EVOLVE is based in Chișinău and can discuss remote website projects with businesses in other locations."]
@@ -93,7 +97,8 @@ const content:Record<Locale,Record<Kind,Editorial>>={
     ["A useful customer journey","A well-structured project helps people understand the offer and move toward a relevant action. For AlviTravel, that means finding destinations, exploring holiday options and reaching the agency for an enquiry."],
     ["Details beyond the appearance","A project page should describe practical components such as responsive navigation, enquiry forms, multilingual interfaces and contact options. Those details explain what was built more clearly than a decorative preview alone."],
     ["A portfolio designed to grow","AlviTravel is currently our featured public project. As future work is completed and approved for publication, new project cards and individual case studies can be added to this collection."]
-   ],faqTitle:"About the portfolio",
+   ],context:"When reviewing a case study, consider how the website helps visitors complete an actual task. On the AlviTravel project, useful elements include destination discovery, a holiday enquiry route and contact choices rather than a decorative homepage alone. The visual presentation illustrates the intended experience, while the live website shows what is available to users today. Every new SITES EVOLVE project will need its own objectives, features and context; we will not reuse the same claims across unrelated businesses. This is why the portfolio currently features one real project and is structured to accommodate more completed work in the future.",
+   faqTitle:"About the portfolio",
    faq:[
     ["Can I view the live project?","Yes. Open the AlviTravel case study to see the functionality breakdown and a separate link to the public travel website."],
     ["Are the visual previews screenshots?","Some portfolio visuals are stylized representations rather than exact browser screenshots. We identify them as previews and provide links to the live project for reference."]
@@ -135,7 +140,8 @@ const content:Record<Locale,Record<Kind,Editorial>>={
     ["Website-uri de prezentare și redesign","Un website de companie prezintă serviciile, exemplele relevante și metodele de contact. În cazul unui redesign, verificăm mai întâi ce pagini și funcționalități merită păstrate."],
     ["Magazine online și funcții personalizate","Un magazin are nevoie de categorii clare și un proces de comandă ușor. Aplicațiile web pot include conturi, permisiuni, panouri de administrare sau integrări, stabilite după analiza cerințelor."],
     ["Vizibilitate, performanță și administrare","SEO-ul tehnic include pagini indexabile, titluri relevante, structură logică și navigare mobilă. Analytics, optimizarea vitezei și mentenanța ajută la îmbunătățirea website-ului după lansare."]
-   ],faqTitle:"Întrebări despre serviciile noastre",
+   ],context:"Dacă nu știi ce serviciu ți se potrivește, începe cu rezultatul dorit, nu cu o listă de tehnologii. De exemplu, un restaurant poate avea nevoie de meniu digital și formular de contact, iar o agenție de turism de pagini pentru destinații și solicitări de ofertă. Putem discuta website-ul actual, limbile, materialele de brand și planurile viitoare înainte de alegerea soluției. Unele proiecte combină dezvoltarea web cu SEO și mentenanță, altele au nevoie doar de o îmbunătățire punctuală. Un volum de lucru clar ajută la stabilirea priorităților și evitarea complexității inutile.",
+   faqTitle:"Întrebări despre serviciile noastre",
    faq:[
     ["Ce informații să pregătesc pentru început?","Sunt suficiente o scurtă descriere a afacerii, publicul vizat, paginile dorite, materialele de brand și câteva exemple de website-uri care îți plac."],
     ["Puteți îmbunătăți website-ul pe care îl am deja?","În funcție de platformă și acces, putem discuta despre redesign, viteză, SEO tehnic sau funcționalități noi, fără să reconstruim neapărat tot site-ul."]
@@ -148,7 +154,8 @@ const content:Record<Locale,Record<Kind,Editorial>>={
     ["Înțelegem mai întâi afacerea","Înainte de alegerea designului, discutăm despre publicul țintă, informațiile importante și acțiunea dorită: o solicitare, o comandă, o programare sau un alt obiectiv clar."],
     ["Design cu un scop","Identitatea vizuală trebuie să diferențieze brandul, dar și să fie utilă. Punem accent pe text lizibil, navigare intuitivă, interacțiuni accesibile și o experiență coerentă pe toate ecranele."],
     ["O bază pregătită pentru schimbare","Nevoile digitale se modifică. La planificare luăm în considerare conținutul viitor, integrările posibile, vizibilitatea în căutare și întreținerea website-ului."]
-   ],faqTitle:"Colaborarea cu SITES EVOLVE",
+   ],context:"Credem că o colaborare eficientă începe când ambele părți înțeleg obiectivul și pașii următori. Discutăm ce informații sunt esențiale, ce trebuie să facă vizitatorul și cum va funcționa designul pe telefon. Aspectul unui website trebuie să reflecte afacerea, nu să copieze fiecare tendință. Explicăm ce funcționalități intră în proiect și ce ar necesita planificare suplimentară. Fiind un studio în dezvoltare, SITES EVOLVE prezintă proiecte reale și își îmbunătățește procesul prin experiență, fără să inventeze clienți, rezultate sau statistici. Accentul rămâne pe utilitate, comunicare și decizii transparente.",
+   faqTitle:"Colaborarea cu SITES EVOLVE",
    faq:[
     ["Unde se află SITES EVOLVE?","Studioul este în Chișinău, Republica Moldova. Discuțiile inițiale și numeroase etape de dezvoltare pot avea loc și online."],
     ["Cine este fondatorul studioului?","Vlad Serbușco este Founder & CEO al SITES EVOLVE. Activitatea sa îmbină antreprenoriatul, tehnologia web și designul creativ."]
@@ -161,7 +168,8 @@ const content:Record<Locale,Record<Kind,Editorial>>={
     ["Analiză și definirea proiectului","Discutăm publicul, paginile, funcționalitățile necesare, conținutul, integrările și materialele existente. Separăm elementele esențiale de ideile care pot fi adăugate ulterior."],
     ["Design și implementare","Structura și direcția vizuală sunt dezvoltate conform cerințelor stabilite. În timpul implementării, navigarea, formularele și interfața mobilă trebuie testate, nu doar prezentate în imagini."],
     ["Verificare, lansare și îmbunătățiri","Înainte de publicare, verificăm paginile, linkurile și metodele de contact. După lansare, pot urma actualizări de conținut, monitorizare, optimizări SEO și mentenanță."]
-   ],faqTitle:"Planificare și colaborare",
+   ],context:"Un brief bun nu are nevoie de termeni tehnici complicați. Poți porni de la scopul website-ului, tipul de client, paginile necesare, limbile dorite și termenul aproximativ. Logoul, fotografiile și textele existente ne ajută să pregătim structura. Pe parcurs sunt importante întrebări precum: cum trimite un vizitator formularul, ce se întâmplă cu solicitarea și cine va actualiza informațiile după lansare? Răspunsurile influențează funcționalitățile și testarea. Înainte de publicare trebuie verificate paginile principale, contactele, linkurile, formularele și experiența mobilă. Scopul este un website utilizabil zilnic, nu doar o prezentare atrăgătoare.",
+   faqTitle:"Planificare și colaborare",
    faq:[
     ["Cât durează realizarea unui website?","Depinde de numărul de pagini, pregătirea conținutului, integrări și revizii. Un calendar realist se poate stabili după analiza cerințelor."],
     ["Se pot modifica cerințele pe parcurs?","Da, dar schimbările importante pot influența timpul și costul. Comunicarea clară ajută la menținerea priorităților."]
@@ -187,7 +195,8 @@ const content:Record<Locale,Record<Kind,Editorial>>={
     ["Descrie afacerea","Spune-ne ce face compania, unde sunt clienții și dacă ai deja website. Un link către site-ul existent este util pentru un audit sau redesign."],
     ["Explică obiectivul principal","Poate vrei mai multe cereri de ofertă, programări, un catalog de produse sau o prezentare mai clară. Menționează limbile, formularele și integrările esențiale."],
     ["Precizează prioritățile","Dacă ai un termen dorit, buget orientativ sau materiale de brand pregătite, include-le în mesaj. Astfel putem discuta un volum realist de lucru."]
-   ],faqTitle:"Înainte să ne scrii",
+   ],context:"Pentru redesign, menționează ce te nemulțumește la website-ul existent: informații vechi, navigare dificilă pe telefon, viteză redusă sau prea mulți pași până la contact. Pentru un proiect nou, spune ce servicii trebuie evidențiate și dacă ai nevoie de română, engleză sau rusă. Poți preciza și ce funcții nu sunt necesare deocamdată, astfel încât prima versiune să rămână realistă. Trimiterea unei solicitări este începutul unei discuții, nu o obligație de cumpărare. Cerințele trebuie analizate înainte de stabilirea unei soluții și a unei estimări personalizate.",
+   faqTitle:"Înainte să ne scrii",
    faq:[
     ["Pot trimite o idee fără un plan complet?","Da. Descrie ideea cu propriile cuvinte. Detaliile tehnice pot fi clarificate în timpul discuției."],
     ["Lucrați și cu afaceri din afara Moldovei?","Da. SITES EVOLVE are sediul operațional în Chișinău și poate discuta proiecte web la distanță cu afaceri din alte regiuni."]
@@ -200,7 +209,8 @@ const content:Record<Locale,Record<Kind,Editorial>>={
     ["Experiență clară pentru client","Un proiect bine structurat ajută vizitatorii să înțeleagă oferta și să facă următorul pas. Pentru AlviTravel, asta înseamnă să descopere destinații, să exploreze vacanțe și să solicite o ofertă."],
     ["Mai mult decât un design atrăgător","Studiile de caz descriu elemente precum navigarea responsive, formularele, interfața multilingvă și contactul. Detaliile tehnice sunt mai utile decât un preview decorativ."],
     ["Portofoliu pregătit să crească","AlviTravel este momentan proiectul public principal. Pe măsură ce finalizăm alte colaborări și primim acordul de publicare, vor apărea noi carduri și pagini individuale."]
-   ],faqTitle:"Despre proiectele noastre",
+   ],context:"Când analizezi un studiu de caz, urmărește cum ajută website-ul oamenii să îndeplinească o sarcină. În cazul AlviTravel, sunt importante descoperirea destinațiilor, posibilitatea de a solicita o ofertă și metodele de contact, nu doar imaginea de pe prima pagină. Prezentarea vizuală ilustrează experiența, iar website-ul public arată funcționalitățile disponibile în prezent. Fiecare viitor proiect SITES EVOLVE va avea obiective, decizii și implementări proprii. Nu vom atribui rezultate sau statistici de la un proiect altuia. Portofoliul include momentan o lucrare reală și este pregătit să prezinte și alte colaborări finalizate.",
+   faqTitle:"Despre proiectele noastre",
    faq:[
     ["Pot vedea website-ul real?","Da. Deschide studiul de caz AlviTravel pentru explicațiile despre funcționalități și linkul separat către site-ul public."],
     ["Previzualizările sunt capturi reale de ecran?","Unele imagini sunt reprezentări stilizate, nu capturi exacte din browser. Le marcăm drept previzualizări și oferim acces la website-ul real."]
@@ -241,7 +251,8 @@ const content:Record<Locale,Record<Kind,Editorial>>={
     ["Корпоративные сайты и редизайн","Сайт компании представляет услуги, примеры работ и способы связи. При редизайне сначала определяем, какой контент и функции стоит сохранить."],
     ["Интернет-магазины и дополнительные функции","Магазину нужны понятные категории и удобное оформление заказа. Веб-приложения могут включать аккаунты, права доступа, панели управления и интеграции. Состав функций определяется после обсуждения."],
     ["Видимость, скорость и обслуживание","Техническое SEO включает доступные поисковикам страницы, подходящие заголовки, логичную структуру и мобильную версию. Аналитика и обслуживание помогают улучшать сайт после запуска."]
-   ],faqTitle:"Вопросы об услугах",
+   ],context:"Если не знаете, какая услуга подходит, начните с цели, а не с названия технологии. Ресторану может понадобиться удобное меню и форма связи, а туристическому бизнесу — страницы направлений и запросы предложений. Можно обсудить существующий сайт, языки, фирменные материалы и планы развития до выбора реализации. Иногда веб-разработка сочетается с SEO и поддержкой, а иногда достаточно точечного улучшения. Понятный объём работ помогает определить приоритеты, сравнить варианты и не усложнять проект без необходимости. Мы стараемся предлагать решения, которые соответствуют задачам, а не добавлять функции только ради количества.",
+   faqTitle:"Вопросы об услугах",
    faq:[
     ["Что подготовить к первой встрече?","Достаточно краткого описания бизнеса, целевой аудитории, необходимых страниц, материалов бренда и примеров понравившихся сайтов."],
     ["Можете улучшить мой существующий сайт?","В зависимости от платформы и доступа мы можем обсудить редизайн, оптимизацию скорости, SEO или новые функции без полной перестройки."]
@@ -254,7 +265,8 @@ const content:Record<Locale,Record<Kind,Editorial>>={
     ["Сначала понимаем бизнес","До выбора дизайна обсуждаем аудиторию, важную информацию и цель: заявку, заказ, запись или другое конкретное действие."],
     ["Дизайн с понятной задачей","Фирменный стиль должен выделять компанию, но удобство не менее важно. Мы уделяем внимание читаемости, простой навигации, доступности и работе на разных экранах."],
     ["Основа для будущего развития","Потребности бизнеса меняются. При планировании учитываем будущий контент, возможные интеграции, поисковую видимость и поддержку сайта."]
-   ],faqTitle:"Сотрудничество с SITES EVOLVE",
+   ],context:"Хорошая работа начинается с общего понимания цели. Нужно обсудить важную информацию, действия посетителей и удобство на телефоне. Визуальный стиль сайта должен отражать бизнес, а не слепо копировать тренды. Мы объясняем, какие функции входят в проект и что требует отдельного планирования. SITES EVOLVE — развивающаяся студия, поэтому мы показываем реальные работы и совершенствуем подход с каждым проектом, а не придумываем истории успеха или показатели клиентов. Для нас важны понятная коммуникация, доступность интерфейса и возможность обновлять сайт после запуска. Решения принимаются исходя из практических потребностей компании.",
+   faqTitle:"Сотрудничество с SITES EVOLVE",
    faq:[
     ["Где находится студия?","Студия находится в Кишинёве, Республика Молдова. Обсуждение и многие этапы разработки возможны онлайн."],
     ["Кто основал SITES EVOLVE?","Влад Сербушко — основатель и CEO SITES EVOLVE. Его интересы связаны с предпринимательством, веб-технологиями и дизайном."]
@@ -267,7 +279,8 @@ const content:Record<Locale,Record<Kind,Editorial>>={
     ["Анализ и объём работ","Обсуждаем аудиторию, страницы, нужные функции, контент и интеграции. Отделяем обязательные задачи от идей, которые можно реализовать позже."],
     ["Дизайн и разработка","Структура и визуальное направление соответствуют согласованным требованиям. Во время разработки проверяем навигацию, формы и мобильный интерфейс."],
     ["Проверка, запуск и улучшения","Перед публикацией проверяем страницы, ссылки и способы связи. После запуска могут понадобиться обновления, аналитика, SEO и техническая поддержка."]
-   ],faqTitle:"Планирование и сотрудничество",
+   ],context:"Хороший бриф не обязан содержать сложные технические термины. Начните с цели сайта, аудитории, нужных страниц, языков и приблизительных сроков. Логотип, фотографии и готовые тексты помогут спланировать структуру. В процессе важно выяснить, как посетитель отправит форму, что произойдёт с заявкой и кто будет обновлять содержание. Эти ответы влияют на функции и тестирование. Перед публикацией нужно проверить основные страницы, контакты, ссылки, формы и мобильную версию. Такой подход помогает создать сайт, которым удобно пользоваться каждый день, а не только красивую презентацию для первого просмотра.",
+   faqTitle:"Планирование и сотрудничество",
    faq:[
     ["Сколько времени занимает создание сайта?","Сроки зависят от количества страниц, готовности контента, интеграций и правок. Реалистичный график обсуждается после знакомства с задачей."],
     ["Можно менять требования в процессе?","Да, но существенные изменения могут влиять на сроки и стоимость. Открытое обсуждение помогает удерживать приоритеты."]
@@ -293,7 +306,8 @@ const content:Record<Locale,Record<Kind,Editorial>>={
     ["Расскажите о бизнесе","Опишите деятельность компании, аудиторию и наличие сайта. Ссылка на существующий сайт пригодится для аудита или редизайна."],
     ["Укажите главную цель","Возможно, вам нужны заявки, записи, каталог товаров или более понятная презентация бренда. Упомяните языки, формы и важные интеграции."],
     ["Расскажите о приоритетах","Желаемые сроки, примерный бюджет и подготовленные материалы помогут обсудить реалистичный объём работ."]
-   ],faqTitle:"Перед тем как связаться",
+   ],context:"Для редизайна полезно рассказать, что не устраивает на текущем сайте: устаревшая информация, неудобная мобильная версия, медленная загрузка или сложный путь к контакту. Для нового проекта укажите основные услуги и нужные языки — румынский, английский или русский. Можно отдельно отметить функции, которые пока не нужны, чтобы первый этап оставался понятным. Отправленная заявка — это начало обсуждения, а не обязательство заказывать услугу. Нам нужно изучить требования, прежде чем предлагать подходящую реализацию и точную стоимость. Чем яснее описана цель, тем полезнее получится первая консультация.",
+   faqTitle:"Перед тем как связаться",
    faq:[
     ["Можно обратиться без готового плана?","Да. Опишите идею своими словами. Технические детали можно уточнить в разговоре."],
     ["Вы работаете с клиентами из других стран?","Да. Студия находится в Кишинёве и может обсуждать удалённые веб-проекты с компаниями из других регионов."]
@@ -306,7 +320,8 @@ const content:Record<Locale,Record<Kind,Editorial>>={
     ["Понятный путь клиента","Хорошая структура помогает человеку понять предложение и сделать следующий шаг. В AlviTravel это выбор направлений, просмотр поездок и запрос предложения."],
     ["Больше, чем красивый экран","На странице проекта описаны адаптивная навигация, формы, несколько языков и способы связи. Такие детали полезнее декоративного превью."],
     ["Портфолио будет расти","AlviTravel — наш текущий открытый проект. После завершения будущих работ и согласования публикации здесь появятся новые карточки и отдельные кейсы."]
-   ],faqTitle:"О наших работах",
+   ],context:"При изучении кейса важно понять, как сайт помогает человеку выполнить реальную задачу. В AlviTravel это поиск направлений, выбор вариантов поездки и связь с агентством, а не только декоративная главная страница. Визуальная композиция показывает концепцию, а действующий сайт — доступные функции. У каждого будущего проекта SITES EVOLVE будут собственные цели, особенности и результаты. Мы не будем переносить неподтверждённые показатели с одной работы на другую. Поэтому сейчас в портфолио размещён один реальный проект, а структура уже подготовлена для новых завершённых работ. Это позволяет оценивать каждый проект по его содержанию и удобству, а не по обещаниям.",
+   faqTitle:"О наших работах",
    faq:[
     ["Можно посмотреть настоящий сайт?","Да. Откройте кейс AlviTravel, чтобы узнать о функциях и перейти на действующий туристический сайт."],
     ["Превью — это скриншоты?","Часть визуалов стилизована и не является точной копией экрана. Мы отмечаем их как превью и даём ссылку на действующий сайт."]
@@ -335,6 +350,7 @@ export default function SeoEditorial({locale,kind}:{locale:Locale;kind:Kind}){
    <div className="seo-editorial-point-top"><span>0{i+1}</span><CheckCircle2 size={19} strokeWidth={1.7} aria-hidden="true"/></div>
    <h3>{title}</h3><p>{description}</p>
   </article>)}</div>
+  {t.context&&<p className="seo-editorial-context">{t.context}</p>}
   <div className="seo-editorial-bottom">
    <div className="seo-editorial-faq"><h3>{t.faqTitle}</h3><div>{t.faq.map(([q,a])=><details key={q}><summary>{q}<span aria-hidden="true">+</span></summary><p>{a}</p></details>)}</div></div>
    <Link href={pathFor(locale,t.actionPath)} className="seo-editorial-link">{t.action}<ArrowUpRight size={18} aria-hidden="true"/></Link>
