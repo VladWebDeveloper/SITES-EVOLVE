@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {ArrowLeft,ArrowUpRight,ExternalLink,Globe2,Plane,MonitorSmartphone,Languages,Layers3,CheckCircle2,MousePointer2,Sparkles,Compass,MessageCircleMore,Check,ArrowRight} from "lucide-react";
+import {ArrowLeft,ArrowUpRight,ExternalLink,Globe2,Plane,MonitorSmartphone,Languages,CheckCircle2,Compass,MessageCircleMore,Check,ArrowRight} from "lucide-react";
 import {pathFor,type Locale} from "@/lib/site";
 
 const labels={
