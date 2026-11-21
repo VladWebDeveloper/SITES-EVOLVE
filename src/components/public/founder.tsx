@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {ArrowUpRight, Camera, Sparkles, GraduationCap, Code2, Rocket, Plane, Users, Globe2} from "lucide-react";
 import {pathFor, type Locale} from "@/lib/site";
+import FashionModelGallery from "@/components/public/fashion-gallery";
 
 const profile={
  ro:{
@@ -82,6 +83,7 @@ export function FounderProfile({locale}:{locale:Locale}){
    <div className="evolve-founder-roles-heading"><span className="future-eyebrow"><span className="future-eyebrow-dot"/>{d.title}</span><h3>{d.subtitle}</h3></div>
    <div className="evolve-founder-roles-grid">{d.roles.map(([company,role,description],idx)=>{
     const Icon=icons[idx];
+    if(idx===2)return <FashionModelGallery key={company} locale={locale} company={company} role={role} description={description} index={idx}/>;
     return <article key={company} className="evolve-founder-role">
      <div className="evolve-founder-role-head"><span className="evolve-founder-role-icon"><Icon size={24} strokeWidth={1.6} aria-hidden="true"/></span><span className="evolve-founder-role-count">0{idx+1}</span></div>
      <h4>{company}</h4><strong>{role}</strong><p>{description}</p>
