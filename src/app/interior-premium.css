@@ -1,0 +1,110 @@
+/* Interior page editorial redesign: Services / About / Founder / Pricing / Contact / Process */
+.future-site-shell .se-inner-hero{position:relative;isolation:isolate;overflow:hidden;min-height:clamp(390px,39vw,545px);padding:clamp(85px,10vw,138px) 0 clamp(65px,8vw,104px);background:radial-gradient(circle at 77% 42%,#45428e6a,transparent 45%),radial-gradient(circle at 2% 5%,#1a2f6f35,transparent 50%),linear-gradient(140deg,#090c1f,#121639 72%,#0a0b22);border-bottom:1px solid #7c78c35a}
+.future-site-shell .se-inner-hero:after{content:"";position:absolute;z-index:0;inset:auto 0 0;height:2px;background:linear-gradient(90deg,transparent,#9d8dff77 60%,transparent);pointer-events:none}
+.se-inner-hero-mesh{position:absolute;z-index:0;inset:0;background:linear-gradient(#a5abff10 1px,transparent 1px),linear-gradient(90deg,#a5abff10 1px,transparent 1px);background-size:68px 68px;mask-image:linear-gradient(90deg,transparent 10%,#000d 65%,transparent 100%);pointer-events:none}
+.se-inner-hero-aura{position:absolute;z-index:0;width:600px;height:600px;top:-180px;right:-50px;border-radius:50%;background:radial-gradient(circle,#7155e42a,transparent 63%);filter:blur(25px);pointer-events:none}
+.se-inner-hero-art{position:absolute;z-index:0;right:clamp(-150px,0vw,40px);top:50%;transform:translateY(-50%);width:clamp(370px,42vw,630px);aspect-ratio:1;display:grid;place-items:center;pointer-events:none;opacity:.72}
+.se-inner-hero-ring{position:absolute;border:1px solid #bdb3ff61;border-radius:50%;pointer-events:none}
+.se-inner-hero-ring-a{inset:12%;box-shadow:0 0 0 32px #b8adff08,0 0 0 78px #a89aff08,0 0 0 127px #9c94ff06;transform:rotate(-19deg) scaleY(.72);animation:inner-hero-ring 19s ease-in-out infinite}
+.se-inner-hero-ring-b{inset:2%;border-style:dashed;opacity:.56;transform:rotate(28deg) scaleY(.87);animation:inner-hero-ring 24s ease-in-out infinite reverse}
+.se-inner-hero-core{display:grid;place-items:center;width:42%;aspect-ratio:1;border-radius:38%;border:1px solid #c7b9ff78;background:radial-gradient(circle at 25% 19%,#c4b2ffbd,transparent 48%),linear-gradient(140deg,#5b6fca,#40369b 75%);color:#f3efff;box-shadow:0 38px 100px #5b4cdd5b,inset 0 0 22px #c5b2ff5e;transform:rotate(-17deg);animation:inner-hero-core 10s ease-in-out infinite}
+.se-inner-hero-core svg{width:33%;height:33%;filter:drop-shadow(0 0 22px #d5c8ff)}
+.se-inner-hero-art-label{position:absolute;right:3%;bottom:10%;font:750 10px var(--body,Arial,sans-serif);letter-spacing:.2em;color:#b9b6e3}
+.future-site-shell .se-inner-hero-content{position:relative;z-index:1}
+.future-site-shell .se-inner-hero .eyebrow{color:#c1b3ff;font-size:11px;letter-spacing:.15em}
+.future-site-shell .se-inner-hero h1{max-width:990px;font-size:clamp(56px,7.8vw,114px);line-height:1.03;letter-spacing:-.082em;text-wrap:balance;margin:26px 0}
+.future-site-shell .se-inner-hero h1 em{background:linear-gradient(115deg,#8badff,#b795ff 75%,#ddabff);background-clip:text;-webkit-background-clip:text;color:transparent}
+.future-site-shell .se-inner-hero p{max-width:600px;font-size:clamp(14px,1.26vw,17px);line-height:1.87;color:#c4cae8}
+.se-inner-hero-bottom{display:flex;align-items:center;gap:20px;margin-top:41px;color:#adaddd;font-size:9px;font-weight:800;letter-spacing:.15em;max-width:410px}
+.se-inner-hero-line{flex:1;height:1px;background:linear-gradient(90deg,#9998f4,transparent)}
+@keyframes inner-hero-ring{50%{transform:rotate(40deg) scaleY(.78) translateY(11px)}}
+@keyframes inner-hero-core{50%{transform:translateY(-12px) rotate(-7deg)}}
+
+/* More cinematic service catalog without changing service contents or routes. */
+.future-site-shell .services-section{position:relative;background:radial-gradient(ellipse at 80% 10%,#2f286d40,transparent 50%),#0a0e22}
+.future-site-shell .services-section .service-grid{gap:20px}
+.future-site-shell .services-section .service-card{position:relative;isolation:isolate;overflow:hidden;min-height:345px;padding:30px;border:1px solid #8482d574!important;border-radius:26px;background:radial-gradient(circle at 92% 5%,#6256c835,transparent 54%),linear-gradient(135deg,#1b1e44,#11162f)}
+.future-site-shell .services-section .service-card:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(123deg,transparent 5%,#c5b7ff16 50%,transparent 84%);transform:translateX(-130%);transition:transform .75s}
+.future-site-shell .services-section .service-card:hover:before{transform:translateX(130%)}
+.future-site-shell .services-section .service-card:hover{transform:translateY(-9px);border-color:#b9a7ff!important;box-shadow:0 29px 65px #030615af,0 0 35px #604cba26}
+.future-site-shell .services-section .service-card .service-number{font:750 14px var(--display,Georgia,serif);letter-spacing:.12em;color:#b9a6ff}
+.future-site-shell .services-section .service-icon{width:66px;height:66px;border:1px solid #a499ff87;border-radius:22px;background:linear-gradient(135deg,#7066c770,#37357075);color:#ded6ff;box-shadow:0 10px 32px #11134f7a}
+.future-site-shell .services-section .service-card h3{font-size:clamp(26px,2.4vw,37px);letter-spacing:-.05em}
+.future-site-shell .services-section .service-card p{font-size:13px;line-height:1.8;color:#b2bbdc}
+.future-site-shell .services-section .service-card-bottom{border-top:1px solid #9698d452;padding-top:17px;margin-top:22px}
+.future-site-shell .light-section .detail-layout{gap:clamp(35px,8vw,130px)}
+.future-site-shell .light-section .detail-icon{height:116px;width:116px;border-radius:33px;display:grid;place-items:center;background:radial-gradient(circle at 10% 0%,#8a79fe78,#373a8266);color:#e3dfff;border:1px solid #afa8ff8e;box-shadow:0 18px 60px #4b4c9a36;transform:rotate(-6deg)}
+.future-site-shell .detail-list>div{position:relative;border-color:#696aa276;padding:25px 5px;transition:background .25s,padding .25s}
+.future-site-shell .detail-list>div:hover{background:#4f4ca118;padding-left:16px;padding-right:16px}
+.future-site-shell .detail-list>div h3{font-size:clamp(21px,2.4vw,31px);letter-spacing:-.035em;color:#f8f8ff}
+.future-site-shell .detail-list>div svg{color:#baaeff}
+
+/* About: turn the flat symbol into a premium illuminated sculpture. */
+.future-site-shell .light-section:has(.prose-two){background:radial-gradient(circle at 15% 50%,#2d32786a,transparent 44%),#0b0e24}
+.future-site-shell .prose-two{gap:clamp(36px,8vw,115px)}
+.future-site-shell .prose-two .big-symbol{position:relative;display:grid;place-items:center;aspect-ratio:1;min-height:290px;width:100%;max-width:490px;border-radius:39px;border:1px solid #aaa1ff73;background:radial-gradient(circle at 28% 16%,#7270d85c,transparent 49%),linear-gradient(135deg,#242956,#141835 70%);box-shadow:0 35px 80px #0507129c;transform:none;isolation:isolate}
+.future-site-shell .prose-two .big-symbol:before{content:"";position:absolute;inset:15%;border:1px solid #c4baff63;border-radius:50%;box-shadow:0 0 0 36px #9698f40c,0 0 0 78px #9d9dff08;animation:inner-hero-ring 15s ease-in-out infinite}
+.future-site-shell .prose-two .big-symbol svg{width:30%;height:auto;filter:drop-shadow(0 0 25px #bca2ff);animation:inner-hero-core 9s ease-in-out infinite}
+.future-site-shell .prose-two h2{font-size:clamp(46px,5.7vw,82px);letter-spacing:-.073em;line-height:1.03}
+.future-site-shell .prose-two p{color:#c0c6e2;line-height:1.9;font-size:15px}
+
+/* Process gets a timeline with floating indices and interactive depth. */
+.future-site-shell .process-page-list{border-top:0;display:grid;gap:17px}
+.future-site-shell .process-page-row{position:relative;grid-template-columns:70px minmax(0,1fr) minmax(220px,.95fr) 35px;gap:24px;align-items:center;border:1px solid #7271bc73;border-radius:23px;padding:29px;min-height:155px;background:radial-gradient(circle at 100% 0%,#5b56b52a,transparent 43%),linear-gradient(140deg,#191d3f,#121730);transition:transform .35s,border-color .35s,box-shadow .35s}
+.future-site-shell .process-page-row:hover{transform:translateY(-6px);border-color:#b7a6ffb8;box-shadow:0 23px 53px #04061590}
+.future-site-shell .process-page-row>span:first-child{font:750 23px var(--display,Georgia,serif);color:#c7b6ff;display:grid;place-items:center;width:61px;height:61px;border:1px solid #a29bff7a;border-radius:19px;background:#5146a736}
+.future-site-shell .process-page-row h2{font:650 clamp(29px,3vw,45px)/1.13 var(--display,Georgia,serif);letter-spacing:-.06em;color:#fbfaff}
+.future-site-shell .process-page-row p{font-size:13px;color:#b9c0e1;line-height:1.85;margin:0}
+.future-site-shell .process-page-row .process-point{display:grid;place-items:center;color:#b4a4ff;transition:transform .3s}
+.future-site-shell .process-page-row:hover .process-point{transform:rotate(20deg) scale(1.12)}
+
+/* Contact: editorial glass surface and form controls. */
+.future-site-shell .contact-section{background:radial-gradient(ellipse at 0% 10%,#3a2d814d,transparent 43%),#0a0c20}
+.future-site-shell .contact-layout{gap:clamp(34px,7vw,105px);align-items:start}
+.future-site-shell .contact-info{position:relative;padding:36px 31px;border:1px solid #7978c978;border-radius:27px;background:radial-gradient(circle at 10% 5%,#494da450,transparent 60%),linear-gradient(145deg,#1b2148,#111630);box-shadow:0 25px 60px #05061650}
+.future-site-shell .contact-method-link{border-color:#777bc584;border-radius:17px;min-height:66px}
+.future-site-shell .contact-method-link:hover{transform:translateY(-4px);border-color:#b1a6ff}
+.future-site-shell .contact-location{margin-top:28px}
+.future-site-shell .contact-form{position:relative;overflow:hidden;padding:clamp(24px,3.5vw,45px);border-radius:27px;border:1px solid #8483d28c;background:radial-gradient(circle at 96% 0%,#5747b338,transparent 55%),linear-gradient(130deg,#1b2042,#11162f);box-shadow:0 28px 75px #0306158a,inset 0 1px #ffffff13}
+.future-site-shell .contact-form:before{content:"";position:absolute;top:0;left:10%;width:75%;height:1px;background:linear-gradient(90deg,transparent,#c4b6ff,transparent)}
+.future-site-shell .contact-form .form-fields{gap:19px}
+.future-site-shell .contact-form input,.future-site-shell .contact-form textarea,.future-site-shell .contact-form select{min-height:51px;background:#101633cc;border:1px solid #7579c77d;border-radius:14px;color:#f7f6ff;transition:border-color .25s,box-shadow .25s}
+.future-site-shell .contact-form textarea{min-height:130px}
+.future-site-shell .contact-form :is(input,textarea,select):focus{border-color:#b4a4ff;box-shadow:0 0 0 3px #8c82ff28;outline:none}
+.future-site-shell .contact-form .form-submit{min-height:55px;box-shadow:0 9px 26px #6665d43e}
+
+/* Pricing: strong hierarchy, vivid selected tier, and modern expandable FAQs. */
+.future-site-shell .pricing-section{background:radial-gradient(ellipse at 53% 10%,#39358447,transparent 50%),#0a0e23}
+.future-site-shell .pricing-grid{gap:19px;align-items:stretch}
+.future-site-shell .pricing-card{position:relative;isolation:isolate;overflow:hidden;min-height:560px;border:1px solid #7875be78;border-radius:28px;background:radial-gradient(circle at 97% 0%,#5143a835,transparent 48%),linear-gradient(150deg,#1a1e3e,#10152d);box-shadow:0 22px 56px #06071845;transition:transform .35s,border-color .35s,box-shadow .35s}
+.future-site-shell .pricing-card:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(120deg,transparent 15%,#c4b5ff15 51%,transparent 85%);transform:translateX(-130%);transition:transform .85s}
+.future-site-shell .pricing-card:hover:before{transform:translateX(130%)}
+.future-site-shell .pricing-card:hover{transform:translateY(-8px);border-color:#b7a4ff;box-shadow:0 35px 70px #0405168a}
+.future-site-shell .pricing-card.featured{border:1px solid #b0a0ff;box-shadow:0 19px 65px #5250c64d,0 0 0 1px #9b8ffc38;background:radial-gradient(circle at 85% 4%,#715ed38f,transparent 55%),linear-gradient(145deg,#25245b,#171a3c 75%)}
+.future-site-shell .pricing-card h2{font-size:clamp(37px,3.8vw,55px);letter-spacing:-.07em}
+.future-site-shell .pricing-card .pricing-label strong{color:#f8f7ff;letter-spacing:-.07em}
+.future-site-shell .pricing-card .pricing-features{border-top:1px solid #9a95da4e;padding-top:22px}
+.future-site-shell .pricing-card .pricing-features svg{color:#bbaaff;flex:none}
+.future-site-shell .faq-layout{gap:clamp(35px,7vw,100px);margin-top:clamp(80px,8vw,125px)}
+.future-site-shell .faq-layout h2{font-size:clamp(42px,5.5vw,73px);letter-spacing:-.07em}
+.future-site-shell .faq-list{display:grid;gap:11px}
+.future-site-shell .faq-list details{border:1px solid #7974c27a;border-radius:17px;padding:0 20px;background:linear-gradient(130deg,#1b2045,#151832);transition:border-color .25s,background .25s}
+.future-site-shell .faq-list details[open]{border-color:#afa2ff;background:#24234a}
+.future-site-shell .faq-list summary{padding:22px 0;color:#f3f1ff;font-size:14px;font-weight:740}
+.future-site-shell .faq-list details p{padding:0 0 23px;color:#b3bde2;line-height:1.82;font-size:13px}
+
+/* Subtle polish in founder, journal, and quote sections. */
+.future-site-shell .evolve-founder-profile{background:radial-gradient(circle at 93% 25%,#4b378c2c,transparent 44%),#0a0d21}
+.future-site-shell .journal-section .journal-card{transition:transform .3s,filter .3s}
+.future-site-shell .journal-section .journal-card:hover{transform:translateY(-7px);filter:brightness(1.15)}
+.future-site-shell .quote-section{background:radial-gradient(circle at 80% 12%,#41357b3d,transparent 50%),#0a0e22}
+.future-site-shell .quote-form .quote-type,.future-site-shell .quote-form .quote-extra{transition:transform .25s,background .25s,border-color .25s}
+.future-site-shell .quote-form .quote-type:hover,.future-site-shell .quote-form .quote-extra:hover{transform:translateY(-3px)}
+.future-site-shell .quote-aside-note{box-shadow:0 14px 38px #0306146e}
+.future-site-shell .closing-section .closing-content{position:relative;z-index:2}
+
+@media(max-width:1180px){.se-inner-hero-art{right:-150px;opacity:.53}.future-site-shell .se-inner-hero h1{max-width:840px}}
+@media(max-width:900px){.se-inner-hero-art{right:-260px;opacity:.3}.future-site-shell .se-inner-hero h1{max-width:85%}.future-site-shell .process-page-row{grid-template-columns:58px minmax(0,1fr) minmax(180px,1fr) 28px;gap:17px;padding:22px}.future-site-shell .contact-layout{gap:28px}.future-site-shell .prose-two .big-symbol{max-width:400px}}
+@media(max-width:700px){.future-site-shell .se-inner-hero{min-height:320px;padding:72px 0 72px}.future-site-shell .se-inner-hero h1{max-width:100%;font-size:clamp(49px,10vw,77px)}.se-inner-hero-art{width:380px;right:-230px;opacity:.16}.se-inner-hero-bottom{margin-top:28px;font-size:8px}.future-site-shell .services-section .service-card{min-height:285px}.future-site-shell .prose-two .big-symbol{max-width:100%;min-height:260px;aspect-ratio:1.35}.future-site-shell .process-page-row{grid-template-columns:56px minmax(0,1fr) 25px;min-height:unset}.future-site-shell .process-page-row p{grid-column:2/4}.future-site-shell .process-page-row h2{font-size:clamp(28px,5.5vw,43px)}.future-site-shell .process-page-row>span:first-child{width:50px;height:50px}.future-site-shell .contact-info{padding:25px}.future-site-shell .contact-form{padding:25px}}
+@media(max-width:480px){.future-site-shell .se-inner-hero{padding:67px 0 60px}.future-site-shell .se-inner-hero h1{font-size:clamp(45px,11vw,60px)}.se-inner-hero-bottom{font-size:7px;max-width:320px}.future-site-shell .process-page-row{padding:18px;border-radius:18px;gap:11px}.future-site-shell .process-page-row>span:first-child{width:43px;height:43px;font-size:18px}.future-site-shell .process-page-row h2{font-size:clamp(25px,7vw,36px)}.future-site-shell .process-page-row p{font-size:12px}.future-site-shell .pricing-card{min-height:unset}.future-site-shell .faq-list details{padding:0 15px}.future-site-shell .contact-info,.future-site-shell .contact-form{padding:20px;border-radius:20px}}
+@media(prefers-reduced-motion:reduce){.se-inner-hero-ring,.se-inner-hero-core,.future-site-shell .prose-two .big-symbol:before,.future-site-shell .prose-two .big-symbol svg{animation:none}.future-site-shell .services-section .service-card,.future-site-shell .pricing-card,.future-site-shell .process-page-row{transition:none}.future-site-shell .services-section .service-card:hover,.future-site-shell .pricing-card:hover,.future-site-shell .process-page-row:hover{transform:none}}
