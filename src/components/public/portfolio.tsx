@@ -1,7 +1,8 @@
 import Link from "next/link";
-import {ArrowLeft,ArrowRight,ArrowUpRight,Compass,ExternalLink,Globe2,Layers3,MessageCircleMore,MonitorSmartphone,Plane,Sparkles,MapPinned} from "lucide-react";
+import {ArrowUpRight,Compass,Layers3,MessageCircleMore,MonitorSmartphone,Sparkles,MapPinned} from "lucide-react";
 import {pathFor,works,type Locale,type Work} from "@/lib/site";
 import GenericWorkDetail from "@/components/public/project-detail-generic";
+import AlviTravelCaseHero from "@/components/public/alvitravel-case-hero";
 
 const i18n={
  en:{
@@ -41,44 +42,19 @@ const implementation={
  ]}
 } as const;
 function Eyebrow({children}:{children:React.ReactNode}){return <span className="showcase-eyebrow"><i/>{children}</span>}
-function TravelPreview({locale}:{locale:Locale}){
- const t=i18n[locale];
- return <div className="showcase-preview" role="img" aria-label={t.illustration}>
-  <div className="showcase-orbit" aria-hidden="true"/>
-  <div className="showcase-browser">
-   <div className="showcase-browser-toolbar"><div className="showcase-dots"><i/><i/><i/></div><span><Globe2 size={12}/>alvitravel.md</span><span className="showcase-browser-lines">☰</span></div>
-   <div className="showcase-travel-nav"><strong><Plane size={17} fill="currentColor"/>AlviTravel</strong><span>DESTINATIONS &nbsp; / &nbsp; OFFERS &nbsp; / &nbsp; CONTACT</span><small>RO &nbsp; EN &nbsp; RU</small></div>
-   <div className="showcase-travel-hero"><div className="showcase-travel-copy"><small>{t.visualCaption}</small><strong>{t.visualTitle}</strong><span className="showcase-preview-button">{t.visualButton}<ArrowUpRight size={14}/></span></div></div>
-   <div className="showcase-travel-foot"><span/><span/><span/><small>alvitravel.md</small></div>
-  </div>
-  <div className="showcase-phone" aria-hidden="true"><div className="showcase-phone-screen"><span>AlviTravel</span><strong>GO<br/>EXPLORE.</strong><i/></div></div>
-  <div className="showcase-floating-label"><Sparkles size={15}/> S/E — 001</div>
- </div>;
-}
 export default function PortfolioShowcase({locale,work}:{locale:Locale;work?:Work}){
- const t=i18n[locale],w=work||works[locale][0],isDetail=Boolean(work);
+ const t=i18n[locale],w=work||works[locale][0];
  if(w.id!=="alvitravel")return <GenericWorkDetail locale={locale} project={w}/>;
  const implemented=implementation[locale];
  const features=[[t.feature1,t.feature1Text,Compass],[t.feature2,t.feature2Text,MessageCircleMore],[t.feature3,t.feature3Text,MonitorSmartphone]] as const;
  const steps=[[t.step1,t.step1Text],[t.step2,t.step2Text],[t.step3,t.step3Text]] as const;
  return <div className="showcase-page">
-  <section className="showcase-hero"><div className="showcase-hero-orbit" aria-hidden="true"/><div className="container">
-   {isDetail&&<Link href={pathFor(locale,"work")} className="showcase-back"><ArrowLeft size={17}/>{t.back}</Link>}
-   <Eyebrow>{isDetail?t.detailKicker:t.kicker}</Eyebrow>
-   <h1>{isDetail?t.detail1:t.hero1}<br/><em>{isDetail?t.detail2:t.hero2}</em></h1>
-   <div className="showcase-hero-bottom"><p>{isDetail?t.detailIntro:t.intro}</p><span>01 / 01 <ArrowRight size={22}/></span></div>
-  </div></section>
-  <section className="showcase-feature"><div className="container">
-   <div className="showcase-title-row"><div><Eyebrow>{t.featured}</Eyebrow><h2>{w.title}<em>.</em></h2></div><div><span>{t.category}</span><strong>01 — 01</strong></div></div>
-   <TravelPreview locale={locale}/>
-   <div className="showcase-summary"><div><span className="showcase-micro">{t.eyebrow} / ALVITRAVEL</span><h3>{t.about}</h3><div className="showcase-tags"><span><Compass size={14}/> TRAVEL</span><span><Layers3 size={14}/> UX/UI</span><span><MonitorSmartphone size={14}/> RESPONSIVE</span></div></div><div className="showcase-actions">{!isDetail&&<Link className="showcase-button-primary" href={pathFor(locale,"work/"+w.id)}>{t.view}<ArrowUpRight size={18}/></Link>}<a className="showcase-button-secondary" href={w.url||"https://alvitravel.md"} target="_blank" rel="noopener noreferrer">{t.live}<ExternalLink size={17}/></a></div></div>
-   <span className="showcase-note">{t.illustration}</span>
-  </div></section>
+  <AlviTravelCaseHero locale={locale}/>
   <section className="showcase-features"><div className="container">
    <header><Eyebrow>{t.eyebrow}</Eyebrow><h2>{t.featureTitle}</h2><p>{t.featureIntro}</p></header>
    <div className="showcase-feature-grid">{features.map(([title,body,Icon],i)=><article key={title} className="showcase-feature-card"><div className="showcase-feature-card-top"><span><Icon size={28} strokeWidth={1.6}/></span><small>0{i+1}</small></div><div><h3>{title}</h3><p>{body}</p></div></article>)}</div>
   </div></section>
-  <section className="showcase-implementation"><div className="container">
+  <section className="showcase-implementation" id="implemented"><div className="container">
    <header><Eyebrow>{implemented.label}</Eyebrow><h2>{implemented.title}</h2><p>{implemented.intro}</p></header>
    <div className="showcase-implementation-grid">{implemented.items.map(([title,description],i)=><article key={title}>
     <div className="showcase-implementation-head"><span>{String(i+1).padStart(2,"0")}</span><ArrowUpRight size={20} aria-hidden="true"/></div>
