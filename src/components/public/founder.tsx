@@ -1,29 +1,29 @@
 import Link from "next/link";
 import Image from "next/image";
-import {ArrowUpRight, Camera, Sparkles, GraduationCap, Code2, Rocket} from "lucide-react";
+import {ArrowUpRight, Camera, Sparkles, GraduationCap, Code2, Rocket, Plane, Users, Globe2} from "lucide-react";
 import {pathFor, type Locale} from "@/lib/site";
 
 const profile={
  ro:{
-  over:"DIN SPATELE SITES EVOLVE",hello:"Salut, sunt Vlad.",headline:"Tehnologie cu viziune.",intro:"Sunt Vlad Serbușco, fondatorul SITES EVOLVE. Studiez Business și Administrare la ASEM și transform idei în experiențe digitale clare, moderne și utile.",
-  focus:"Web development · Design · AI",projects:"Proiect finalizat: AlviTravel",ph:"Spațiu rezervat pentru fotografia fondatorului",caption:"PORTRET ÎN CURÂND",cta:"Descoperă povestea",position:"FONDATOR / DEZVOLTARE DIGITALĂ",
-  story:"Construiesc SITES EVOLVE din convingerea că o identitate digitală memorabilă trebuie să fie și funcțională. Studiez Business și Administrare la ASEM și combin gândirea de business cu tehnologia și un design atent la detalii.",
+  over:"DIN SPATELE SITES EVOLVE",hello:"Salut, sunt Vlad.",headline:"Tehnologie cu viziune.",intro:"Sunt Vlad Serbușco, fondator SITES EVOLVE, pasionat de tehnologie, business și creativitate. Activez ca IT Manager la AlviTravel, sunt model la ADI Academy și studiez Business & Administration.",
+  focus:"Web development · Design · AI",projects:"IT Manager — AlviTravel",ph:"Spațiu rezervat pentru fotografia fondatorului",caption:"PORTRET ÎN CURÂND",cta:"Descoperă povestea",position:"FOUNDER · ENTREPRENEUR · TECHNOLOGY & CREATIVITY",
+  story:"Sunt Vlad Serbușco, fondatorul SITES EVOLVE. Îmbin tehnologia, businessul și creativitatea pentru a transforma ideile în experiențe digitale care contează. Pe lângă dezvoltarea propriului brand, sunt IT Manager la AlviTravel, model la ADI Academy și studiez Business & Administration. Experiența în leadership mă ajută să transform viziunea în acțiuni concrete.",
   approachTitle:"Ce mă motivează",approach:"Produse care arată excelent, funcționează intuitiv și au un scop clar pentru cei care le folosesc.",
   workTitle:"Proiect finalizat",work:"AlviTravel este proiectul finalizat prezentat în portofoliul SITES EVOLVE.",
   futureTitle:"Viziunea mea",future:"Un studio în care designul premium, software-ul și automatizările inteligente lucrează împreună."
  },
  en:{
-  over:"BEHIND SITES EVOLVE",hello:"Hi, I'm Vlad.",headline:"Technology with vision.",intro:"I'm Vlad Serbușco, founder of SITES EVOLVE. I study Business & Administration at ASEM and turn ideas into clear, modern and purposeful digital experiences.",
-  focus:"Web development · Design · AI",projects:"Completed project: AlviTravel",ph:"Reserved for the founder's future portrait",caption:"PORTRAIT COMING SOON",cta:"Meet the founder",position:"FOUNDER / DIGITAL DEVELOPMENT",
-  story:"I started SITES EVOLVE with the belief that a memorable digital presence must also work beautifully. I study Business & Administration at ASEM and combine business thinking, technology and thoughtful design.",
+  over:"BEHIND SITES EVOLVE",hello:"Hi, I'm Vlad.",headline:"Technology with vision.",intro:"I'm Vlad Serbușco, founder of SITES EVOLVE. I work across technology, business and creativity as IT Manager at AlviTravel, a model at ADI Academy and a Business & Administration student.",
+  focus:"Web development · Design · AI",projects:"IT Manager — AlviTravel",ph:"Reserved for the founder's future portrait",caption:"PORTRAIT COMING SOON",cta:"Meet the founder",position:"FOUNDER · ENTREPRENEUR · TECHNOLOGY & CREATIVITY",
+  story:"I'm Vlad Serbușco, founder of SITES EVOLVE. I bring together technology, business and creativity to build digital experiences that matter. Alongside growing my own brand, I work as IT Manager at AlviTravel, pursue modeling at ADI Academy and study Business & Administration. My leadership experience helps turn vision into action.",
   approachTitle:"What drives me",approach:"Experiences that look exceptional, feel intuitive and solve a real problem for the people using them.",
   workTitle:"Completed work",work:"AlviTravel is the completed project featured in the SITES EVOLVE portfolio.",
   futureTitle:"My vision",future:"A studio where premium design, software and intelligent automation work together."
  },
  ru:{
-  over:"КТО СТОИТ ЗА SITES EVOLVE",hello:"Привет, я Влад.",headline:"Технологии с идеей.",intro:"Я Влад Сербушко, основатель SITES EVOLVE. Изучаю бизнес и управление в ASEM и превращаю идеи в современные и удобные цифровые продукты.",
-  focus:"Веб-разработка · Дизайн · ИИ",projects:"Завершённый проект: AlviTravel",ph:"Место для будущего портрета основателя",caption:"ФОТО СКОРО ПОЯВИТСЯ",cta:"Моя история",position:"ОСНОВАТЕЛЬ / DIGITAL DEVELOPMENT",
-  story:"Я создаю SITES EVOLVE с убеждением, что запоминающийся цифровой образ должен быть не только красивым, но и удобным. Я изучаю бизнес и управление в ASEM, объединяя бизнес-мышление, технологии и дизайн.",
+  over:"КТО СТОИТ ЗА SITES EVOLVE",hello:"Привет, я Влад.",headline:"Технологии с идеей.",intro:"Я Влад Сербушко, основатель SITES EVOLVE. Работаю IT-менеджером AlviTravel, занимаюсь моделингом в ADI Academy и изучаю Business & Administration.",
+  focus:"Веб-разработка · Дизайн · ИИ",projects:"IT-менеджер — AlviTravel",ph:"Место для будущего портрета основателя",caption:"ФОТО СКОРО ПОЯВИТСЯ",cta:"Моя история",position:"FOUNDER · ENTREPRENEUR · TECHNOLOGY & CREATIVITY",
+  story:"Я Влад Сербушко, основатель SITES EVOLVE. Соединяю технологии, бизнес и творчество, создавая полезные цифровые решения. Развивая собственный бренд, работаю IT-менеджером в AlviTravel, занимаюсь моделингом в ADI Academy и изучаю Business & Administration. Опыт лидерства помогает воплощать идеи в жизнь.",
   approachTitle:"Что меня вдохновляет",approach:"Продукты, которые выглядят впечатляюще, работают интуитивно и решают реальные задачи.",
   workTitle:"Готовый проект",work:"AlviTravel — завершённый проект в портфолио SITES EVOLVE.",
   futureTitle:"Моё видение",future:"Студия, где премиальный дизайн, разработка и умная автоматизация дополняют друг друга."
@@ -52,25 +52,43 @@ export function FounderSpotlight({locale}:{locale:Locale}){
    <span className="future-eyebrow"><span className="future-eyebrow-dot"/>{t.over}</span>
    <h2>{t.hello}<br/><em>{t.headline}</em></h2>
    <p>{t.intro}</p>
-   <div className="evolve-founder-facts"><span><Code2 size={16}/>{t.focus}</span><span><GraduationCap size={16}/>ASEM · Business & Administration</span><span><Rocket size={16}/>{t.projects}</span></div>
+   <div className="evolve-founder-facts"><span><Code2 size={16}/>{t.focus}</span><span><GraduationCap size={16}/>{locale==="ro"?"Studiez Business & Administration":locale==="ru"?"Изучаю Business & Administration":"Studying Business & Administration"}</span><span><Rocket size={16}/>{t.projects}</span></div>
    <Link href={pathFor(locale,"founder")} className="future-button future-button-primary"><span>{t.cta}</span><span className="future-button-icon"><ArrowUpRight size={17}/></span></Link>
   </div>
  </div></section>;
 }
+const details={
+ ro:{title:"Experiență & implicare",subtitle:"Domenii diferite. Aceeași dorință de a construi și evolua.",education:"Studiez Business & Administration",vision:"Viziunea mea",quote:"Tehnologia nu trebuie doar să rezolve probleme. Trebuie să creeze oportunități.",summary:"Prin SITES EVOLVE ajut afacerile să transforme ideile în soluții digitale utile, memorabile și durabile.",work:"Explorează proiectele",visit:"Vizitează AlviTravel",roles:[["SITES EVOLVE","Fondator","Website-uri, produse digitale și inovație."],["AlviTravel","IT Manager","Tehnologie și experiențe digitale pentru turism."],["ADI Academy","Model","Fashion, imagine personală și creativitate."],["Senatul Studențesc","Vicepreședinte","Leadership și inițiative pentru comunitate."]]},
+ en:{title:"Experience & involvement",subtitle:"Different fields. One drive to create and evolve.",education:"Studying Business & Administration",vision:"My vision",quote:"Technology should not only solve problems. It should create opportunities.",summary:"Through SITES EVOLVE, I help businesses turn ambitious ideas into useful, memorable and lasting digital experiences.",work:"Explore the work",visit:"Visit AlviTravel",roles:[["SITES EVOLVE","Founder","Websites, digital products and innovation."],["AlviTravel","IT Manager","Technology and digital experiences in travel."],["ADI Academy","Model","Fashion, personal presentation and creativity."],["Student Senate","Vice President","Leadership and community initiatives."]]},
+ ru:{title:"Опыт и деятельность",subtitle:"Разные направления. Одно стремление — создавать и развиваться.",education:"Изучаю Business & Administration",vision:"Моё видение",quote:"Технологии должны не только решать проблемы, но и открывать новые возможности.",summary:"Через SITES EVOLVE помогаю компаниям превращать идеи в полезные и запоминающиеся цифровые решения.",work:"Посмотреть проекты",visit:"Посетить AlviTravel",roles:[["SITES EVOLVE","Основатель","Сайты, цифровые продукты и инновации."],["AlviTravel","IT-менеджер","Технологии и цифровые решения для туризма."],["ADI Academy","Модель","Мода, имидж и творческое развитие."],["Студенческий сенат","Вице-президент","Лидерство и общественные инициативы."]]}
+} as const;
 export function FounderProfile({locale}:{locale:Locale}){
- const t=profile[locale];
- return <section className="evolve-founder-profile"><div className="container evolve-founder-profile-grid">
-  <FounderPortrait locale={locale} large/>
-  <div className="evolve-founder-profile-copy">
-   <span className="future-eyebrow"><span className="future-eyebrow-dot"/>{t.position}</span>
-   <h2>{t.hello}<br/><em>{t.headline}</em></h2>
-   <p className="evolve-founder-story">{t.story}</p>
-   <div className="evolve-founder-profile-points">
-    <div><Sparkles size={18}/><strong>{t.approachTitle}</strong><p>{t.approach}</p></div>
-    <div><Code2 size={18}/><strong>{t.workTitle}</strong><p>{t.work}</p></div>
-    <div><Rocket size={18}/><strong>{t.futureTitle}</strong><p>{t.future}</p></div>
+ const t=profile[locale],d=details[locale];
+ const icons=[Code2,Rocket,Camera,Users] as const;
+ return <section className="evolve-founder-profile"><div className="container">
+  <div className="evolve-founder-profile-grid">
+   <FounderPortrait locale={locale} large/>
+   <div className="evolve-founder-profile-copy">
+    <span className="future-eyebrow"><span className="future-eyebrow-dot"/>{t.position}</span>
+    <h2>{t.hello}<br/><em>{t.headline}</em></h2>
+    <p className="evolve-founder-tagline">{t.intro}</p>
+    <p className="evolve-founder-story">{t.story}</p>
+    <div className="evolve-founder-education"><GraduationCap size={20} aria-hidden="true"/>{d.education}</div>
+    <div className="evolve-founder-skills">{["Web Development","IT Management","Business Strategy","Leadership","Creative Thinking"].map(s=><span key={s}>{s}</span>)}</div>
+    <Link href={pathFor(locale,"work")} className="evolve-founder-link">{d.work}<ArrowUpRight size={17}/></Link>
    </div>
-   <Link href={pathFor(locale,"work")} className="evolve-founder-link">{locale==="ro"?"Vezi proiectele":locale==="ru"?"Посмотреть проекты":"Explore the work"}<ArrowUpRight size={17}/></Link>
   </div>
+  <div className="evolve-founder-roles-section">
+   <div className="evolve-founder-roles-heading"><span className="future-eyebrow"><span className="future-eyebrow-dot"/>{d.title}</span><h3>{d.subtitle}</h3></div>
+   <div className="evolve-founder-roles-grid">{d.roles.map(([company,role,description],idx)=>{
+    const Icon=icons[idx];
+    return <article key={company} className="evolve-founder-role">
+     <div className="evolve-founder-role-head"><span className="evolve-founder-role-icon"><Icon size={24} strokeWidth={1.6} aria-hidden="true"/></span><span className="evolve-founder-role-count">0{idx+1}</span></div>
+     <h4>{company}</h4><strong>{role}</strong><p>{description}</p>
+     {idx===1&&<Link href="https://alvitravel.md" className="evolve-founder-role-link" target="_blank" rel="noopener noreferrer" aria-label={d.visit}><Globe2 size={15}/><span>alvitravel.md</span><ArrowUpRight size={15}/></Link>}
+    </article>;
+   })}</div>
+  </div>
+  <div className="evolve-founder-vision"><span className="future-eyebrow"><span className="future-eyebrow-dot"/>{d.vision}</span><blockquote>“{d.quote}”</blockquote><p>{d.summary}</p><Sparkles className="evolve-founder-vision-icon" size={104} strokeWidth={1} aria-hidden="true"/></div>
  </div></section>;
 }
