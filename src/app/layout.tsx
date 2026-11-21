@@ -8,6 +8,7 @@ import "./growth-lab.css";
 import "./portfolio-premium.css";
 import "./fashion-seo.css";
 import "./home-work-showcase.css";
+import "./work-index.css";
 import type { Metadata, Viewport } from "next";
 import {DM_Sans,Space_Grotesk} from "next/font/google";
 const dmSans=DM_Sans({subsets:["latin","latin-ext"],variable:"--font-dm-sans",display:"swap",weight:["400","500","600","700"]});
