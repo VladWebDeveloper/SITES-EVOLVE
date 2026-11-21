@@ -79,3 +79,8 @@
 @media(max-width:780px){.evolve-founder-profile{padding:64px 0 80px}.evolve-founder-profile-grid{align-items:start}.evolve-founder-roles-section{margin-top:75px}.evolve-founder-profile-copy h2{font-size:clamp(43px,8.6vw,68px)}.evolve-founder-portrait-large{aspect-ratio:4/4.1;max-height:none}}
 @media(max-width:520px){.evolve-founder-profile-copy h2{font-size:clamp(42px,10vw,57px)}.evolve-founder-roles-grid{grid-template-columns:1fr;gap:13px}.evolve-founder-role{min-height:205px;padding:22px}.evolve-founder-role-head{margin-bottom:23px}.evolve-founder-profile-copy .evolve-founder-story{font-size:14px;line-height:1.83}.evolve-founder-vision{border-radius:24px}.evolve-founder-vision-icon{right:-18px;top:8%;opacity:.35}}
 @media(prefers-reduced-motion:reduce){.evolve-founder-role,.evolve-founder-role::before,.evolve-founder-role-icon{transition:none}.evolve-founder-vision-icon{animation:none}}
+
+/* Preserve the founder's face and hair when the editorial portrait is cropped. */
+.evolve-founder-photo{object-position:center 18%;}
+.evolve-founder-portrait-large .evolve-founder-photo{object-position:center center;}
+@media(max-width:780px){.evolve-founder-portrait-large .evolve-founder-photo{object-position:center 17%;}}
