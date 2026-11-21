@@ -30,7 +30,7 @@ function ProjectVisual({work,locale}:{work:Work;locale:Locale}){
 }
 export default function WorkIndex({locale}:{locale:Locale}){
  const t=labels[locale],projects=works[locale];
- return <main className="work-index">
+ return <div className="work-index">
   <section className="work-index-hero"><div className="container">
    <span className="future-eyebrow"><span className="future-eyebrow-dot"/>{t.eyebrow}</span>
    <h1>{t.heading}<br/><em>{t.accent}</em></h1>
@@ -55,5 +55,5 @@ export default function WorkIndex({locale}:{locale:Locale}){
    <div><span className="future-eyebrow"><span className="future-eyebrow-dot"/>{t.ctaOver}</span><h2>{t.cta}</h2><p>{t.ctaText}</p></div>
    <Link href={pathFor(locale,"quote")} className="work-index-bottom-button">{t.ctaButton}<ArrowUpRight size={21}/></Link>
   </div></div></section>
- </main>;
+ </div>;
 }
