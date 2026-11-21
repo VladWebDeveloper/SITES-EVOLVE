@@ -3,6 +3,7 @@ import Image from "next/image";
 import {ArrowUpRight, Camera, Sparkles, GraduationCap, Code2, Users} from "lucide-react";
 import {pathFor, type Locale} from "@/lib/site";
 import FashionModelGallery from "@/components/public/fashion-gallery";
+import SeoEditorial from "@/components/public/seo-editorial";
 
 const profile={
  ro:{
@@ -66,7 +67,7 @@ const details={
 export function FounderProfile({locale}:{locale:Locale}){
  const t=profile[locale],d=details[locale];
  const icons=[Code2,Camera,Users] as const;
- return <section className="evolve-founder-profile"><div className="container">
+ return <><section className="evolve-founder-profile"><div className="container">
   <div className="evolve-founder-profile-grid">
    <FounderPortrait locale={locale} large/>
    <div className="evolve-founder-profile-copy">
@@ -94,5 +95,5 @@ export function FounderProfile({locale}:{locale:Locale}){
    <Link href={pathFor(locale,"fashion-model")} className="evolve-founder-runway-link"><Camera size={18} aria-hidden="true"/><span>{locale==="ro"?"Vlad Serbușco pe podium: Cluj și Dubai":locale==="ru"?"Влад Сербушко на подиуме: Клуж и Дубай":"Vlad Serbușco — International fashion runway portfolio"}</span><ArrowUpRight size={18} aria-hidden="true"/></Link>
   </div>
   <div className="evolve-founder-vision"><span className="future-eyebrow"><span className="future-eyebrow-dot"/>{d.vision}</span><blockquote>“{d.quote}”</blockquote><p>{d.summary}</p><Sparkles className="evolve-founder-vision-icon" size={104} strokeWidth={1} aria-hidden="true"/></div>
- </div></section>;
+ </div></section><SeoEditorial locale={locale} kind="founder"/></>;
 }
