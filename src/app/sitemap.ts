@@ -1,6 +1,39 @@
-import type { MetadataRoute } from "next";
-export const dynamic = "force-dynamic";
-import { absoluteUrl, locales, journal, services, works } from "@/lib/site";
+import type {MetadataRoute} from "next";
+import {absoluteUrl,locales,journal,services,works} from "@/lib/site";
 import {publishedPosts} from "@/lib/server/posts";
 import {academyGuides} from "@/lib/academy";
-export default async function sitemap():Promise<MetadataRoute.Sitemap>{const paths=["","about","founder","services","work","process","journal","pricing","quote","consultation","contact","privacy","terms","builder","demo","academy","audit","status","privacy-center","referrals",...academyGuides.map(g=>"academy/"+g.slug),...services.en.map(s=>"services/"+s.id),...works.en.map(w=>"work/"+w.id),...journal.map(a=>"journal/"+a.slug)];const added=await Promise.all(locales.map(async locale=>(await publishedPosts(locale)).map(post=>({url:absoluteUrl("/"+locale+"/journal/"+post.slug),lastModified:post.publishedAt?new Date(post.publishedAt):new Date(),changeFrequency:"monthly" as const,priority:0.6}))));return [...locales.flatMap(locale=>paths.map(p=>({url:absoluteUrl("/"+locale+(p?"/"+p:"")),lastModified:new Date(["builder","demo","academy","audit","status","privacy-center","referrals"].includes(p)||p.startsWith("academy/")?"2026-11-20T00:00:00Z":"2026-11-16T00:00:00Z"),changeFrequency:p.startsWith("journal")?"monthly" as const:"weekly" as const,priority:p===""?1:0.7}))),...added.flat()];}
+
+export const dynamic="force-dynamic";
+const refreshedOn=new Date("2026-11-21T00:00:00Z");
+const originalDate=new Date("2026-11-16T00:00:00Z");
+const founderImages=[
+ absoluteUrl("/vlad-serbusco-founder.webp"),
+ absoluteUrl("/vlad-serbusco-city-fashion-week-cluj-romania.jpg"),
+ absoluteUrl("/vlad-serbusco-emirates-fashion-week-dubai.jpg")
+];
+const runwayImages=[
+ absoluteUrl("/vlad-serbusco-city-fashion-week-cluj-romania.jpg"),
+ absoluteUrl("/vlad-serbusco-emirates-fashion-week-dubai.jpg"),
+ absoluteUrl("/vlad-serbusco-founder.webp")
+];
+export default async function sitemap():Promise<MetadataRoute.Sitemap>{
+ const paths=["","about","founder","fashion-model","services","work","process","journal","pricing","quote","consultation","contact","privacy","terms","builder","demo","academy","audit","status","privacy-center","referrals",
+ ...academyGuides.map(g=>"academy/"+g.slug),
+ ...services.en.map(s=>"services/"+s.id),
+ ...works.en.map(w=>"work/"+w.id),
+ ...journal.map(a=>"journal/"+a.slug)];
+ const updatedPaths=new Set(["","about","founder","fashion-model","work",...works.en.map(w=>"work/"+w.id)]);
+ const base=locales.flatMap(locale=>paths.map(path=>({
+  url:absoluteUrl("/"+locale+(path?"/"+path:"")),
+  lastModified:updatedPaths.has(path)?refreshedOn:originalDate,
+  changeFrequency:path.startsWith("journal")?"monthly" as const:"weekly" as const,
+  priority:path===""?1:path==="founder"||path==="fashion-model"?0.9:path==="work"?0.8:0.7,
+  ...(path==="founder"?{images:founderImages}:path==="fashion-model"?{images:runwayImages}:path===""?{images:[founderImages[0]]}:{})
+ })));
+ const journalPages=await Promise.all(locales.map(async locale=>(await publishedPosts(locale)).map(post=>({
+  url:absoluteUrl("/"+locale+"/journal/"+post.slug),
+  lastModified:post.publishedAt?new Date(post.publishedAt):originalDate,
+  changeFrequency:"monthly" as const,priority:0.6
+ }))));
+ return [...base,...journalPages.flat()];
+}
