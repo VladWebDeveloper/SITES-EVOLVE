@@ -16,7 +16,7 @@ const text={
   cityDesc:"City Fashion Week runway appearance in Cluj, Romania.",
   dubaiDesc:"Emirates Fashion Week runway appearance in Dubai, United Arab Emirates.",
   back:"Back to the founder",endTitle:"Fashion meets entrepreneurship.",
-  endText:"Alongside international runway experience, Vlad Serbușco is the Founder & CEO of SITES EVOLVE and IT Manager at AlviTravel.",
+  endText:"Vlad Serbușco is the Founder & CEO of SITES EVOLVE and a fashion model at ADI Academy, bringing together entrepreneurship, technology and creative expression.",
   founder:"Discover the founder",social:"Personal Instagram"
  },
  ro:{
@@ -31,7 +31,7 @@ const text={
   cityDesc:"Apariție pe podium la City Fashion Week din Cluj, România.",
   dubaiDesc:"Apariție pe podium la Emirates Fashion Week din Dubai, Emiratele Arabe Unite.",
   back:"Înapoi la fondator",endTitle:"Fashion și antreprenoriat.",
-  endText:"Pe lângă experiența pe podiumuri internaționale, Vlad Serbușco este Founder & CEO al SITES EVOLVE și IT Manager la AlviTravel.",
+  endText:"Vlad Serbușco este fondatorul și CEO-ul SITES EVOLVE și fashion model la ADI Academy, îmbinând antreprenoriatul, tehnologia și creativitatea.",
   founder:"Descoperă fondatorul",social:"Instagram personal"
  },
  ru:{
@@ -46,7 +46,7 @@ const text={
   cityDesc:"Участие в City Fashion Week, Клуж, Румыния.",
   dubaiDesc:"Участие в Emirates Fashion Week, Дубай, ОАЭ.",
   back:"Об основателе",endTitle:"Мода и предпринимательство.",
-  endText:"Помимо международных показов, Влад Сербушко — Founder & CEO SITES EVOLVE и IT-менеджер AlviTravel.",
+  endText:"Влад Сербушко — основатель и CEO SITES EVOLVE и fashion model в ADI Academy, объединяющий предпринимательство, технологии и творчество.",
   founder:"Познакомиться с основателем",social:"Личный Instagram"
  }
 } as const;
@@ -65,7 +65,7 @@ export default function FashionProfilePage({locale}:{locale:Locale}){
      <span className="fashion-seo-eyebrow"><Camera size={16}/>{t.eyebrow}</span>
      <h1>Vlad Serbușco<span>{t.first}</span><em>{t.second}</em></h1>
      <p>{t.intro}</p>
-     <a className="fashion-seo-personal" href="https://www.instagram.com/vlad_1402/" rel="noopener noreferrer" target="_blank">{t.social}<ArrowUpRight size={16}/></a>
+     <a className="fashion-seo-personal" href="https://www.instagram.com/vlad_14.02/" rel="noopener noreferrer" target="_blank">{t.social}<ArrowUpRight size={16}/></a>
     </div>
     <div className="fashion-seo-hero-photo">
      <Image src="/vlad-serbusco-founder.webp" alt="Vlad Serbușco, SITES EVOLVE founder and international fashion model at ADI Academy" fill sizes="(max-width: 860px) 100vw, 35vw" priority unoptimized/>
