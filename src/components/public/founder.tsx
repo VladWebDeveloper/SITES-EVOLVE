@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import {ArrowUpRight, Camera, Sparkles, GraduationCap, Code2, Rocket, Users, Instagram} from "lucide-react";
+import {ArrowUpRight, Camera, Sparkles, GraduationCap, Code2, Users, Instagram} from "lucide-react";
 import {pathFor, type Locale} from "@/lib/site";
 import FashionModelGallery from "@/components/public/fashion-gallery";
 
@@ -10,7 +10,7 @@ const profile={
   focus:"Web development · Design · AI",projects:"Fashion Model — ADI Academy",ph:"Spațiu rezervat pentru fotografia fondatorului",caption:"PORTRET ÎN CURÂND",cta:"Descoperă povestea",position:"FOUNDER · ENTREPRENEUR · TECHNOLOGY & CREATIVITY",
   story:"Sunt Vlad Serbușco, fondatorul și CEO-ul SITES EVOLVE. Construiesc experiențe digitale care îmbină designul cu tehnologia și strategia de business. Sunt și fashion model la ADI Academy, cu apariții pe podium în Cluj și Dubai. Studiez Business & Administration și mă implic activ în leadership.",
   approachTitle:"Ce mă motivează",approach:"Produse care arată excelent, funcționează intuitiv și au un scop clar pentru cei care le folosesc.",
-  workTitle:"Proiect finalizat",work:"AlviTravel este proiectul finalizat prezentat în portofoliul SITES EVOLVE.",
+  workTitle:"Proiect finalizat",work:"Descoperă proiectele de dezvoltare web din portofoliul SITES EVOLVE.",
   futureTitle:"Viziunea mea",future:"Un studio în care designul premium, software-ul și automatizările inteligente lucrează împreună."
  },
  en:{
@@ -18,7 +18,7 @@ const profile={
   focus:"Web development · Design · AI",projects:"Fashion Model — ADI Academy",ph:"Reserved for the founder's future portrait",caption:"PORTRAIT COMING SOON",cta:"Meet the founder",position:"FOUNDER · ENTREPRENEUR · TECHNOLOGY & CREATIVITY",
   story:"I'm Vlad Serbușco, Founder & CEO of SITES EVOLVE. I build digital experiences at the intersection of design, technology and business. I am also a fashion model at ADI Academy, with runway appearances in Cluj and Dubai. I study Business & Administration and remain active in student leadership.",
   approachTitle:"What drives me",approach:"Experiences that look exceptional, feel intuitive and solve a real problem for the people using them.",
-  workTitle:"Completed work",work:"AlviTravel is the completed project featured in the SITES EVOLVE portfolio.",
+  workTitle:"Completed work",work:"Explore the website projects featured in the SITES EVOLVE portfolio.",
   futureTitle:"My vision",future:"A studio where premium design, software and intelligent automation work together."
  },
  ru:{
@@ -26,7 +26,7 @@ const profile={
   focus:"Веб-разработка · Дизайн · ИИ",projects:"Fashion Model — ADI Academy",ph:"Место для будущего портрета основателя",caption:"ФОТО СКОРО ПОЯВИТСЯ",cta:"Моя история",position:"FOUNDER · ENTREPRENEUR · TECHNOLOGY & CREATIVITY",
   story:"Я Влад Сербушко, основатель и CEO SITES EVOLVE. Создаю цифровые продукты, объединяя дизайн, технологии и бизнес. Я также fashion model в ADI Academy, участвовал в показах в Клуже и Дубае, изучаю Business & Administration и развиваюсь в лидерстве.",
   approachTitle:"Что меня вдохновляет",approach:"Продукты, которые выглядят впечатляюще, работают интуитивно и решают реальные задачи.",
-  workTitle:"Готовый проект",work:"AlviTravel — завершённый проект в портфолио SITES EVOLVE.",
+  workTitle:"Готовый проект",work:"Посмотрите проекты веб-разработки в портфолио SITES EVOLVE.",
   futureTitle:"Моё видение",future:"Студия, где премиальный дизайн, разработка и умная автоматизация дополняют друг друга."
  }
 } as const;
