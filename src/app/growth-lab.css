@@ -207,3 +207,12 @@
 .growth-related-services a:hover{text-decoration:underline}
 .growth-maintenance-line{margin:12px 0 7px!important;color:#fff!important;font-size:13px!important}
 .growth-maintenance-line b{font-weight:700}
+
+
+/* Vector icon consistency for iOS, Android and desktop. */
+.growth-home-tool-grid>a{position:relative;overflow:hidden;transition:transform .3s,border-color .3s,box-shadow .3s}
+.growth-home-tool-grid>a:hover{transform:translateY(-6px);box-shadow:0 16px 45px #090a244d}
+.growth-tool-symbol{border:1px solid #a99af94c;background:linear-gradient(145deg,#7772e44b,#44398638);box-shadow:inset 0 1px #ffffff16;transition:transform .35s,background .35s}
+.growth-tool-symbol svg{display:block;width:27px;height:27px}
+.growth-home-tool-grid>a:hover .growth-tool-symbol{transform:rotate(-7deg) scale(1.06);background:linear-gradient(145deg,#7a86f67d,#6e49c982)}
+@media(prefers-reduced-motion:reduce){.growth-home-tool-grid>a,.growth-tool-symbol{transition:none}}
