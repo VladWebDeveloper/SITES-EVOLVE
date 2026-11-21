@@ -22,7 +22,7 @@ export default async function sitemap():Promise<MetadataRoute.Sitemap>{
  ...services.en.map(s=>"services/"+s.id),
  ...works.en.map(w=>"work/"+w.id),
  ...journal.map(a=>"journal/"+a.slug)];
- const updatedPaths=new Set(["","about","founder","fashion-model","work",...works.en.map(w=>"work/"+w.id)]);
+ const updatedPaths=new Set(["","about","founder","fashion-model","services","process","pricing","contact","work",...services.en.map(s=>"services/"+s.id),...works.en.map(w=>"work/"+w.id)]);
  const base=locales.flatMap(locale=>paths.map(path=>({
   url:absoluteUrl("/"+locale+(path?"/"+path:"")),
   lastModified:updatedPaths.has(path)?refreshedOn:originalDate,
