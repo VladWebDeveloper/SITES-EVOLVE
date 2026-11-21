@@ -32,7 +32,7 @@ const profile={
 
 export function FounderPortrait({locale,large=false}:{locale:Locale;large?:boolean}){
  const t=profile[locale];
- const photo=process.env.NEXT_PUBLIC_FOUNDER_PHOTO?.trim();
+ const photo=process.env.NEXT_PUBLIC_FOUNDER_PHOTO?.trim() || "/vlad-serbusco-founder.webp";
  const valid=Boolean(photo?.startsWith("/") && !photo.startsWith("//"));
  return <div className={"evolve-founder-portrait"+(large?" evolve-founder-portrait-large":"")} role="img" aria-label={valid?"Vlad Serbușco — founder of SITES EVOLVE":t.ph}>
   <div className="evolve-founder-portrait-glow"/>
