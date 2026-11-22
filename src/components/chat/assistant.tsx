@@ -6,9 +6,9 @@ import type {Locale} from "@/lib/site";
 type Message={role:"assistant"|"user";text:string};
 type Mode="ai"|"knowledge-base"|"unavailable"|null;
 const langs={
- en:{intro:"Hi! Tell me about your project and I'll help you find the right solution.",title:"Studio assistant",subAI:"AI assistant · remembers this conversation",subLocal:"Studio knowledge · contextual answers",subStart:"Here to help with your project",subUnavailable:"AI temporarily unavailable",recordingOn:"Chat recording enabled for studio support.",consent:"I understand this chat will be saved for studio support. Please do not share sensitive data.",placeholder:"Ask a question...",status:"Please don't share passwords or payment information.",open:"Chat with us",reset:"New conversation",error:"I couldn't respond right now. Please try again or email sites.evolve7@gmail.com."},
- ro:{intro:"Salut! Spune-mi ce vrei să construiești și găsim împreună soluția potrivită.",title:"Asistentul studioului",subAI:"Asistent AI · păstrează contextul discuției",subLocal:"Informații studio · răspunsuri contextuale",subStart:"Aici pentru proiectul tău",subUnavailable:"AI indisponibil temporar",recordingOn:"Conversația este arhivată pentru suport.",consent:"Am înțeles că discuția va fi salvată pentru suport. Nu voi trimite date sensibile.",placeholder:"Scrie o întrebare...",status:"Nu trimite parole sau date bancare.",open:"Discută cu noi",reset:"Conversație nouă",error:"Nu am putut răspunde acum. Mai încearcă sau scrie la sites.evolve7@gmail.com."},
- ru:{intro:"Здравствуйте! Расскажите о проекте — помогу найти подходящее решение.",title:"Ассистент студии",subAI:"ИИ-ассистент · учитывает контекст",subLocal:"База знаний · ответы с контекстом",subStart:"Помогу с вашим проектом",subUnavailable:"ИИ временно недоступен",recordingOn:"Переписка сохраняется для поддержки.",consent:"Я понимаю, что переписка будет сохранена для поддержки. Не буду отправлять конфиденциальные данные.",placeholder:"Задайте вопрос...",status:"Не отправляйте пароли или данные банковских карт.",open:"Написать нам",reset:"Новый разговор",error:"Сейчас не удалось ответить. Попробуйте снова или напишите на sites.evolve7@gmail.com."}
+ en:{intro:"Hi! Tell me about your project and I'll help you find the right solution.",title:"Studio assistant",subAI:"AI assistant · remembers this conversation",subLocal:"Studio knowledge · contextual answers",subStart:"Here to help with your project",subUnavailable:"AI temporarily unavailable",recordingOn:"Chat recording enabled for studio support.",consent:"I agree that chat messages are saved for up to 90 days and may be processed by our AI provider (Groq) to answer. Do not share private data.",placeholder:"Ask a question...",status:"Please don't share passwords or payment information.",open:"Chat with us",reset:"New conversation",error:"I couldn't respond right now. Please try again or email sites.evolve7@gmail.com."},
+ ro:{intro:"Salut! Spune-mi ce vrei să construiești și găsim împreună soluția potrivită.",title:"Asistentul studioului",subAI:"Asistent AI · păstrează contextul discuției",subLocal:"Informații studio · răspunsuri contextuale",subStart:"Aici pentru proiectul tău",subUnavailable:"AI indisponibil temporar",recordingOn:"Conversația este arhivată pentru suport.",consent:"Sunt de acord ca mesajele să fie păstrate până la 90 de zile și prelucrate de furnizorul AI (Groq) pentru răspunsuri. Nu trimit date sensibile.",placeholder:"Scrie o întrebare...",status:"Nu trimite parole sau date bancare.",open:"Discută cu noi",reset:"Conversație nouă",error:"Nu am putut răspunde acum. Mai încearcă sau scrie la sites.evolve7@gmail.com."},
+ ru:{intro:"Здравствуйте! Расскажите о проекте — помогу найти подходящее решение.",title:"Ассистент студии",subAI:"ИИ-ассистент · учитывает контекст",subLocal:"База знаний · ответы с контекстом",subStart:"Помогу с вашим проектом",subUnavailable:"ИИ временно недоступен",recordingOn:"Переписка сохраняется для поддержки.",consent:"Я согласен на хранение переписки до 90 дней и обработку сообщений провайдером ИИ (Groq) для ответа. Не отправляйте личные данные.",placeholder:"Задайте вопрос...",status:"Не отправляйте пароли или данные банковских карт.",open:"Написать нам",reset:"Новый разговор",error:"Сейчас не удалось ответить. Попробуйте снова или напишите на sites.evolve7@gmail.com."}
 };
 const conversationKey=(locale:Locale)=>"sites-evolve-chat-v2-"+locale;
 function linked(text:string){
@@ -38,7 +38,7 @@ export default function AssistantWidget({locale}:{locale:Locale}){
   let acknowledged=false;
   try{
    restoredId=sessionStorage.getItem("se-assistant-session-id")||"";
-   acknowledged=sessionStorage.getItem("se-assistant-recording-ack")==="yes";
+   acknowledged=sessionStorage.getItem("se-assistant-recording-ack-v2")==="yes";
   }catch{/* Session storage can be disabled. */}
   if(!/^[a-f0-9-]{36}$/i.test(restoredId))restoredId=crypto.randomUUID();
   queueMicrotask(()=>{if(restored)setMessages(restored);setArchiveAcknowledged(acknowledged);setChatId(restoredId);setHydrated(true);});
@@ -57,7 +57,7 @@ export default function AssistantWidget({locale}:{locale:Locale}){
  }
  function acknowledge(checked:boolean){
   setArchiveAcknowledged(checked);
-  try{if(checked)sessionStorage.setItem("se-assistant-recording-ack","yes");else sessionStorage.removeItem("se-assistant-recording-ack")}catch{/* Non-critical */}
+  try{if(checked)sessionStorage.setItem("se-assistant-recording-ack-v2","yes");else sessionStorage.removeItem("se-assistant-recording-ack-v2")}catch{/* Non-critical */}
  }
  async function submit(e:React.FormEvent){
   e.preventDefault();
