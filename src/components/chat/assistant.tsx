@@ -4,11 +4,11 @@ import {X,Send,Sparkles,ShieldCheck,MessageCircle,RotateCcw} from "lucide-react"
 import ReactMarkdown from "react-markdown";
 import type {Locale} from "@/lib/site";
 type Message={role:"assistant"|"user";text:string};
-type Mode="ai"|"knowledge-base"|null;
+type Mode="ai"|"knowledge-base"|"unavailable"|null;
 const langs={
- en:{intro:"Hi! Tell me about your project and I'll help you find the right solution.",title:"Studio assistant",subAI:"AI assistant · remembers this conversation",subLocal:"Studio knowledge · contextual answers",subStart:"Here to help with your project",placeholder:"Ask a question...",status:"Please don't share passwords or payment information.",open:"Chat with us",reset:"New conversation",error:"I couldn't respond right now. Please try again or email sites.evolve7@gmail.com."},
- ro:{intro:"Salut! Spune-mi ce vrei să construiești și găsim împreună soluția potrivită.",title:"Asistentul studioului",subAI:"Asistent AI · păstrează contextul discuției",subLocal:"Informații studio · răspunsuri contextuale",subStart:"Aici pentru proiectul tău",placeholder:"Scrie o întrebare...",status:"Nu trimite parole sau date bancare.",open:"Discută cu noi",reset:"Conversație nouă",error:"Nu am putut răspunde acum. Mai încearcă sau scrie la sites.evolve7@gmail.com."},
- ru:{intro:"Здравствуйте! Расскажите о проекте — помогу найти подходящее решение.",title:"Ассистент студии",subAI:"ИИ-ассистент · учитывает контекст",subLocal:"База знаний · ответы с контекстом",subStart:"Помогу с вашим проектом",placeholder:"Задайте вопрос...",status:"Не отправляйте пароли или данные банковских карт.",open:"Написать нам",reset:"Новый разговор",error:"Сейчас не удалось ответить. Попробуйте снова или напишите на sites.evolve7@gmail.com."}
+ en:{intro:"Hi! Tell me about your project and I'll help you find the right solution.",title:"Studio assistant",subAI:"AI assistant · remembers this conversation",subLocal:"Studio knowledge · contextual answers",subStart:"Here to help with your project",subUnavailable:"AI temporarily unavailable",recordingOn:"Chat recording enabled for studio support.",consent:"I understand this chat will be saved for studio support. Please do not share sensitive data.",placeholder:"Ask a question...",status:"Please don't share passwords or payment information.",open:"Chat with us",reset:"New conversation",error:"I couldn't respond right now. Please try again or email sites.evolve7@gmail.com."},
+ ro:{intro:"Salut! Spune-mi ce vrei să construiești și găsim împreună soluția potrivită.",title:"Asistentul studioului",subAI:"Asistent AI · păstrează contextul discuției",subLocal:"Informații studio · răspunsuri contextuale",subStart:"Aici pentru proiectul tău",subUnavailable:"AI indisponibil temporar",recordingOn:"Conversația este arhivată pentru suport.",consent:"Am înțeles că discuția va fi salvată pentru suport. Nu voi trimite date sensibile.",placeholder:"Scrie o întrebare...",status:"Nu trimite parole sau date bancare.",open:"Discută cu noi",reset:"Conversație nouă",error:"Nu am putut răspunde acum. Mai încearcă sau scrie la sites.evolve7@gmail.com."},
+ ru:{intro:"Здравствуйте! Расскажите о проекте — помогу найти подходящее решение.",title:"Ассистент студии",subAI:"ИИ-ассистент · учитывает контекст",subLocal:"База знаний · ответы с контекстом",subStart:"Помогу с вашим проектом",subUnavailable:"ИИ временно недоступен",recordingOn:"Переписка сохраняется для поддержки.",consent:"Я понимаю, что переписка будет сохранена для поддержки. Не буду отправлять конфиденциальные данные.",placeholder:"Задайте вопрос...",status:"Не отправляйте пароли или данные банковских карт.",open:"Написать нам",reset:"Новый разговор",error:"Сейчас не удалось ответить. Попробуйте снова или напишите на sites.evolve7@gmail.com."}
 };
 const conversationKey=(locale:Locale)=>"sites-evolve-chat-v2-"+locale;
 function linked(text:string){
@@ -19,6 +19,8 @@ export default function AssistantWidget({locale}:{locale:Locale}){
  const [open,setOpen]=useState(false),[input,setInput]=useState(""),[working,setWorking]=useState(false);
  const [messages,setMessages]=useState<Message[]>([{role:"assistant",text:t.intro}]);
  const [mode,setMode]=useState<Mode>(null);
+ const [archiveAcknowledged,setArchiveAcknowledged]=useState(false);
+ const [chatId,setChatId]=useState("");
  const [hydrated,setHydrated]=useState(false);
  const bottom=useRef<HTMLDivElement>(null);
  useEffect(()=>{
@@ -32,27 +34,44 @@ export default function AssistantWidget({locale}:{locale:Locale}){
     }
    }
   }catch{/* Session storage may be unavailable in private browsing. */}
-  queueMicrotask(()=>{if(restored)setMessages(restored);setHydrated(true);});
+  let restoredId="";
+  let acknowledged=false;
+  try{
+   restoredId=sessionStorage.getItem("se-assistant-session-id")||"";
+   acknowledged=sessionStorage.getItem("se-assistant-recording-ack")==="yes";
+  }catch{/* Session storage can be disabled. */}
+  if(!/^[a-f0-9-]{36}$/i.test(restoredId))restoredId=crypto.randomUUID();
+  queueMicrotask(()=>{if(restored)setMessages(restored);setArchiveAcknowledged(acknowledged);setChatId(restoredId);setHydrated(true);});
+  try{sessionStorage.setItem("se-assistant-session-id",restoredId)}catch{/* Non-critical */}
+
  },[locale]);
  useEffect(()=>{
   if(!hydrated)return;
   try{sessionStorage.setItem(conversationKey(locale),JSON.stringify(messages.slice(-18)))}catch{/* Non-critical */}
  },[messages,locale,hydrated]);
  useEffect(()=>{if(open)bottom.current?.scrollIntoView({behavior:"smooth",block:"end"});},[messages,open]);
- function reset(){setMessages([{role:"assistant",text:t.intro}]);setMode(null);setInput("");try{sessionStorage.removeItem(conversationKey(locale))}catch{/* Non-critical */}}
+ function reset(){
+  setMessages([{role:"assistant",text:t.intro}]);setMode(null);setInput("");
+  const nextId=crypto.randomUUID();setChatId(nextId);
+  try{sessionStorage.removeItem(conversationKey(locale));sessionStorage.setItem("se-assistant-session-id",nextId)}catch{/* Non-critical */}
+ }
+ function acknowledge(checked:boolean){
+  setArchiveAcknowledged(checked);
+  try{if(checked)sessionStorage.setItem("se-assistant-recording-ack","yes");else sessionStorage.removeItem("se-assistant-recording-ack")}catch{/* Non-critical */}
+ }
  async function submit(e:React.FormEvent){
   e.preventDefault();
   const value=input.trim().slice(0,900);
-  if(!value||working)return;
-  const history=messages.slice(1).slice(-12).map(({role,text})=>({role,text}));
+  if(!value||working||!archiveAcknowledged||!chatId)return;
+  const history=messages.slice(1).slice(-16).map(({role,text})=>({role,text}));
   setInput("");
   setMessages(m=>[...m,{role:"user",text:value}]);
   setWorking(true);
   try{
-   const resp=await fetch("/api/assistant",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:value,locale,history})});
+   const resp=await fetch("/api/assistant",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:value,locale,history,sessionId:chatId,saveConversation:archiveAcknowledged})});
    const data=await resp.json();
    if(!resp.ok||typeof data.answer!=="string"||!data.answer.trim())throw new Error("Assistant unavailable");
-   setMode(data.mode==="ai"?"ai":"knowledge-base");
+   setMode(data.mode==="ai"?"ai":data.mode==="unavailable"?"unavailable":"knowledge-base");
    setMessages(m=>[...m,{role:"assistant",text:data.answer.slice(0,2600)}]);
   }catch{
    setMessages(m=>[...m,{role:"assistant",text:t.error}]);
@@ -62,7 +81,7 @@ export default function AssistantWidget({locale}:{locale:Locale}){
   {open&&<section className="assistant-window" role="dialog" aria-label={t.title}>
    <header className="assistant-header">
     <div className="assistant-header-icon"><Sparkles size={20}/></div>
-    <div><strong>{t.title}</strong><small>{mode==="ai"?t.subAI:mode==="knowledge-base"?t.subLocal:t.subStart}</small></div>
+    <div><strong>{t.title}</strong><small>{mode==="ai"?t.subAI:mode==="unavailable"?t.subUnavailable:mode==="knowledge-base"?t.subLocal:t.subStart}</small></div>
     <button type="button" aria-label={t.reset} title={t.reset} onClick={reset} disabled={working}><RotateCcw size={17}/></button>
     <button type="button" aria-label="Close chat" onClick={()=>setOpen(false)}><X size={20}/></button>
    </header>
@@ -75,8 +94,12 @@ export default function AssistantWidget({locale}:{locale:Locale}){
    </div>
    <form className="assistant-inputbar" onSubmit={submit}>
     <input value={input} onChange={e=>setInput(e.target.value)} placeholder={t.placeholder} aria-label={t.placeholder} maxLength={900}/>
-    <button type="submit" aria-label="Send message" disabled={working||!input.trim()}><Send size={17}/></button>
+    <button type="submit" aria-label="Send message" disabled={working||!input.trim()||!archiveAcknowledged||!chatId}><Send size={17}/></button>
    </form>
+   <label className={"assistant-recording-consent"+(archiveAcknowledged?" accepted":"")}>
+    <input type="checkbox" checked={archiveAcknowledged} onChange={e=>acknowledge(e.target.checked)}/>
+    <span>{archiveAcknowledged?t.recordingOn:t.consent} <a href={"/"+locale+"/privacy"} target="_blank" rel="noreferrer">Privacy</a></span>
+   </label>
    <div className="assistant-disclaimer"><ShieldCheck size={12}/>{t.status}</div>
   </section>}
   <button type="button" className={"assistant-fab "+(open?"fab-open":"")} onClick={()=>setOpen(v=>!v)} aria-expanded={open} aria-label={open?"Close assistant":t.open}>{open?<X size={22}/>:<MessageCircle size={23}/>}<span>{open?"":t.open}</span></button>

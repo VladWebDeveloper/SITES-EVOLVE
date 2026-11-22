@@ -90,6 +90,7 @@ model User {
   notifications Notification[]
   auditEvents   AuditEvent[]
   privacyRequests PrivacyRequest[]
+  chatSessions ChatSession[]
 }
 
 model Client {
@@ -460,4 +461,29 @@ model ReferralReward {
   createdAt DateTime @default(now())
   fulfilledAt DateTime?
   @@index([clientId,status])
+}
+
+
+/// Private chat transcripts; shown only to the studio team, never public.
+model ChatSession {
+  id            String   @id @default(cuid())
+  publicId      String   @unique @db.VarChar(40)
+  locale        String   @default("ro") @db.VarChar(2)
+  userId        String?
+  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  messages      ChatMessage[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  @@index([updatedAt])
+  @@index([userId,updatedAt])
+}
+
+model ChatMessage {
+  id         String      @id @default(cuid())
+  sessionId  String
+  session    ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role       String      @db.VarChar(12)
+  text       String      @db.VarChar(3200)
+  createdAt  DateTime    @default(now())
+  @@index([sessionId,createdAt])
 }

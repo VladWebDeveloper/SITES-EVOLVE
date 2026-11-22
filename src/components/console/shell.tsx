@@ -6,9 +6,10 @@ import type {Locale} from "@/lib/site";
 import {WorkspaceLocale,translateUI} from "@/components/console/workspace-i18n";
 import {signOut} from "next-auth/react";
 import {BrandLogo} from "@/components/brand/logo";
+import AssistantWidget from "@/components/chat/assistant";
 import {LayoutDashboard,Users,BriefcaseBusiness,Inbox,MessagesSquare,BookOpen,Wallet,Globe2,Zap,CalendarDays,Settings,FolderOpen,Receipt,ClipboardList,Menu,X,ArrowUpRight,LogOut,ChevronRight,} from "lucide-react";
 const consoleLinks=[
- ["","Overview",LayoutDashboard],["leads","CRM & Leads",Inbox],["tasks","Tasks & reminders",ClipboardList],["clients","Clients",Users],["projects","Projects",BriefcaseBusiness],["tickets","Support",MessagesSquare],["documents","Documents",FolderOpen],["content","Content & Blog",BookOpen],["briefs","Onboarding",FolderOpen],["experiments","A/B testing",Zap],["status","Public status",Globe2],["referrals","Referral benefits",Users],["privacy","Privacy requests",Settings],["finance","Finance",Wallet],["websites","Site Management",Globe2],["appointments","Appointments",CalendarDays],["automation","Automation",Zap],["settings","Settings",Settings]
+ ["","Overview",LayoutDashboard],["leads","CRM & Leads",Inbox],["conversations","AI conversations",MessagesSquare],["tasks","Tasks & reminders",ClipboardList],["clients","Clients",Users],["projects","Projects",BriefcaseBusiness],["tickets","Support",MessagesSquare],["documents","Documents",FolderOpen],["content","Content & Blog",BookOpen],["briefs","Onboarding",FolderOpen],["experiments","A/B testing",Zap],["status","Public status",Globe2],["referrals","Referral benefits",Users],["privacy","Privacy requests",Settings],["finance","Finance",Wallet],["websites","Site Management",Globe2],["appointments","Appointments",CalendarDays],["automation","Automation",Zap],["settings","Settings",Settings]
 ] as const;
 const portalLinks=[["","Overview",LayoutDashboard],["notifications","Notifications",Inbox],["onboarding","Get started",FolderOpen],["referrals","My referrals",Users],["privacy","Privacy & data",Settings],["requests","My requests",ClipboardList],["projects","My projects",BriefcaseBusiness],["tickets","Support",MessagesSquare],["documents","Files & deliverables",FolderOpen],["billing","Billing",Receipt],["websites","My websites",Globe2]] as const;
 export function WorkspaceShell({area,actor,children,locale}:{area:"console"|"portal";locale:Locale;actor:{name:string;email:string;role:string};children:React.ReactNode}){
@@ -38,5 +39,6 @@ export function WorkspaceShell({area,actor,children,locale}:{area:"console"|"por
   </label>
   <span className="workspace-user-text"><strong>{actor.name}</strong><small>{actor.role.toLowerCase()}</small></span><span className="workspace-avatar">{actor.name.slice(0,1).toUpperCase()}</span></div></header><div className="workspace-content">{children}</div><footer className="workspace-footer">SITES EVOLVE · SECURE WORKSPACE <span>© {new Date().getFullYear()}</span></footer></div>
  {menu&&<button onClick={()=>setMenu(false)} className="workspace-scrim" aria-label="Close navigation"/>}
+ {area==="portal"&&<AssistantWidget locale={language}/>}
  </div></WorkspaceLocale.Provider>
 }

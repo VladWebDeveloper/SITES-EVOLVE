@@ -12,6 +12,9 @@ export async function GET(request:Request){
  if(!expected||!databaseConfigured())return jsonError("Workflow scheduler is not configured",503);
  if(!constantTimeEqual(request.headers.get("authorization")||"","Bearer "+expected))return jsonError("Forbidden",403);
  const db=getDb(),cutoff=new Date(Date.now()-24*3600*1000);
+ // Only transcripts for opt-in sessions are retained; purge whole sessions with their messages.
+ const expiredChats=await db.chatSession.deleteMany({where:{updatedAt:{lt:new Date(Date.now()-90*24*3600*1000)}}});
+
  const [leads,bookings,previous,tasks,previousTasks]=await Promise.all([
   db.lead.findMany({where:{status:"NEW",createdAt:{lte:cutoff}},orderBy:{createdAt:"asc"},take:100,select:{id:true,name:true,email:true,createdAt:true}}),
   db.bookingRequest.findMany({where:{status:"NEW",createdAt:{lte:cutoff}},orderBy:{createdAt:"asc"},take:100,select:{id:true,name:true,email:true,createdAt:true}}),
@@ -26,7 +29,7 @@ export async function GET(request:Request){
  ].filter(x=>!already.has(onceKey(x)));
  const remindedTasks=new Set(previousTasks.map(x=>{const v=x.payload;return v&&typeof v==="object"&&!Array.isArray(v)&&"key" in v&&typeof v.key==="string"?v.key:""}));
  const dueTasks=tasks.filter(t=>!remindedTasks.has("task:"+t.id));
- if(pending.length===0&&dueTasks.length===0)return Response.json({ok:true,notified:0},{headers:{"Cache-Control":"no-store"}});
+ if(pending.length===0&&dueTasks.length===0)return Response.json({ok:true,notified:0,expiredChats:expiredChats.count},{headers:{"Cache-Control":"no-store"}});
  const mailTo=process.env.LEAD_TO_EMAIL||"sites.evolve7@gmail.com";
  const body=["SITES EVOLVE — outstanding CRM requests","These requests have remained NEW for at least 24 hours:","",...pending.map(x=>"- "+x.kind.toUpperCase()+": "+x.name+" ("+x.email+") — "+x.createdAt.toISOString()),"",
   "Overdue internal tasks:",
@@ -39,5 +42,5 @@ export async function GET(request:Request){
  ]});
  const staff=await db.user.findMany({where:{role:{in:["OWNER","STAFF"]},active:true},select:{id:true}});
  if(staff.length)await db.notification.createMany({data:staff.map(x=>({userId:x.id,title:pending.length+" pending request(s), "+dueTasks.length+" overdue task(s) to review",href:"/console/leads"}))});
- return Response.json({ok:true,notified:pending.length,dueTasks:dueTasks.length},{headers:{"Cache-Control":"no-store"}});
+ return Response.json({ok:true,notified:pending.length,dueTasks:dueTasks.length,expiredChats:expiredChats.count},{headers:{"Cache-Control":"no-store"}});
 }

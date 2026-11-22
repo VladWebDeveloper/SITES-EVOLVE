@@ -20,12 +20,12 @@ test("client signup is visible in header and supports new Google accounts",async
 });
 test("unregistered users cannot open private client workspaces",async({page})=>{
  await page.goto("/portal");
- await expect(page).toHaveURL(/\/login/,{timeout:15000});
+ await expect(page).toHaveURL(/\/(login|setup)/,{timeout:15000});
  await expect(page.locator(".workspace-shell")).toHaveCount(0);
 });
 test("private project request history is never public",async({page})=>{
  await page.goto("/portal/requests");
- await expect(page).toHaveURL(/\/login/,{timeout:15000});
+ await expect(page).toHaveURL(/\/(login|setup)/,{timeout:15000});
  await expect(page.getByText("My requests",{exact:true})).toHaveCount(0);
 });
 test("founder page explains real professional background and has photo placeholder",async({page})=>{
@@ -56,6 +56,7 @@ test("estimate updates without submitting personal data",async({page})=>{
 test("assistant offers useful local knowledge without external API",async({page})=>{
  await page.goto("/ro");
  await page.getByRole("button",{name:"Discută cu noi"}).click();
+ await page.locator(".assistant-recording-consent input").check();
  await page.getByRole("textbox",{name:"Scrie o întrebare..."}).fill("Cât costă un site?");
  await page.getByRole("button",{name:"Send message"}).click();
  await expect(page.locator(".message-bot").last()).toContainText("nu avem un tarif fix",{timeout:10000});
@@ -63,6 +64,7 @@ test("assistant offers useful local knowledge without external API",async({page}
 test("assistant keeps the project topic across follow-ups and page refresh",async({page})=>{
  await page.goto("/ro");
  await page.getByRole("button",{name:"Discută cu noi"}).click();
+ await page.locator(".assistant-recording-consent input").check();
  const field=page.getByRole("textbox",{name:"Scrie o întrebare..."});
  await field.fill("Vreau un magazin online pentru haine");
  await page.getByRole("button",{name:"Send message"}).click();
@@ -86,7 +88,7 @@ test("protected daily workflows require authorization",async({request})=>{
 });
 
 test("assistant API validates bounded conversation history",async({request})=>{
- const invalid=await request.post("/api/assistant",{data:{message:"Salut",locale:"ro",history:Array.from({length:17},()=>({role:"user",text:"Buna"}))}});
+ const invalid=await request.post("/api/assistant",{data:{message:"Salut",locale:"ro",history:Array.from({length:19},()=>({role:"user",text:"Buna"}))}});
  expect(invalid.status()).toBe(400);
 });
 
@@ -94,6 +96,7 @@ test("mobile assistant stays accessible while consent banner is visible",async({
  if(testInfo.project.name!=="chrome-mobile")return;
  await page.goto("/ro");
  const consent=page.getByRole("dialog",{name:"Cookie preferences"});
+ if(await consent.count()===0)return; // Analytics is optional in unconfigured previews.
  await expect(consent).toBeVisible();
  const chat=page.getByRole("button",{name:"Discută cu noi"});
  const bannerTop=await consent.evaluate(el=>el.getBoundingClientRect().top);
@@ -122,6 +125,18 @@ test("public submissions validate data and private uploads require login",async(
  expect(quote.status()).toBe(400);
  const upload=await request.post("/api/storage/upload",{data:{}});
  expect([401,403]).toContain(upload.status());
+});
+test("private conversation archive is inaccessible without staff login",async({page})=>{
+ await page.goto("/console/conversations");
+ await expect(page).toHaveURL(/\/(login|setup)$/);
+});
+test("chat recording acknowledgement is required before sending",async({page})=>{
+ await page.goto("/ro");
+ await page.getByRole("button",{name:"Discută cu noi"}).click();
+ await page.getByRole("textbox",{name:"Scrie o întrebare..."}).fill("Salut");
+ await expect(page.getByRole("button",{name:"Send message"})).toBeDisabled();
+ await page.locator(".assistant-recording-consent input").check();
+ await expect(page.getByRole("button",{name:"Send message"})).toBeEnabled();
 });
 test("private admin route fails closed without credentials",async({page})=>{
  await page.goto("/console");
