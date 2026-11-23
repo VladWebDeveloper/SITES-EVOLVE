@@ -114,7 +114,7 @@ const content:Record<Locale,Record<Kind,Editorial>>={
    ],faqTitle:"More about Vlad",
    faq:[
     ["What is Vlad Serbușco's main professional role?","He is the Founder & CEO of SITES EVOLVE, an independent web development and digital innovation studio."],
-    ["Where can I see modeling work?","The fashion portfolio page describes his runway appearances in Cluj and Dubai. Portrait and runway photographs are not displayed at this stage."]
+    ["Where can I see modeling work?","The Fashion Model card opens a photo gallery; a separate fashion portfolio page contains the City Fashion Week and Emirates Fashion Week photographs."]
    ],action:"View the fashion portfolio",actionPath:"fashion-model"
   }
  },
@@ -226,7 +226,7 @@ const content:Record<Locale,Record<Kind,Editorial>>={
    ],faqTitle:"Mai multe despre Vlad",
    faq:[
     ["Care este rolul principal al lui Vlad Serbușco?","Este fondatorul și CEO-ul SITES EVOLVE, studio independent de dezvoltare web și inovație digitală."],
-    ["Unde pot vedea activitatea de modeling?","Pagina de fashion prezintă textual aparițiile la City Fashion Week și Emirates Fashion Week. Fotografiile nu sunt publicate în această etapă."]
+    ["Unde pot vedea activitatea de modeling?","Cardul Fashion Model deschide o galerie foto. O pagină separată include fotografiile de la City Fashion Week și Emirates Fashion Week."]
    ],action:"Vezi portofoliul fashion",actionPath:"fashion-model"
   }
  },
@@ -337,7 +337,7 @@ const content:Record<Locale,Record<Kind,Editorial>>={
    ],faqTitle:"Подробнее о Владе",
    faq:[
     ["Чем занимается Влад Сербушко?","Он основатель и CEO SITES EVOLVE — независимой студии веб-разработки и цифровых решений."],
-    ["Где посмотреть фотографии с показов?","Страница fashion-портфолио описывает показы City Fashion Week и Emirates Fashion Week. Фотографии пока не публикуются."]
+    ["Где посмотреть фотографии с показов?","Карточка Fashion Model открывает галерею. Отдельная страница содержит фотографии City Fashion Week и Emirates Fashion Week."]
    ],action:"Fashion-портфолио",actionPath:"fashion-model"
   }
  }

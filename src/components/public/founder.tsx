@@ -1,7 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
 import {ArrowUpRight, Camera, Sparkles, GraduationCap, Code2, Users} from "lucide-react";
 import {pathFor, type Locale} from "@/lib/site";
 import SeoEditorial from "@/components/public/seo-editorial";
+import FashionModelGallery from "@/components/public/fashion-gallery";
 
 const profile={
  ro:{
@@ -32,11 +34,15 @@ const profile={
 
 export function FounderPortrait({locale,large=false}:{locale:Locale;large?:boolean}){
  const t=profile[locale];
- return <div className={"evolve-founder-portrait"+(large?" evolve-founder-portrait-large":"")} role="img" aria-label="VS — Vlad Serbușco monogram, no photograph">
+ const photo=process.env.NEXT_PUBLIC_FOUNDER_PHOTO?.trim() || "/vlad-serbusco-founder.webp";
+ const valid=Boolean(photo?.startsWith("/") && !photo.startsWith("//"));
+ return <div className={"evolve-founder-portrait"+(large?" evolve-founder-portrait-large":"")} role="img" aria-label={valid?"Vlad Serbușco — founder of SITES EVOLVE":t.ph}>
   <div className="evolve-founder-portrait-glow"/>
-  <div className="evolve-founder-photo-rings" aria-hidden="true"><span/><span/><span/></div>
-  <div className="evolve-founder-placeholder-avatar" aria-hidden="true">VS<span>.</span></div>
-  <div className="evolve-founder-photo-badge"><Camera size={15}/><span>{t.caption}</span></div>
+  {valid&&photo?<Image className="evolve-founder-photo" src={photo} alt="Vlad Serbușco — Founder and CEO of SITES EVOLVE, international fashion model" fill sizes={large?"(max-width: 900px) 100vw, 45vw":"(max-width: 900px) 100vw, 32vw"} unoptimized priority={large}/>:<>
+   <div className="evolve-founder-photo-rings" aria-hidden="true"><span/><span/><span/></div>
+   <div className="evolve-founder-placeholder-avatar" aria-hidden="true">VS<span>.</span></div>
+   <div className="evolve-founder-photo-badge"><Camera size={15}/><span>{t.caption}</span></div>
+  </>}
   <div className="evolve-founder-photo-corner">S/E · 001</div>
  </div>;
 }
@@ -79,7 +85,7 @@ export function FounderProfile({locale}:{locale:Locale}){
    <div className="evolve-founder-roles-heading"><span className="future-eyebrow"><span className="future-eyebrow-dot"/>{d.title}</span><h3>{d.subtitle}</h3></div>
    <div className="evolve-founder-roles-grid">{d.roles.map(([company,role,description],idx)=>{
     const Icon=icons[idx];
-    
+    if(idx===1)return <FashionModelGallery key={company} locale={locale} company={company} role={role} description={description} index={idx}/>;
     return <article key={company} className="evolve-founder-role">
      <div className="evolve-founder-role-head"><span className="evolve-founder-role-icon"><Icon size={24} strokeWidth={1.6} aria-hidden="true"/></span><span className="evolve-founder-role-count">0{idx+1}</span></div>
      <h4>{company}</h4><strong>{role}</strong><p>{description}</p>

@@ -6,6 +6,16 @@ import {internationalGuides} from "@/lib/international-guides";
 
 export const dynamic="force-dynamic";
 const originalDate=new Date("2026-11-16T00:00:00Z");
+const founderImages=[
+ absoluteUrl("/vlad-serbusco-founder.webp"),
+ absoluteUrl("/vlad-serbusco-city-fashion-week-cluj-romania.jpg"),
+ absoluteUrl("/vlad-serbusco-emirates-fashion-week-dubai.jpg")
+];
+const runwayImages=[
+ absoluteUrl("/vlad-serbusco-founder.webp"),
+ absoluteUrl("/vlad-serbusco-city-fashion-week-cluj-romania.jpg"),
+ absoluteUrl("/vlad-serbusco-emirates-fashion-week-dubai.jpg")
+];
 export default async function sitemap():Promise<MetadataRoute.Sitemap>{
  const paths=["","about","founder","fashion-model","services","work","process","journal","pricing","quote","consultation","contact","privacy","terms","builder","demo","academy","audit","status","privacy-center","referrals",
  ...academyGuides.map(g=>"academy/"+g.slug),
@@ -17,8 +27,8 @@ export default async function sitemap():Promise<MetadataRoute.Sitemap>{
   url:absoluteUrl("/"+locale+(path?"/"+path:"")),
   lastModified:updatedPaths.has(path)?new Date("2026-11-23T08:00:00Z"):originalDate,
   changeFrequency:path.startsWith("journal")?"monthly" as const:"weekly" as const,
-  priority:path===""?1:path==="founder"||path==="fashion-model"?0.9:path==="work"?0.8:0.7
-
+  priority:path===""?1:path==="founder"||path==="fashion-model"?0.9:path==="work"?0.8:0.7,
+  ...(path==="founder"?{images:founderImages}:path==="fashion-model"?{images:runwayImages}:path===""?{images:[founderImages[0]]}:{})
  })));
  const journalPages=await Promise.all(locales.map(async locale=>(await publishedPosts(locale)).map(post=>({
   url:absoluteUrl("/"+locale+"/journal/"+post.slug),
