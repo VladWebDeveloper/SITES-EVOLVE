@@ -23,7 +23,7 @@ export function personSchema(locale:Locale){
   memberOf:[{"@type":"Organization",name:"ADI Academy"},{"@type":"Organization",name:"ASEM Student Senate"}],
   affiliation:{"@type":"CollegeOrUniversity",name:"Academia de Studii Economice din Moldova",url:"https://ase.md"},
   knowsAbout:["Web development","IT management","Business administration","Fashion modeling"],
-  sameAs:["https://www.instagram.com/vlad_14.02/"]
+  sameAs:["https://www.instagram.com/vlad_14.02/","https://www.linkedin.com/in/vlad-serbu%C8%99co-376999413/"]
  };
 }
 export function founderSchema(locale:Locale){
