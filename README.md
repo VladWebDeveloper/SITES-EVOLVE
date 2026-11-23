@@ -2,9 +2,19 @@
 
 Premium web development, software, AI and digital solutions studio based in Chișinău, Moldova. Founded by Vlad Serbușco. Email: [sites.evolve7@gmail.com](mailto:sites.evolve7@gmail.com).
 
-## Live preview
+## Official production website
 
-**[SITES EVOLVE — Romanian test website](https://sites-evolve-production.up.railway.app/ro)** is hosted on Railway. This is a test deployment: the public site is available, PostgreSQL has been provisioned and linked, and private modules remain locked until Google OAuth is configured. The temporary domain is not intended for SEO indexing.
+**[sitesevolve.com](https://sitesevolve.com)** is the official SITES EVOLVE website for enquiries, consultations, web development services and an evolving portfolio. It is available in English, Romanian and Russian.
+
+SITES EVOLVE is an **independent web development studio based in Chișinău, Moldova**, working with businesses locally and remotely. We do not claim offices in the US or UK. The studio's public international information pages are:
+
+- [Custom website development for US businesses](https://sitesevolve.com/en/markets/us)
+- [Web design and development for UK businesses](https://sitesevolve.com/en/markets/uk)
+- [Website project brief template](https://sitesevolve.com/en/insights/website-project-brief-template)
+- [Booking website or booking platform?](https://sitesevolve.com/en/insights/booking-website-or-booking-platform)
+- [AlviTravel project case study](https://sitesevolve.com/en/work/alvitravel)
+
+The code and operational configuration are maintained separately. This repository contains no API keys or private client records.
 
 ## Version 0.2 — what is implemented
 
@@ -14,7 +24,7 @@ Premium web development, software, AI and digital solutions studio based in Chi�
 | Localization | Romanian, English and Russian routes |
 | Content | Original editorial posts + database-backed Markdown publishing |
 | Sales | API-backed enquiries, indicative quote builder, consultation requests, email fallback |
-| Assistant | FAQ knowledge mode; OpenAI responses integration when API key supplied |
+| Assistant | Free-tier Groq inference when configured, with knowledge-base fallback; paid OpenAI calls opt-in only |
 | CRM & operations | Private dashboard for leads, customers, projects/milestones, tickets, content, appointments, invoices, subscriptions, managed sites, automation status |
 | Client workspace | Private projects and milestone approvals, tickets/replies, documents, invoices, subscriptions and site status, scoped by client membership |
 | Security | Google OAuth allowlist, server-side role checks, validated input, spam trap, rate-limit fallback, private file access, security headers |
@@ -23,7 +33,7 @@ Premium web development, software, AI and digital solutions studio based in Chi�
 | SEO | Metadata, hreflang, sitemap, robots, dynamic OpenGraph image, JSON-LD, accessible navigation |
 | Engineering | Next.js 16, React 19, TypeScript, Prisma 7/PostgreSQL, migrations, GitHub Actions, Vitest, Playwright |
 
-**Important:** Repository code can be complete and build successfully before an external service is activated. No database, Google OAuth, R2, Resend, paid payment gateway, calendar slots or AI account are claimed to be live until connected and verified. Private routes fail closed without configuration. The live test site is not yet a fully operational commercial deployment. See `docs/RAILWAY.md` for service configuration and verification.
+**Important:** External services require individual configuration and verification. Public pages are deployed on Railway; privileged CRM and client portal functionality is protected by authentication and authorization. Publishing code does not imply that every optional integration, payment gateway or storage provider is active. See `docs/RAILWAY.md` for deployment guidance.
 
 ## Requirements
 
@@ -46,7 +56,7 @@ npm run build
 npm run test:e2e # Requires locally running server on port 3002 and Chrome installed
 ```
 
-The public site works without secrets, but CRM and portal routes redirect to `/setup` until authentication/database are configured.
+The public pages can run without secrets locally, but CRM and portal features require a configured database, authentication and the proper roles. On production, restricted pages use authenticated access.
 
 ## Environment and production activation
 
