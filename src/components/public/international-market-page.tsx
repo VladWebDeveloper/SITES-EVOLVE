@@ -1,10 +1,12 @@
 import Link from "next/link";
 import {ArrowUpRight,ArrowLeft,CheckCircle2,Globe2,MapPinned} from "lucide-react";
 import {internationalMarkets,type InternationalMarket} from "@/lib/international-markets";
+import {internationalGuides} from "@/lib/international-guides";
 
 export default function InternationalMarketPage({market}:{market:InternationalMarket}){
  const m=internationalMarkets[market];
  const related=market==="us"?"uk":"us";
+ const guide=internationalGuides.find(g=>g.region===market);
  return <div className="international-page">
   <section className="international-hero">
    <div className="international-hero-grid" aria-hidden="true"/>
@@ -47,6 +49,7 @@ export default function InternationalMarketPage({market}:{market:InternationalMa
     <div className="international-process-grid">{m.steps.map((s,i)=><article key={s.title}><span>0{i+1}</span><h3>{s.title}</h3><p>{s.text}</p></article>)}</div>
    </div>
   </section>
+  {guide&&<section className="international-editorial-link"><div className="container"><div><span>INSIGHTS / PRACTICAL GUIDE</span><h2>Plan your website before requesting a quote.</h2><p>Step-by-step advice, real trade-offs and a checklist for planning your next digital project.</p></div><Link href={"/en/insights/"+guide.slug}>{guide.heading}<ArrowUpRight size={18}/></Link></div></section>}
   <section className="international-section international-faq">
    <div className="container international-faq-layout">
     <div className="international-heading"><span>04 / COMMON QUESTIONS</span><h2>Before we start.</h2><p>Practical answers about remote web development with SITES EVOLVE.</p></div>

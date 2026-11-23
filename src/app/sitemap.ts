@@ -2,9 +2,9 @@ import type {MetadataRoute} from "next";
 import {absoluteUrl,locales,journal,services,works} from "@/lib/site";
 import {publishedPosts} from "@/lib/server/posts";
 import {academyGuides} from "@/lib/academy";
+import {internationalGuides} from "@/lib/international-guides";
 
 export const dynamic="force-dynamic";
-const refreshedOn=new Date("2026-11-21T00:00:00Z");
 const originalDate=new Date("2026-11-16T00:00:00Z");
 const founderImages=[
  absoluteUrl("/vlad-serbusco-founder.webp"),
@@ -41,5 +41,11 @@ export default async function sitemap():Promise<MetadataRoute.Sitemap>{
   changeFrequency:"monthly" as const,
   priority:0.8
  }));
- return [...base,...internationalPages,...journalPages.flat()];
+ const guidePages=internationalGuides.map(guide=>({
+  url:absoluteUrl("/en/insights/"+guide.slug),
+  lastModified:new Date(guide.updated+"T08:00:00Z"),
+  changeFrequency:"monthly" as const,
+  priority:0.7
+ }));
+ return [...base,...internationalPages,...guidePages,...journalPages.flat()];
 }
