@@ -25,6 +25,12 @@ export default async function sitemap():Promise<MetadataRoute.Sitemap>{
  const updatedPaths=new Set(["","about","founder","fashion-model","services","process","pricing","contact","work",...services.en.map(s=>"services/"+s.id),...works.en.map(w=>"work/"+w.id)]);
  const base=locales.flatMap(locale=>paths.map(path=>({
   url:absoluteUrl("/"+locale+(path?"/"+path:"")),
+  alternates:{languages:{
+   en:absoluteUrl("/en"+(path?"/"+path:"")),
+   ro:absoluteUrl("/ro"+(path?"/"+path:"")),
+   ru:absoluteUrl("/ru"+(path?"/"+path:"")),
+   "x-default":absoluteUrl("/en"+(path?"/"+path:""))
+  }},
   lastModified:updatedPaths.has(path)?new Date("2026-11-23T08:00:00Z"):originalDate,
   changeFrequency:path.startsWith("journal")?"monthly" as const:"weekly" as const,
   priority:path===""?1:path==="founder"||path==="fashion-model"?0.9:path==="work"?0.8:0.7,
