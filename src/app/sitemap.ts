@@ -25,7 +25,7 @@ export default async function sitemap():Promise<MetadataRoute.Sitemap>{
  const updatedPaths=new Set(["","about","founder","fashion-model","services","process","pricing","contact","work",...services.en.map(s=>"services/"+s.id),...works.en.map(w=>"work/"+w.id)]);
  const base=locales.flatMap(locale=>paths.map(path=>({
   url:absoluteUrl("/"+locale+(path?"/"+path:"")),
-  lastModified:updatedPaths.has(path)?refreshedOn:originalDate,
+  lastModified:updatedPaths.has(path)?new Date("2026-11-23T08:00:00Z"):originalDate,
   changeFrequency:path.startsWith("journal")?"monthly" as const:"weekly" as const,
   priority:path===""?1:path==="founder"||path==="fashion-model"?0.9:path==="work"?0.8:0.7,
   ...(path==="founder"?{images:founderImages}:path==="fashion-model"?{images:runwayImages}:path===""?{images:[founderImages[0]]}:{})
@@ -35,5 +35,11 @@ export default async function sitemap():Promise<MetadataRoute.Sitemap>{
   lastModified:post.publishedAt?new Date(post.publishedAt):originalDate,
   changeFrequency:"monthly" as const,priority:0.6
  }))));
- return [...base,...journalPages.flat()];
+ const internationalPages=["us","uk"].map(market=>({
+  url:absoluteUrl("/en/markets/"+market),
+  lastModified:new Date("2026-11-23T08:00:00Z"),
+  changeFrequency:"monthly" as const,
+  priority:0.8
+ }));
+ return [...base,...internationalPages,...journalPages.flat()];
 }
