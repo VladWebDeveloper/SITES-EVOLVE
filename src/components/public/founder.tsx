@@ -1,14 +1,12 @@
 import Link from "next/link";
-import Image from "next/image";
 import {ArrowUpRight, Camera, Sparkles, GraduationCap, Code2, Users} from "lucide-react";
 import {pathFor, type Locale} from "@/lib/site";
-import FashionModelGallery from "@/components/public/fashion-gallery";
 import SeoEditorial from "@/components/public/seo-editorial";
 
 const profile={
  ro:{
   over:"DIN SPATELE SITES EVOLVE",hello:"Salut, sunt Vlad.",headline:"Tehnologie cu viziune.",intro:"Sunt Vlad Serbușco, fondatorul și CEO-ul SITES EVOLVE și fashion model la ADI Academy. Îmbin antreprenoriatul, tehnologia și creativitatea.",
-  focus:"Web development · Design · AI",projects:"Fashion Model — ADI Academy",ph:"Spațiu rezervat pentru fotografia fondatorului",caption:"PORTRET ÎN CURÂND",cta:"Descoperă povestea",position:"FOUNDER · ENTREPRENEUR · TECHNOLOGY & CREATIVITY",
+  focus:"Web development · Design · AI",projects:"Fashion Model — ADI Academy",ph:"Spațiu rezervat pentru fotografia fondatorului",caption:"VLAD / SITES EVOLVE",cta:"Descoperă povestea",position:"FOUNDER · ENTREPRENEUR · TECHNOLOGY & CREATIVITY",
   story:"Sunt Vlad Serbușco, fondatorul și CEO-ul SITES EVOLVE. Construiesc experiențe digitale care îmbină designul cu tehnologia și strategia de business. Sunt și fashion model la ADI Academy, cu apariții pe podium în Cluj și Dubai. Studiez Business & Administration și mă implic activ în leadership.",
   approachTitle:"Ce mă motivează",approach:"Produse care arată excelent, funcționează intuitiv și au un scop clar pentru cei care le folosesc.",
   workTitle:"Proiect finalizat",work:"Descoperă proiectele de dezvoltare web din portofoliul SITES EVOLVE.",
@@ -16,7 +14,7 @@ const profile={
  },
  en:{
   over:"BEHIND SITES EVOLVE",hello:"Hi, I'm Vlad.",headline:"Technology with vision.",intro:"I'm Vlad Serbușco, Founder & CEO of SITES EVOLVE and a fashion model at ADI Academy. I bring together entrepreneurship, technology and creativity.",
-  focus:"Web development · Design · AI",projects:"Fashion Model — ADI Academy",ph:"Reserved for the founder's future portrait",caption:"PORTRAIT COMING SOON",cta:"Meet the founder",position:"FOUNDER · ENTREPRENEUR · TECHNOLOGY & CREATIVITY",
+  focus:"Web development · Design · AI",projects:"Fashion Model — ADI Academy",ph:"Reserved for the founder's future portrait",caption:"VLAD / SITES EVOLVE",cta:"Meet the founder",position:"FOUNDER · ENTREPRENEUR · TECHNOLOGY & CREATIVITY",
   story:"I'm Vlad Serbușco, Founder & CEO of SITES EVOLVE. I build digital experiences at the intersection of design, technology and business. I am also a fashion model at ADI Academy, with runway appearances in Cluj and Dubai. I study Business & Administration and remain active in student leadership.",
   approachTitle:"What drives me",approach:"Experiences that look exceptional, feel intuitive and solve a real problem for the people using them.",
   workTitle:"Completed work",work:"Explore the website projects featured in the SITES EVOLVE portfolio.",
@@ -24,7 +22,7 @@ const profile={
  },
  ru:{
   over:"КТО СТОИТ ЗА SITES EVOLVE",hello:"Привет, я Влад.",headline:"Технологии с идеей.",intro:"Я Влад Сербушко, основатель и CEO SITES EVOLVE и fashion model в ADI Academy. Объединяю предпринимательство, технологии и творчество.",
-  focus:"Веб-разработка · Дизайн · ИИ",projects:"Fashion Model — ADI Academy",ph:"Место для будущего портрета основателя",caption:"ФОТО СКОРО ПОЯВИТСЯ",cta:"Моя история",position:"FOUNDER · ENTREPRENEUR · TECHNOLOGY & CREATIVITY",
+  focus:"Веб-разработка · Дизайн · ИИ",projects:"Fashion Model — ADI Academy",ph:"Место для будущего портрета основателя",caption:"VLAD / SITES EVOLVE",cta:"Моя история",position:"FOUNDER · ENTREPRENEUR · TECHNOLOGY & CREATIVITY",
   story:"Я Влад Сербушко, основатель и CEO SITES EVOLVE. Создаю цифровые продукты, объединяя дизайн, технологии и бизнес. Я также fashion model в ADI Academy, участвовал в показах в Клуже и Дубае, изучаю Business & Administration и развиваюсь в лидерстве.",
   approachTitle:"Что меня вдохновляет",approach:"Продукты, которые выглядят впечатляюще, работают интуитивно и решают реальные задачи.",
   workTitle:"Готовый проект",work:"Посмотрите проекты веб-разработки в портфолио SITES EVOLVE.",
@@ -34,15 +32,11 @@ const profile={
 
 export function FounderPortrait({locale,large=false}:{locale:Locale;large?:boolean}){
  const t=profile[locale];
- const photo=process.env.NEXT_PUBLIC_FOUNDER_PHOTO?.trim() || "/vlad-serbusco-founder.webp";
- const valid=Boolean(photo?.startsWith("/") && !photo.startsWith("//"));
- return <div className={"evolve-founder-portrait"+(large?" evolve-founder-portrait-large":"")} role="img" aria-label={valid?"Vlad Serbușco — founder of SITES EVOLVE":t.ph}>
+ return <div className={"evolve-founder-portrait"+(large?" evolve-founder-portrait-large":"")} role="img" aria-label="VS — Vlad Serbușco monogram, no photograph">
   <div className="evolve-founder-portrait-glow"/>
-  {valid&&photo?<Image className="evolve-founder-photo" src={photo} alt="Vlad Serbușco — Founder and CEO of SITES EVOLVE, international fashion model" fill sizes={large?"(max-width: 900px) 100vw, 45vw":"(max-width: 900px) 100vw, 32vw"} unoptimized priority={large}/>:<>
-   <div className="evolve-founder-photo-rings" aria-hidden="true"><span/><span/><span/></div>
-   <div className="evolve-founder-placeholder-avatar" aria-hidden="true">VS<span>.</span></div>
-   <div className="evolve-founder-photo-badge"><Camera size={15}/><span>{t.caption}</span></div>
-  </>}
+  <div className="evolve-founder-photo-rings" aria-hidden="true"><span/><span/><span/></div>
+  <div className="evolve-founder-placeholder-avatar" aria-hidden="true">VS<span>.</span></div>
+  <div className="evolve-founder-photo-badge"><Camera size={15}/><span>{t.caption}</span></div>
   <div className="evolve-founder-photo-corner">S/E · 001</div>
  </div>;
 }
@@ -85,7 +79,7 @@ export function FounderProfile({locale}:{locale:Locale}){
    <div className="evolve-founder-roles-heading"><span className="future-eyebrow"><span className="future-eyebrow-dot"/>{d.title}</span><h3>{d.subtitle}</h3></div>
    <div className="evolve-founder-roles-grid">{d.roles.map(([company,role,description],idx)=>{
     const Icon=icons[idx];
-    if(idx===1)return <FashionModelGallery key={company} locale={locale} company={company} role={role} description={description} index={idx}/>;
+    
     return <article key={company} className="evolve-founder-role">
      <div className="evolve-founder-role-head"><span className="evolve-founder-role-icon"><Icon size={24} strokeWidth={1.6} aria-hidden="true"/></span><span className="evolve-founder-role-count">0{idx+1}</span></div>
      <h4>{company}</h4><strong>{role}</strong><p>{description}</p>
@@ -94,6 +88,50 @@ export function FounderProfile({locale}:{locale:Locale}){
    })}</div>
    <Link href={pathFor(locale,"fashion-model")} className="evolve-founder-runway-link"><Camera size={18} aria-hidden="true"/><span>{locale==="ro"?"Vlad Serbușco pe podium: Cluj și Dubai":locale==="ru"?"Влад Сербушко на подиуме: Клуж и Дубай":"Vlad Serbușco — International fashion runway portfolio"}</span><ArrowUpRight size={18} aria-hidden="true"/></Link>
   </div>
+  <FounderPublicBio locale={locale}/>
   <div className="evolve-founder-vision"><span className="future-eyebrow"><span className="future-eyebrow-dot"/>{d.vision}</span><blockquote>“{d.quote}”</blockquote><p>{d.summary}</p><Sparkles className="evolve-founder-vision-icon" size={104} strokeWidth={1} aria-hidden="true"/></div>
  </div></section><SeoEditorial locale={locale} kind="founder"/></>;
+}
+
+const publicBio={
+ ro:{
+  eyebrow:"VLAD SERBUȘCO / PROFIL PROFESIONAL",
+  title:"Antreprenoriat. Leadership. Tehnologie.",
+  bio:"Vlad Serbușco este fondatorul SITES EVOLVE, un studio independent de dezvoltare web din Chișinău. Studiază Business și Administrare la ASEM și este implicat în reprezentarea studenților în calitate de vicepreședinte al Senatului Studențesc. Interesele sale profesionale reunesc dezvoltarea web, soluțiile digitale pentru afaceri, leadershipul și creativitatea.",
+  media:"Pentru invitații la discuții, colaborări și solicitări de presă, puteți contacta studioul prin email.",
+  reading:"Articole și reflecții semnate de Vlad",
+  articles:["De ce am început SITES EVOLVE în timp ce studiez business","Ce m-a învățat leadershipul studențesc despre proiecte"]
+ },
+ en:{
+  eyebrow:"VLAD SERBUȘCO / PROFESSIONAL PROFILE",
+  title:"Entrepreneurship. Leadership. Technology.",
+  bio:"Vlad Serbușco is the founder of SITES EVOLVE, an independent web development studio based in Chișinău, Moldova. He studies Business Administration at ASEM and serves as Vice President of the ASEM Student Senate. His professional interests include web development, practical digital solutions for businesses, student leadership and creative work.",
+  media:"For interviews, speaking invitations or professional collaborations, contact the studio by email.",
+  reading:"Writing and perspectives by Vlad",
+  articles:["Why I started SITES EVOLVE while studying business","What student leadership taught me about building projects"]
+ },
+ ru:{
+  eyebrow:"ВЛАД СЕРБУШКО / ПРОФЕССИОНАЛЬНЫЙ ПРОФИЛЬ",
+  title:"Предпринимательство. Лидерство. Технологии.",
+  bio:"Влад Сербушко — основатель SITES EVOLVE, независимой веб-студии в Кишинёве, Молдова. Он изучает бизнес и администрирование в ASEM и занимает должность вице-президента Студенческого сената ASEM. Его профессиональные интересы — веб-разработка, цифровые решения для бизнеса, студенческое лидерство и творчество.",
+  media:"По вопросам интервью, выступлений и профессионального сотрудничества можно связаться со студией по электронной почте.",
+  reading:"Публикации и размышления Влада",
+  articles:["Почему я основал SITES EVOLVE во время учёбы","Чему студенческое лидерство научило меня в работе над проектами"]
+ }
+} as const;
+function FounderPublicBio({locale}:{locale:Locale}){
+ const b=publicBio[locale];
+ return <section className="founder-public-bio" aria-label={b.eyebrow}>
+  <div className="founder-public-bio-main">
+   <span className="future-eyebrow"><span className="future-eyebrow-dot"/>{b.eyebrow}</span>
+   <h3>{b.title}</h3>
+   <p>{b.bio}</p>
+   <p>{b.media}</p>
+   <a href="mailto:sites.evolve7@gmail.com" className="founder-public-bio-email">sites.evolve7@gmail.com <ArrowUpRight size={16}/></a>
+  </div>
+  <div className="founder-public-bio-reading">
+   <strong>{b.reading}</strong>
+   {(["why-i-started-sites-evolve","what-student-leadership-taught-me"] as const).map((slug,i)=><Link key={slug} href={pathFor(locale,"journal/"+slug)}>{b.articles[i]}<ArrowUpRight size={17}/></Link>)}
+  </div>
+ </section>;
 }

@@ -45,3 +45,10 @@
 @media(max-width:700px){.fashion-seo-photo-grid{grid-template-columns:1fr;gap:32px}.fashion-seo-dubai{max-width:560px}.fashion-seo-figure figcaption{flex-wrap:wrap;gap:13px}.fashion-seo-hero{padding:70px 0}.fashion-seo-hero-copy h1{font-size:clamp(52px,11vw,76px)}.fashion-seo-showcase{padding:75px 0}.fashion-seo-ending{padding-bottom:75px}}
 @media(max-width:480px){.fashion-seo-hero-photo{border-radius:24px}.fashion-seo-image{border-radius:18px}.fashion-seo-figure figcaption h3{font-size:28px}.fashion-seo-section-title h2{font-size:clamp(39px,9vw,54px)}.fashion-seo-ending-panel{border-radius:23px}.fashion-seo-hero-copy h1{font-size:clamp(43px,10.8vw,58px)}}
 @media(prefers-reduced-motion:reduce){.fashion-seo-image img,.fashion-seo-hero-photo img,.fashion-seo-cta,.fashion-seo-personal{transition:none}}
+
+/* Text-only personal portfolio while photography is intentionally withheld. */
+.fashion-seo-hero-photo{display:flex;justify-content:center;align-items:center;isolation:isolate;overflow:hidden;background:radial-gradient(circle,#4f4a9e6b,transparent 65%),linear-gradient(135deg,#161b36,#1b2047)}
+.fashion-seo-hero-photo>strong{font:800 clamp(80px,11vw,160px)/1 var(--font-space-grotesk,Arial,sans-serif);letter-spacing:-.12em;color:#eeebff;text-shadow:0 20px 50px #0007}
+.fashion-seo-hero-photo>strong>span{color:#aa93ff}
+.fashion-seo-image-monogram{position:relative;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#29294d,#161a3b)}
+.fashion-seo-image-monogram>span{font:760 clamp(35px,5vw,65px)/1 var(--font-space-grotesk,Arial,sans-serif);letter-spacing:.14em;color:#c8bbff}

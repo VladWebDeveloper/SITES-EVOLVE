@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import {ArrowLeft,ArrowUpRight,Camera,MapPin,Globe2} from "lucide-react";
 import {pathFor,type Locale} from "@/lib/site";
@@ -68,7 +67,7 @@ export default function FashionProfilePage({locale}:{locale:Locale}){
      <a className="fashion-seo-personal" href="https://www.instagram.com/vlad_14.02/" rel="noopener noreferrer" target="_blank">{t.social}<ArrowUpRight size={16}/></a>
     </div>
     <div className="fashion-seo-hero-photo">
-     <Image src="/vlad-serbusco-founder.webp" alt="Vlad Serbușco, SITES EVOLVE founder and international fashion model at ADI Academy" fill sizes="(max-width: 860px) 100vw, 35vw" priority unoptimized/>
+     <strong aria-label="VS — Vlad Serbușco initials">VS<span>.</span></strong>
      <span>VLAD / FASHION / DIGITAL</span>
     </div>
    </div>
@@ -77,7 +76,7 @@ export default function FashionProfilePage({locale}:{locale:Locale}){
    <div className="fashion-seo-section-title"><span className="fashion-seo-eyebrow"><Globe2 size={16}/>{t.gallery}</span><h2>{t.galleryTitle}</h2><p>{t.galleryIntro}</p></div>
    <div className="fashion-seo-photo-grid">
     {cards.map((photo)=><figure className="fashion-seo-figure" key={photo.src}>
-     <div className={"fashion-seo-image "+photo.kind}><Image src={photo.src} alt={photo.alt} fill sizes="(max-width: 760px) 100vw, 50vw" unoptimized/></div>
+     <div className={"fashion-seo-image fashion-seo-image-monogram "+photo.kind}><span aria-hidden="true">{photo.title==="City Fashion Week"?"CLUJ":"DUBAI"}</span></div>
      <figcaption><div><h3>{photo.title}</h3><p>{photo.caption}</p></div><span><MapPin size={16}/>{photo.place}</span></figcaption>
     </figure>)}
    </div>

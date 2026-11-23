@@ -141,3 +141,14 @@
 @media(max-width:890px){.evolve-founder-roles-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.evolve-founder-roles-grid{grid-template-columns:1fr}.evolve-founder-roles-grid .evolve-founder-role{min-height:210px}}
 @media(prefers-reduced-motion:reduce){.evolve-founder-instagram{transition:none}}
+
+/* Photograph-free founder media kit and published perspectives. */
+.founder-public-bio{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(28px,5vw,75px);margin:55px 0 65px;padding:clamp(25px,4vw,48px);border:1px solid #8586c674;border-radius:28px;background:radial-gradient(circle at 92% 10%,#5754ab46,transparent 49%),linear-gradient(140deg,#171b3a,#121731);color:#faf9ff}
+.founder-public-bio h3{font:680 clamp(30px,3.5vw,47px)/1.17 var(--font-space-grotesk,Arial,sans-serif);letter-spacing:-.05em;margin:18px 0}
+.founder-public-bio p{color:#c6cce4;font-size:14px;line-height:1.95;margin:0 0 16px}
+.founder-public-bio-email{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:690;color:#d3bbff;text-decoration:none;margin-top:8px}
+.founder-public-bio-reading{display:flex;flex-direction:column;gap:11px}
+.founder-public-bio-reading>strong{color:#c0afff;font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:9px}
+.founder-public-bio-reading a{color:#f4f0ff;display:flex;justify-content:space-between;align-items:center;gap:15px;padding:17px 0;border-bottom:1px solid #9794c460;text-decoration:none;font-size:14px;font-weight:640;line-height:1.5}
+.founder-public-bio-reading a:hover,.founder-public-bio-email:hover{color:#a9a7ff}
+@media(max-width:780px){.founder-public-bio{grid-template-columns:1fr;margin:40px 0}}
