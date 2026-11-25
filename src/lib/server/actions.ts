@@ -4,6 +4,7 @@ import {z} from "zod";
 import {fromZonedTime} from "date-fns-tz";
 import {isValidConsultationTime,studioDate,studioTimeZone} from "@/lib/booking-calendar";
 import {getDb} from "./db";
+import {isSimulatedInvoice} from "./invoice-simulation";
 import {requireActor,requireStaff,requireClientAccess} from "./actor";
 import {safeText} from "./format";
 import {allowedExternalHttps} from "./security";
