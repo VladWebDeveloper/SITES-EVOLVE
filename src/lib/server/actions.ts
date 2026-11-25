@@ -218,6 +218,27 @@ export async function saveInvoiceStatus(_previous:{ok:boolean;message:string},fo
   return {ok:false,message:"Could not save the status. Please retry or check the administrator settings."};
  }
 }
+/**
+ * Owner-only cleanup for the seven historical fictional CRM billing examples.
+ * Aborts if any genuine/changed invoice appears; never affects clients or other CRM data.
+ */
+export async function clearInitialSampleInvoices(_form:FormData){
+ const actor=await requireStaff();
+ if(actor.role!=="OWNER")throw new Error("Only the owner can clear billing examples.");
+ const numbers=new Set(["DEMO-2026-001","DEMO-2026-002","DEMO-2026-003","DEMO-2026-004","DEMO-2026-005","INT-2026-006","INT-2026-007"]);
+ const db=getDb();
+ const removed=await db.$transaction(async tx=>{
+  const records=await tx.invoice.findMany({include:{client:{select:{name:true,industry:true}}}});
+  if(records.length!==7 || records.some(row=>!numbers.has(row.number)||row.status!=="DRAFT"||!isSimulatedInvoice(row))){
+   throw new Error("Billing register changed; refusing to delete unrelated or real invoices.");
+  }
+  const count=await tx.invoice.deleteMany({where:{id:{in:records.map(row=>row.id)},status:"DRAFT"}});
+  if(count.count!==7)throw new Error("Invoice cleanup did not match all seven sample records.");
+  await tx.auditEvent.create({data:{userId:actor.id,action:"CLEAR_INITIAL_TEST_INVOICES",entity:"Invoice",entityId:"seven-demo-records"}});
+  return count.count;
+ });
+ if(removed)refresh();
+}
 export async function createSubscription(form:FormData){
  const actor=await requireStaff(),clientId=validId(form,"clientId");
  const amount=z.coerce.number().nonnegative().max(1000000).parse(form.get("amount"));
