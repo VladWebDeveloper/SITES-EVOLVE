@@ -53,6 +53,7 @@ enum InvoiceStatus {
   DRAFT
   ISSUED
   PAID
+  SIMULATED_PAID
   OVERDUE
   VOID
 }
