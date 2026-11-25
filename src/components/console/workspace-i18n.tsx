@@ -6,6 +6,22 @@ export const WorkspaceLocale=createContext<Locale>("ro");
 
 /** Explicit UI translations; untranslated business data remains untouched. */
 const dictionary:Record<string,[ro:string,ru:string]>={
+ "PAID (simulation)":["PLĂTIT (simulare)","ОПЛАЧЕНО (демо)"],
+ "Test record — never counted as real revenue":["Înregistrare de test — nu se adaugă la încasările reale","Тестовая запись — не учитывается в реальной выручке"],
+ "Configure legal billing before issuing or marking as paid":["Configurează datele juridice de facturare înainte de emitere sau înregistrarea unei plăți reale","Укажите юридические реквизиты для выставления счетов и реальных оплат"],
+ "Status saved.":["Status salvat.","Статус сохранён."],
+ "Saving...":["Se salvează...","Сохранение..."],
+ "Could not save the status. Please retry or check the administrator settings.":["Statusul nu s-a putut salva. Reîncearcă sau verifică setările administratorului.","Не удалось сохранить статус. Повторите попытку или проверьте настройки."],
+ "This is a simulated invoice. Choose PAID (simulation), not real PAID.":["Aceasta este o factură simulată. Alege PLĂTIT (simulare), nu PAID real.","Это тестовый счёт. Выберите ОПЛАЧЕНО (демо), а не реальную оплату."],
+ "Legal billing identity is not configured. Set it up before marking a real invoice as issued or paid.":["Nu sunt configurate datele juridice de facturare. Completează-le înainte de emitere sau înregistrarea unei încasări reale.","Юридические реквизиты не указаны. Настройте их перед оформлением реального счёта или оплаты."],
+ "Simulated payments — NOT real receipts":["Plăți simulate — NU sunt încasări reale","Тестовые оплаты — НЕ реальные поступления"],
+ "Internal sample payments are isolated from actual revenue.":["Plățile demonstrative sunt separate de veniturile reale.","Демонстрационные платежи отделены от реальной выручки."],
+ "No simulated payments yet.":["Nu există încă plăți simulate.","Пока нет тестовых платежей."],
+ "Test data only":["Doar date demonstrative","Только тестовые данные"],
+ "Simulated EUR":["Simulat EUR","Демо EUR"],
+ "Simulated RON":["Simulat RON","Демо RON"],
+ "Simulated MDL":["Simulat MDL","Демо MDL"],
+ "Simulated USD":["Simulat USD","Демо USD"],
  "Total received (EUR)":["Total încasat (EUR)","Всего получено (EUR)"],
  "Total received (RON)":["Total încasat (RON)","Всего получено (RON)"],
  "Only records marked PAID":["Doar înregistrările marcate PAID","Только записи со статусом PAID"],
