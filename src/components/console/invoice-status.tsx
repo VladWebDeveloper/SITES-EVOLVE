@@ -9,7 +9,7 @@ export function InvoiceStatusForm({id,status,simulated,legalReady}:{
 }){
  const [result,formAction,pending]=useActionState(saveInvoiceStatus,initial);
  const values=simulated?
-  [{value:"DRAFT",label:"DRAFT"},{value:"SIMULATED_PAID",label:"PAID (simulation)"},{value:"VOID",label:"VOID"}]:
+  [{value:"DRAFT",label:"Unpaid"},{value:"SIMULATED_PAID",label:"Paid"},{value:"VOID",label:"Void"}]:
   ["DRAFT","ISSUED","PAID","OVERDUE","VOID"].map(value=>({value,label:value}));
  return <div className="invoice-status-editor">
   <form action={formAction} className="inline-status-form">
@@ -19,7 +19,6 @@ export function InvoiceStatusForm({id,status,simulated,legalReady}:{
    </select>
    <button type="submit" disabled={pending}><LocalizedText value={pending?"Saving...":"Save"}/></button>
   </form>
-  {simulated&&<small><LocalizedText value="Test record — never counted as real revenue"/></small>}
   {!simulated&&!legalReady&&<small><LocalizedText value="Configure legal billing before issuing or marking as paid"/></small>}
   {result.message&&<small role="status" aria-live="polite" style={{color:result.ok?"inherit":"#f59e85"}}>
    <LocalizedText value={result.message}/>
