@@ -6,6 +6,23 @@ export const WorkspaceLocale=createContext<Locale>("ro");
 
 /** Explicit UI translations; untranslated business data remains untouched. */
 const dictionary:Record<string,[ro:string,ru:string]>={
+ "Internal test register":["Registru intern de test","Внутренний тестовый реестр"],
+ "Fictional names and amounts for interface testing only. These are not real invoices, payments, or company revenue.":["Nume și sume fictive, utilizate doar pentru testarea interfeței. Nu sunt facturi, plăți sau venituri reale.","Вымышленные имена и суммы только для тестирования интерфейса. Это не реальные счета, платежи или доходы компании."],
+ "Internal register subtotal":["Subtotal în registru","Промежуточная сумма реестра"],
+ "Real invoices":["Facturi reale","Реальные счета"],
+ "Invoice records":["Registru de facturi","Реестр счетов"],
+ "Genuine billing records are kept separate from fictional examples.":["Facturile reale sunt separate de exemplele fictive.","Настоящие счета хранятся отдельно от вымышленных примеров."],
+ "No real invoice records":["Nu există facturi reale","Нет реальных счетов"],
+ "New genuine invoices will appear here when they are created.":["Facturile reale vor apărea aici după înregistrare.","Реальные счета появятся здесь после создания."],
+ "No internal entries":["Nu există înregistrări interne","Нет внутренних записей"],
+ "There are no fictional records.":["Nu există înregistrări fictive.","Вымышленных записей нет."],
+ "Entries EUR":["Înregistrări EUR","Записи EUR"],
+ "Entries RON":["Înregistrări RON","Записи RON"],
+ "Entries MDL":["Înregistrări MDL","Записи MDL"],
+ "Entries USD":["Înregistrări USD","Записи USD"],
+ "Unpaid":["Neîncasat","Не оплачено"],
+ "Paid":["Plătit","Оплачено"],
+ "Void":["Anulat","Аннулировано"],
  "PAID (simulation)":["PLĂTIT (simulare)","ОПЛАЧЕНО (демо)"],
  "Test record — never counted as real revenue":["Înregistrare de test — nu se adaugă la încasările reale","Тестовая запись — не учитывается в реальной выручке"],
  "Configure legal billing before issuing or marking as paid":["Configurează datele juridice de facturare înainte de emitere sau înregistrarea unei plăți reale","Укажите юридические реквизиты для выставления счетов и реальных оплат"],
