@@ -187,10 +187,36 @@ export async function reassignDraftInvoice(form:FormData){
 }
 export async function setInvoiceStatus(form:FormData){
  const actor=await requireStaff(),invoiceId=validId(form,"id");
- const status=z.enum(["DRAFT","ISSUED","PAID","OVERDUE","VOID"]).parse(form.get("status"));
- if(status!=="DRAFT" && !process.env.BILLING_LEGAL_NAME)throw new Error("Configure legal billing identity before issuing or marking invoice records.");
- await getDb().invoice.update({where:{id:invoiceId},data:{status,issuedAt:status==="ISSUED"?new Date():undefined,paidAt:status==="PAID"?new Date():undefined}});
+ const status=z.enum(["DRAFT","ISSUED","PAID","SIMULATED_PAID","OVERDUE","VOID"]).parse(form.get("status"));
+ const db=getDb();
+ const invoice=await db.invoice.findUnique({where:{id:invoiceId},include:{client:{select:{name:true,industry:true}}}});
+ if(!invoice)throw new Error("Invoice not found.");
+ const simulated=isSimulatedInvoice(invoice);
+ if(simulated && !["DRAFT","SIMULATED_PAID","VOID"].includes(status))
+  throw new Error("This is a simulated invoice. Choose PAID (simulation), not real PAID.");
+ if(!simulated && status==="SIMULATED_PAID")
+  throw new Error("Only test records can use simulated payment status.");
+ if(!simulated && ["ISSUED","PAID","OVERDUE"].includes(status) && !process.env.BILLING_LEGAL_NAME)
+  throw new Error("Legal billing identity is not configured. Set it up before marking a real invoice as issued or paid.");
+ await db.invoice.update({where:{id:invoiceId},data:{
+  status,
+  issuedAt:status==="ISSUED"?new Date():status==="DRAFT"||status==="SIMULATED_PAID"?null:undefined,
+  paidAt:status==="PAID"?new Date():status==="DRAFT"||status==="SIMULATED_PAID"?null:undefined
+ }});
  await log(actor.id,"STATUS_"+status,"Invoice",invoiceId);refresh();
+}
+/** Return expected validation failures in the form instead of crashing the entire workspace. */
+export async function saveInvoiceStatus(_previous:{ok:boolean;message:string},form:FormData):Promise<{ok:boolean;message:string}>{
+ try{
+  await setInvoiceStatus(form);
+  return {ok:true,message:"Status saved."};
+ }catch(e){
+  const msg=e instanceof Error?e.message:"";
+  const expected=["Invoice not found.","This is a simulated invoice.","Only test records","Legal billing identity"];
+  if(expected.some(x=>msg.startsWith(x)))return {ok:false,message:msg};
+  console.error("Cannot update invoice status",e);
+  return {ok:false,message:"Could not save the status. Please retry or check the administrator settings."};
+ }
 }
 export async function createSubscription(form:FormData){
  const actor=await requireStaff(),clientId=validId(form,"clientId");
