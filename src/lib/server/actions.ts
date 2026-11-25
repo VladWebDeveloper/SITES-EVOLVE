@@ -168,6 +168,22 @@ export async function createInvoice(form:FormData){
  const invoice=await getDb().invoice.create({data:{clientId,number,amountMinor:Math.round(amount*100),currency,description:optional(form,"description",500),status:"DRAFT",dueAt:form.get("dueAt")?new Date(String(form.get("dueAt"))):null}});
  await log(actor.id,"CREATE","Invoice",invoice.id);refresh();
 }
+/** Safely reassign only draft records; invoiced or paid history remains immutable. */
+export async function reassignDraftInvoice(form:FormData){
+ const actor=await requireStaff();
+ if(actor.role!=="OWNER")throw new Error("Only the owner can reassign draft invoices.");
+ const invoiceId=validId(form,"id"),clientId=validId(form,"clientId");
+ const db=getDb();
+ const [invoice,client]=await Promise.all([
+  db.invoice.findUnique({where:{id:invoiceId},select:{status:true}}),
+  db.client.findUnique({where:{id:clientId},select:{id:true}})
+ ]);
+ if(!invoice||invoice.status!=="DRAFT")throw new Error("Only draft invoices can be reassigned.");
+ if(!client)throw new Error("Selected client does not exist.");
+ await db.invoice.update({where:{id:invoiceId,status:"DRAFT"},data:{clientId}});
+ await log(actor.id,"REASSIGN_DRAFT","Invoice",invoiceId);
+ refresh();
+}
 export async function setInvoiceStatus(form:FormData){
  const actor=await requireStaff(),invoiceId=validId(form,"id");
  const status=z.enum(["DRAFT","ISSUED","PAID","OVERDUE","VOID"]).parse(form.get("status"));
