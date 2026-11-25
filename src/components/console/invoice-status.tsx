@@ -9,7 +9,7 @@ export function InvoiceStatusForm({id,status,simulated,legalReady}:{
 }){
  const [result,formAction,pending]=useActionState(saveInvoiceStatus,initial);
  const values=simulated?
-  [{value:"DRAFT",label:"Unpaid"},{value:"SIMULATED_PAID",label:"Paid"},{value:"VOID",label:"Void"}]:
+  [{value:"DRAFT",label:"DRAFT"},{value:"SIMULATED_PAID",label:"PAID (simulation)"},{value:"VOID",label:"VOID"}]:
   ["DRAFT","ISSUED","PAID","OVERDUE","VOID"].map(value=>({value,label:value}));
  return <div className="invoice-status-editor">
   <form action={formAction} className="inline-status-form">
