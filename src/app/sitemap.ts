@@ -31,7 +31,7 @@ export default async function sitemap():Promise<MetadataRoute.Sitemap>{
    ru:absoluteUrl("/ru"+(path?"/"+path:"")),
    "x-default":absoluteUrl("/en"+(path?"/"+path:""))
   }},
-  lastModified:updatedPaths.has(path)?new Date("2026-11-23T08:00:00Z"):originalDate,
+  lastModified:path===""||path==="founder"||path==="fashion-model"?new Date("2026-11-26T04:00:00Z"):updatedPaths.has(path)?new Date("2026-11-23T08:00:00Z"):originalDate,
   changeFrequency:path.startsWith("journal")?"monthly" as const:"weekly" as const,
   priority:path===""?1:path==="founder"||path==="fashion-model"?0.9:path==="work"?0.8:0.7,
   ...(path==="founder"?{images:founderImages}:path==="fashion-model"?{images:runwayImages}:path===""?{images:[founderImages[0]]}:{})
