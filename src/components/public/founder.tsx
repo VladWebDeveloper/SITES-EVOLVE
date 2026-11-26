@@ -133,6 +133,7 @@ function FounderPublicBio({locale}:{locale:Locale}){
    <span className="future-eyebrow"><span className="future-eyebrow-dot"/>{b.eyebrow}</span>
    <h3>{b.title}</h3>
    <p>{b.bio}</p>
+   <p>{locale==="ro"?"Nume complet: Vlad Serbușco. În formatul nume–prenume: Serbușco Vlad (Serbusco Vlad fără diacritice).":locale==="ru"?"Полное имя: Влад Сербушко. Латиницей: Vlad Serbușco (Vlad Serbusco), в порядке фамилия–имя: Serbusco Vlad.":"Full name: Vlad Serbușco (Vlad Serbusco without diacritics; surname-first form: Serbusco Vlad)."}</p>
    <p>{b.media}</p>
    <a href="mailto:sites.evolve7@gmail.com" className="founder-public-bio-email">sites.evolve7@gmail.com <ArrowUpRight size={16}/></a>
   </div>
