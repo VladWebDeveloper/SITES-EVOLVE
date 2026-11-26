@@ -6,7 +6,7 @@ Premium web development, software, AI and digital solutions studio based in Chi�
 
 **[sitesevolve.com](https://sitesevolve.com)** is the official SITES EVOLVE website for enquiries, consultations, web development services and an evolving portfolio. It is available in English, Romanian and Russian.
 
-**Founder:** [Vlad Serbușco — Founder & CEO](https://www.linkedin.com/in/vlad-serbu%C8%99co-376999413/) · [Founder profile on SITES EVOLVE](https://sitesevolve.com/en/founder) · [Fashion & creative portfolio](https://sitesevolve.com/en/fashion-model).
+**Founder:** [Vlad Serbușco — Founder & CEO](https://www.linkedin.com/in/vlad-serbu%C8%99co-398429451/) · [Founder profile on SITES EVOLVE](https://sitesevolve.com/en/founder) · [Fashion & creative portfolio](https://sitesevolve.com/en/fashion-model).
 
 SITES EVOLVE is an **independent web development studio based in Chișinău, Moldova**, working with businesses locally and remotely. We do not claim offices in the US or UK. The studio's public international information pages are:
 
