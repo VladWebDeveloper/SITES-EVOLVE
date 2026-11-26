@@ -15,7 +15,7 @@ const fashionTitle={en:"Vlad Serbușco — Fashion Model at ADI Academy",ro:"Vla
 
 export function personSchema(locale:Locale){
  return {
-  "@type":"Person","@id":personId,name,alternateName:["Vlad Serbusco","Влад Сербушко"],
+  "@type":"Person","@id":personId,name,givenName:"Vlad",familyName:"Serbușco",alternateName:["Vlad Serbusco","Serbușco Vlad","Serbusco Vlad","Vlad Serbuşco","Serbuşco Vlad","Влад Сербушко","Сербушко Влад"],
   url:absoluteUrl(pathFor("en","founder")),
   image,description:about[locale],
   jobTitle:["Founder & CEO of SITES EVOLVE","Fashion Model at ADI Academy"],
@@ -29,7 +29,7 @@ export function personSchema(locale:Locale){
 export function founderSchema(locale:Locale){
  const url=absoluteUrl(pathFor(locale,"founder"));
  return {"@context":"https://schema.org","@graph":[
-  {"@type":"Organization","@id":orgId,name:"SITES EVOLVE",url:absoluteUrl("/"),founder:{"@id":personId},logo:absoluteUrl("/brand/logo-header.png")},
+  {"@type":"Organization","@id":orgId,name:"SITES EVOLVE",url:absoluteUrl("/"),founder:{"@id":personId},logo:absoluteUrl("/brand/social-avatar.png")},
   personSchema(locale),
   {"@type":"ProfilePage","@id":url+"#profile",url,name:name+" — Founder & CEO of SITES EVOLVE",
    inLanguage:locale,description:about[locale],mainEntity:{"@id":personId},primaryImageOfPage:{"@type":"ImageObject",url:image,contentUrl:image,caption:"Vlad Serbușco — Founder & CEO of SITES EVOLVE"}}
